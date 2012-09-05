@@ -9,14 +9,8 @@ iOS geometry is too verbose for Ruby. Geomotion tries to fix that.
 rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
 
 # These do what you think
-rect.x
-=> 10
-rect.y
-=> 100
-rect.width
-=> 50
-rect.height
-=> 20
+[rect.x, rect.y, rect.width, rect.height]
+=> [10, 100, 50, 20]
 
 # Chainable methods for adjusting frames
 view = UIView.alloc.initWithFrame rect.below(10).width(100).height(10)
