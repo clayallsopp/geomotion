@@ -13,9 +13,9 @@ rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
 => [10, 100, 50, 20]
 
 # Chainable methods for adjusting frames
-view = UIView.alloc.initWithFrame rect.below(10).width(100).height(10)
+view = UIView.alloc.initWithFrame rect.below.width(100).height(10)
 view.frame
-=> #<CGRect origin=#<CGPoint x=10.0 y=130.0> size=#<CGSize width=100.0 height=10.0>>
+=> #<CGRect origin=#<CGPoint x=10.0 y=120.0> size=#<CGSize width=100.0 height=10.0>>
 
 view2 = UIView.alloc.initWithFrame rect.beside(10)
 view2.frame
