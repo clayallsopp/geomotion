@@ -22,17 +22,19 @@ class CGRect
       margins[margin] = options[:margins][index] || 0
     end
 
-    rect.y = options[:above].up(rect.height + margins[:bottom]) if options[:above]
-    rect.y = options[:below].below(rect.height + margins[:top]) if options[:below]
+    rect.y = options[:above].up(rect.height + margins[:bottom]).y if options[:above]
+    rect.y = options[:below].below(margins[:top]).y if options[:below]
 
-    rect.x = options[:left_of].left(rect.width + margins[:right]) if options[:left_of]
-    rect.x = options[:right_of].beside(rect.width + margins[:left]) if options[:right_of]
+    rect.x = options[:left_of].left(rect.width + margins[:right]).x if options[:left_of]
+    rect.x = options[:right_of].beside(margins[:left]).x if options[:right_of]
 
     rect
   end
 
   def x(setter = nil)
-    self.x = setter if setter
+    if setter
+      return CGRect.new([setter, self.y], self.size)
+    end
     self.origin.x
   end
 
@@ -41,7 +43,9 @@ class CGRect
   end
 
   def y(setter = nil)
-    self.y = setter if setter
+    if setter
+      return CGRect.new([self.x, setter], self.size)
+    end
     self.origin.y
   end
 
@@ -50,7 +54,9 @@ class CGRect
   end
 
   def width(setter = nil)
-    self.width = setter if setter
+    if setter
+      return CGRect.new(self.origin, [setter, self.height])
+    end
     self.size.width
   end
 
@@ -59,7 +65,9 @@ class CGRect
   end
 
   def height(setter = nil)
-    self.height = setter if setter
+    if setter
+      return CGRect.new(self.origin, [self.width, setter])
+    end
     self.size.height
   end
 
@@ -76,7 +84,7 @@ class CGRect
   end
 
   def up(dist = 0)
-    CGRect.new([self.x, self.y - up], self.size)
+    CGRect.new([self.x, self.y - dist], self.size)
   end
 
   def down(dist = 0)
@@ -84,7 +92,7 @@ class CGRect
   end
 
   def below(margin = 0)
-    CGRect.new([self.x, self.y + self.height + dist], self.size)
+    CGRect.new([self.x, self.y + self.height + margin], self.size)
   end
 
   def beside(margin = 0)
