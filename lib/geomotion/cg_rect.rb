@@ -102,7 +102,7 @@ class CGRect
   def center(relative = false)
     offset_x = relative ? self.x : 0
     offset_y = relative ? self.y : 0
-    CGPoint.new(offset_x + self.width / 2, offset_y = self.height / 2)
+    CGPoint.new(offset_x + self.width / 2, offset_y + self.height / 2)
   end
 
   def round
