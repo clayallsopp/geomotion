@@ -1,7 +1,28 @@
 class CGRect
   # CGRect.make(x: 10, y: 30)
+  # CGRect.make(x: 10, y: 30, width:100, height: 20)
   def self.make(options = {})
+    if options[:origin]
+      options[:x] = options[:origin].x
+      options[:y] = options[:origin].y
+    end
+    if options[:size]
+      options[:width] = options[:size].width
+      options[:height] = options[:size].height
+    end
     CGRect.new([options[:x] || 0, options[:y] || 0], [options[:width] || 0, options[:height] || 0])
+  end
+
+  def self.empty
+    CGRectZero
+  end
+
+  def self.null
+    CGRectNull
+  end
+
+  def self.infinite
+    self.new([0, 0], CGSize.infinite)
   end
 
   # OPTIONS: [:above, :below, :left_of, :right_of, :margins]
@@ -91,8 +112,24 @@ class CGRect
     CGRect.new([self.x, self.y + dist], self.size)
   end
 
+  def above(margin = 0)
+    self.above(margin, height:self.height)
+  end
+
+  def above(margin = 0, height:height)
+    CGRect.new([self.x, self.y - height - margin], [self.width, height])
+  end
+
   def below(margin = 0)
     CGRect.new([self.x, self.y + self.height + margin], self.size)
+  end
+
+  def before(margin = 0)
+    self.before(margin, width:self.width)
+  end
+
+  def before(margin = 0, width:width)
+    CGRect.new([self.x - width - margin, self.y], [width, self.height])
   end
 
   def beside(margin = 0)
@@ -114,5 +151,80 @@ class CGRect
     offset_y = relative ? rect.y : 0
     CGRect.new([offset_x + ((rect.width - self.width) / 2),
                 offset_y + ((rect.height - self.height) / 2)], self.size)
+  end
+
+  def +(other)
+    case other
+    when CGRect
+      return self.union(other)
+    when CGSize
+      return CGRect.new(self.x, self.y, self.width + other.width, self.height + other.height)
+    when CGPoint
+      return CGRectOffset(self, other.x, other.y)
+    when UIOffset
+      CGRectOffset(self, rect.horizontal, rect.vertical)
+    when UIEdgeInsets
+      UIEdgeInsetsInsetRect(self, rect)
+    end
+  end
+
+  def intersection(rect)
+    CGRectIntersection(self, rect)
+  end
+
+  def union(rect)
+    CGRectUnion(self, rect)
+  end
+
+  def grow(size)
+    if size.is_a? Numeric
+      size = CGSize.new(size, size)
+    end
+    CGRectInset(self, -size.width, -size.height)
+  end
+
+  def shrink(size)
+    if size.is_a? Numeric
+      size = CGSize.new(size, size)
+    end
+    CGRectInset(self, size.width, size.height)
+  end
+
+  def empty?
+    CGRectIsEmpty(self)
+  end
+
+  def infinite?
+    self.size.infinite?
+  end
+
+  def null?
+    CGRectIsNull(self)
+  end
+
+  def intersects?(rect_or_point)
+    case rect_or_point
+    when CGPoint
+      CGRectContainsPoint(self, rect_or_point)
+    when CGRect
+      CGRectIntersectsRect(self, rect_or_point)
+    else
+      super
+    end
+  end
+
+  def contains?(rect_or_point)
+    case rect_or_point
+    when CGPoint
+      CGRectContainsPoint(self, rect_or_point)
+    when CGRect
+      CGRectContainsRect(self, rect_or_point)
+    else
+      super
+    end
+  end
+
+  def ==(rect)
+    rect.is_a? CGRect && CGRectEqualToRect(self, rect)
   end
 end
