@@ -116,7 +116,7 @@ class CGRect
     self.above(margin, height:self.height)
   end
 
-  def above(margin = 0, height:height)
+  def above(margin, height:height)
     CGRect.new([self.x, self.y - height - margin], [self.width, height])
   end
 
@@ -128,7 +128,7 @@ class CGRect
     self.before(margin, width:self.width)
   end
 
-  def before(margin = 0, width:width)
+  def before(margin, width:width)
     CGRect.new([self.x - width - margin, self.y], [width, self.height])
   end
 
