@@ -1,7 +1,7 @@
 class CGPoint
   # CGPoint.make(x: 10, y: 30)
   def self.make(options = {})
-    CGPoint.new([options[:x] || 0, options[:y] || 0])
+    CGPoint.new(options[:x] || 0, options[:y] || 0)
   end
 
   # size = CGSize.make width: 100, height: 100
@@ -21,12 +21,16 @@ class CGPoint
     end
   end
 
-  def intersects?(rect)
+  def round
+    CGPoint.new(self.x.round, self.y.round)
+  end
+
+  def inside?(rect)
     CGRectContainsPoint(rect, self)
   end
 
   def ==(point)
-    point.is_a? CGPoint && CGPointEqualToPoint(self, point)
+    point.is_a?(CGPoint) && CGPointEqualToPoint(self, point)
   end
 
 end

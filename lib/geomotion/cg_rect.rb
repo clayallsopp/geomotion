@@ -14,7 +14,8 @@ class CGRect
   end
 
   def self.empty
-    CGRectZero
+    # Don't return CGRectZero; can be mutated
+    CGRect.make
   end
 
   def self.null
@@ -156,23 +157,23 @@ class CGRect
   def +(other)
     case other
     when CGRect
-      return self.union(other)
+      return self.union_with(other)
     when CGSize
-      return CGRect.new(self.x, self.y, self.width + other.width, self.height + other.height)
+      return CGRect.new([self.x, self.y], [self.width + other.width, self.height + other.height])
     when CGPoint
       return CGRectOffset(self, other.x, other.y)
     when UIOffset
-      CGRectOffset(self, rect.horizontal, rect.vertical)
+      CGRectOffset(self, other.horizontal, other.vertical)
     when UIEdgeInsets
-      UIEdgeInsetsInsetRect(self, rect)
+      UIEdgeInsetsInsetRect(self, other)
     end
   end
 
-  def intersection(rect)
+  def intersection_with(rect)
     CGRectIntersection(self, rect)
   end
 
-  def union(rect)
+  def union_with(rect)
     CGRectUnion(self, rect)
   end
 
@@ -202,12 +203,10 @@ class CGRect
     CGRectIsNull(self)
   end
 
-  def intersects?(rect_or_point)
-    case rect_or_point
-    when CGPoint
-      CGRectContainsPoint(self, rect_or_point)
+  def intersects?(rect)
+    case rect
     when CGRect
-      CGRectIntersectsRect(self, rect_or_point)
+      CGRectIntersectsRect(self, rect)
     else
       super
     end
@@ -225,6 +224,6 @@ class CGRect
   end
 
   def ==(rect)
-    rect.is_a? CGRect && CGRectEqualToRect(self, rect)
+    rect.is_a?(CGRect) && CGRectEqualToRect(self, rect)
   end
 end

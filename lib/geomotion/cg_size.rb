@@ -1,12 +1,12 @@
 class CGSize
   # CGSize.make(width: 10, height: 30)
   def self.make(options = {})
-    CGSize.new([options[:width] || 0, options[:height] || 0])
+    CGSize.new(options[:width] || 0, options[:height] || 0)
   end
 
   def self.infinite
     infinity = CGRect.null[0][0]
-    CGSize(infinity, infinity)
+    CGSizeMake(infinity, infinity)
   end
 
   # size = CGSize.make width: 100, height: 100
@@ -31,7 +31,11 @@ class CGSize
     self.width == infinity or self.height == infinity
   end
 
+  def empty?
+    self == CGSizeZero
+  end
+
   def ==(size)
-    size.is_a? CGSize && CGSizeEqualToSize(self, size)
+    size.is_a?(CGSize) && CGSizeEqualToSize(self, size)
   end
 end
