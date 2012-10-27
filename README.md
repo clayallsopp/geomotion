@@ -1,4 +1,4 @@
-# Geomotion
+# Geomotion for [RubyMotion](http://rubymotion.com)
 
 iOS Geometry in idiomatic Ruby. Exhaustively tested. What's not to love?
 
