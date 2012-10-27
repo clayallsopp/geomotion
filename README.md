@@ -29,32 +29,32 @@ rect.center(true)
 rect + CGRect.make(x: 9, y: 99, width: 10, height: 10)
 => CGRect(9, 99, 50, 20) # == union of rects
 
-rect + CGSize.new(11, 1)
+rect + CGSize.make(width: 11, height: 1)
 => CGRect(10, 100, 61, 21) # == increases the size, but keeps the origin
 
-rect + CGPoint.new(10, 10)
-=> CGRect.new(20, 110, 50, 20)
+rect + CGPoint.make(x: 10, y: 10)
+=> CGRect(20, 110, 50, 20)
 
 rect + UIOffsetMake(10, 10)
-=> CGRect.new(20, 110, 50, 20)
+=> CGRect(20, 110, 50, 20)
 
 a_point + a_size
 => CGRect # a point and a size make a rectangle. makes sense, right?
 
 # Union and Intersection
-rect.union_with CGRect.new(9, 99, 10, 10)
+rect.union_with CGRect.make(x: 9, y: 99, width: 10, height: 10)
 => CGRect(9, 99, 50, 20)
 
-rect.intersection_with CGRect.new(9, 99, 10, 10)
-=> CGRect.new(10, 100, 10, 10)
+rect.intersection_with CGRect.make(x: 9, y: 99, width: 10, height: 10)
+=> CGRect(10, 100, 10, 10)
 
 # Growing and shrinking
 # The center stays the same. Think margins!
-rect.grow(CGSize.new(10, 20))
-=> CGRect.new(5, 90, 60, 40)
+rect.grow(CGSize.make(width: 10, height: 20))
+=> CGRect(5, 90, 60, 40)
 
 rect.shrink(10)
-=> CGRect.new(15, 105, 40, 10)
+=> CGRect(15, 105, 40, 10)
 
 # Powerful layout adjustments with chainable methods
 view = UIView.alloc.initWithFrame rect.below.width(100).height(10)
@@ -73,14 +73,14 @@ rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
 # Layout "above" and "before" rectangles
 # (default offset is the rectangle's width or height)
 rect.before(5)
-=> CGRect.new(-45, 100, 50, 20)
+=> CGRect(-45, 100, 50, 20)
 rect.before(5, width:20)
-=> CGRect.new(-15, 100, 20, 20)
+=> CGRect(-15, 100, 20, 20)
 
 rect.above(5)
-=> CGRect.new(10, 75, 50, 20)
+=> CGRect(10, 75, 50, 20)
 rect.above(5, height:10)
-=> CGRect.new(10, 85, 50, 10)
+=> CGRect(10, 85, 50, 10)
 
 # Layout a rect relative to others
 rect2 = CGRect.make(x: 50, y: 50, width: 100, height: 100)
