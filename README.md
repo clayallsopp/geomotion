@@ -42,7 +42,6 @@ a_point + a_size
 => CGRect # a point and a size make a rectangle. makes sense, right?
 
 # Union and Intersection
-
 rect.union_with CGRect.new(9, 99, 10, 10)
 => CGRect(9, 99, 50, 20)
 
