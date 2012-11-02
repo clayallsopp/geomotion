@@ -38,4 +38,9 @@ class CGSize
   def ==(size)
     size.is_a?(CGSize) && CGSizeEqualToSize(self, size)
   end
+
+  def -@
+    CGSize.new(-self.width, -self.height)
+  end
+
 end

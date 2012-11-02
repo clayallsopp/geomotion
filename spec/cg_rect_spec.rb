@@ -305,6 +305,13 @@ describe "CGRect" do
     end
   end
 
+  describe "#- (unary)" do
+    it "should work" do
+      rect = CGRect.make(x: 10, y:10, width: 100, height: 200)
+      (-rect).should == CGRect.new([-10, -10], [-100, -200])
+    end
+  end
+
   describe "#+" do
     it "works with CGRect" do
       _rect = CGRectMake(10, 100, 50, 20)

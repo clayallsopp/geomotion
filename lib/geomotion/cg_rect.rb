@@ -53,11 +53,27 @@ class CGRect
     rect
   end
 
+  def min_x
+    CGRectGetMinX(self)
+  end
+
+  def max_x
+    CGRectGetMaxX(self)
+  end
+
+  def min_y
+    CGRectGetMinY(self)
+  end
+
+  def max_y
+    CGRectGetMaxY(self)
+  end
+
   def x(setter = nil)
     if setter
       return CGRect.new([setter, self.y], self.size)
     end
-    self.origin.x
+    min_x
   end
 
   def x=(_x)
@@ -68,7 +84,7 @@ class CGRect
     if setter
       return CGRect.new([self.x, setter], self.size)
     end
-    self.origin.y
+    min_y
   end
 
   def y=(_y)
@@ -79,7 +95,7 @@ class CGRect
     if setter
       return CGRect.new(self.origin, [setter, self.height])
     end
-    self.size.width
+    CGRectGetWidth(self)
   end
 
   def width=(_width)
@@ -90,7 +106,7 @@ class CGRect
     if setter
       return CGRect.new(self.origin, [self.width, setter])
     end
-    self.size.height
+    CGRectGetHeight(self)
   end
 
   def height=(_height)
@@ -226,4 +242,9 @@ class CGRect
   def ==(rect)
     rect.is_a?(CGRect) && CGRectEqualToRect(self, rect)
   end
+
+  def -@
+    CGRect.new(-self.origin, -self.size)
+  end
+
 end
