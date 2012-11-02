@@ -37,4 +37,8 @@ class CGPoint
     CGPoint.new(-self.x, -self.y)
   end
 
+  def -(other)
+    self.+(-other)
+  end
+
 end

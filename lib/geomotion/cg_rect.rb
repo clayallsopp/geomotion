@@ -247,4 +247,8 @@ class CGRect
     CGRect.new(-self.origin, -self.size)
   end
 
+  def -(other)
+    self.+(-other)
+  end
+
 end

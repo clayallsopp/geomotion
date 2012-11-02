@@ -43,4 +43,8 @@ class CGSize
     CGSize.new(-self.width, -self.height)
   end
 
+  def -(other)
+    self.+(-other)
+  end
+
 end
