@@ -32,6 +32,20 @@ describe "CGPoint" do
     end
   end
 
+  describe "#- (unary)" do
+    it "should work" do
+      point = CGPoint.make(x: 100, y: 200)
+      (-point).should == CGPoint.new(-100, -200)
+    end
+  end
+
+  describe "#- (binary)" do
+    it "should work" do
+      point = CGPoint.make(x: 100, y: 200)
+      (point - point).should == CGPoint.new(0, 0)
+    end
+  end
+
   describe "#inside?" do
     it "should return true" do
       rect = CGRectMake(0, 0, 100, 100)

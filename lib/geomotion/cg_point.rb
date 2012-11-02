@@ -33,4 +33,12 @@ class CGPoint
     point.is_a?(CGPoint) && CGPointEqualToPoint(self, point)
   end
 
+  def -@
+    CGPoint.new(-self.x, -self.y)
+  end
+
+  def -(other)
+    self.+(-other)
+  end
+
 end
