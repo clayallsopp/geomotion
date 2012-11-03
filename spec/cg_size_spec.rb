@@ -20,6 +20,20 @@ describe "CGSize" do
     end
   end
 
+  describe "#- (unary)" do
+    it "should work" do
+      size = CGSize.make(width: 100, height: 200)
+      (-size).should == CGSize.new(-100, -200)
+    end
+  end
+
+  describe "#- (binary)" do
+    it "should work" do
+      size = CGSize.make(width: 100, height: 200)
+      (size - size).should == CGSize.new(0, 0)
+    end
+  end
+
   describe "#+" do
     it "should work with CGSize" do
       size = CGSizeMake(20, 30)

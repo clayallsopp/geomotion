@@ -26,6 +26,9 @@ rect.center(true)
 => CGPoint(35, 110) # center as frame
 
 # Operator Overloading
+-rect
+=> CGRect(-10, -100, -50, -20)
+
 rect + CGRect.make(x: 9, y: 99, width: 10, height: 10)
 => CGRect(9, 99, 50, 20) # == union of rects
 
@@ -108,6 +111,9 @@ size_zero.empty?
 => true
 
 # Operator Overloading
+-size
+=> CGSize(-50, -20)
+
 size + CGSize.make(width: 100, height: 50)
 => CGSize(150, 70)
 
@@ -126,6 +132,9 @@ size.rect_at_point CGPoint.make(x: 10, y: 30)
 point = CGPoint.make(x: 10, y: 100)
 
 # Operator Overloading
+-point
+=> CGPoint(-10, -100)
+
 point + CGPoint.make(x: 20, y: 40)
 => CGPoint(30, 140)
 
