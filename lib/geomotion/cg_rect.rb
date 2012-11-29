@@ -1,6 +1,12 @@
 class CGRect
-  # CGRect.make(x: 10, y: 30)
+  # CGRect.make  # default rect: {origin: {x: 0, y: 0}, size: {width:0, height:0}}
+  #              # aka CGRectZero
+  # CGRect.make(x: 10, y: 30)  # default size: [0, 0]
   # CGRect.make(x: 10, y: 30, width:100, height: 20)
+  #
+  # point = CGPoint.make(x: 10, y: 30)
+  # size = CGSize.make(width: 100, height: 20)
+  # CGRect.make(origin: point, size: size)
   def self.make(options = {})
     if options[:origin]
       options[:x] = options[:origin].x
@@ -23,7 +29,13 @@ class CGRect
   end
 
   def self.infinite
-    self.new([0, 0], CGSize.infinite)
+    # This actually returns the not-very-infinite value of:
+    # [[-1.7014114289565e+38, -1.7014114289565e+38], [3.402822857913e+38, 3.402822857913e+38]]
+    # originally this method returned [[-Infinity, -Infinity], [Infinity, Infinity]],
+    # but that rect ended up returning `false` for any point in the method
+    # CGRect.infinite.contains?(point).  CGRectInfinite returns `true` for any
+    # (sensible) point, so we'll go with that instead
+    CGRectInfinite.dup
   end
 
   # OPTIONS: [:above, :below, :left_of, :right_of, :margins]
@@ -224,7 +236,7 @@ class CGRect
     when CGRect
       CGRectIntersectsRect(self, rect)
     else
-      super
+      super  # raises an error
     end
   end
 
@@ -235,7 +247,7 @@ class CGRect
     when CGRect
       CGRectContainsRect(self, rect_or_point)
     else
-      super
+      super  # raises an error
     end
   end
 
