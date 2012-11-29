@@ -50,11 +50,11 @@ class CGRect
   # EX CGRect.layout(rect1, above: rect2, left_of: rect3, margins: [0, 10, 20, 0])
   def self.layout(rect1, options)
     if options.empty?
-      p "No options provided in CGRect.layout"
+      p "No options provided in #{self.class}.layout"
       return rect1
     end
 
-    rect = CGRect.new
+    rect = self.new
     rect.size = rect1.size
 
     options[:margins] ||= []
