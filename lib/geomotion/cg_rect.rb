@@ -20,12 +20,13 @@ class CGRect
   end
 
   def self.empty
-    # Don't return CGRectZero; can be mutated
-    CGRect.make
+    # Don't just return CGRectZero; can be mutated
+    CGRectZero.dup
   end
 
   def self.null
-    CGRectNull
+    # Don't just return CGRectNull; can be mutated
+    CGRectNull.dup
   end
 
   def self.infinite
@@ -224,7 +225,7 @@ class CGRect
   end
 
   def infinite?
-    self.size.infinite?
+    self.size.infinite? || CGRectEqualToRect(self, CGRectInfinite)
   end
 
   def null?
