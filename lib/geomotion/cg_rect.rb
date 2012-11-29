@@ -251,4 +251,8 @@ class CGRect
     self.+(-other)
   end
 
+  def inspect
+    "#{self.class.name}([#{self.origin.x}, #{self.origin.y}], [#{self.size.width}, #{self.size.height}])"
+  end
+
 end

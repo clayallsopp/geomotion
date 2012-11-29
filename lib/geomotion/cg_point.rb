@@ -41,4 +41,8 @@ class CGPoint
     self.+(-other)
   end
 
+  def inspect
+    "#{self.class.name}(#{self.x}, #{self.y})"
+  end
+
 end
