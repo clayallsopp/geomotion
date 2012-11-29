@@ -172,9 +172,9 @@ class CGRect
     CGRect.new([self.x + self.width + margin, self.y], self.size)
   end
 
-  def center(relative = false)
-    offset_x = relative ? self.x : 0
-    offset_y = relative ? self.y : 0
+  def center(absolute = false)
+    offset_x = absolute ? self.x : 0
+    offset_y = absolute ? self.y : 0
     CGPoint.new(offset_x + self.width / 2, offset_y + self.height / 2)
   end
 
@@ -182,9 +182,9 @@ class CGRect
     CGRect.new([self.x.round, self.y.round], [self.width.round, self.height.round])
   end
 
-  def centered_in(rect, relative = false)
-    offset_x = relative ? rect.x : 0
-    offset_y = relative ? rect.y : 0
+  def centered_in(rect, absolute = false)
+    offset_x = absolute ? rect.x : 0
+    offset_y = absolute ? rect.y : 0
     CGRect.new([offset_x + ((rect.width - self.width) / 2),
                 offset_y + ((rect.height - self.height) / 2)], self.size)
   end
