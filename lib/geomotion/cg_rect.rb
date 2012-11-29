@@ -9,14 +9,20 @@ class CGRect
   # CGRect.make(origin: point, size: size)
   def self.make(options = {})
     if options[:origin]
-      options[:x] = options[:origin].x
-      options[:y] = options[:origin].y
+      x = options[:origin].x
+      y = options[:origin].y
+    else
+      x = options[:x] || 0
+      y = options[:y] || 0
     end
     if options[:size]
-      options[:width] = options[:size].width
-      options[:height] = options[:size].height
+      w = options[:size].width
+      h = options[:size].height
+    else
+      w = options[:width] || 0
+      h = options[:height] || 0
     end
-    CGRect.new([options[:x] || 0, options[:y] || 0], [options[:width] || 0, options[:height] || 0])
+    self.new([x, y], [w, h])
   end
 
   def self.empty
