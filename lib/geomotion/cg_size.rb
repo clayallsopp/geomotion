@@ -9,6 +9,10 @@ class CGSize
     CGSizeMake(infinity, infinity)
   end
 
+  def self.empty
+    CGSizeZero.dup
+  end
+
   # size = CGSize.make width: 100, height: 100
   # point = CPPoint.make x:0, y:10
   # size.rect_at_point(point)  # => CGRect([0, 10], [100, 100])
