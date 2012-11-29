@@ -47,4 +47,8 @@ class CGSize
     self.+(-other)
   end
 
+  def inspect
+    "#{self.class.name}(#{self.width}, #{self.height})"
+  end
+
 end
