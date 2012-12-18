@@ -183,10 +183,7 @@ class CGRect
   end
 
   def centered_in(rect, absolute = false)
-    offset_x = absolute ? rect.x : 0
-    offset_y = absolute ? rect.y : 0
-    CGRect.new([offset_x + ((rect.width - self.width) / 2),
-                offset_y + ((rect.height - self.height) / 2)], self.size)
+    self.size.centered_in(rect, absolute)
   end
 
   def +(other)
