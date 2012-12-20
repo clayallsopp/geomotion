@@ -148,6 +148,22 @@ class CGRect
     CGRect.new([self.x, self.y + dist], self.size)
   end
 
+  def wider(dist)
+    CGRect.new(self.origin, [self.width + dist, self.height])
+  end
+
+  def thinner(dist)
+    CGRect.new(self.origin, [self.width - dist, self.height])
+  end
+
+  def taller(dist)
+    CGRect.new(self.origin, [self.width, self.height + dist])
+  end
+
+  def shorter(dist)
+    CGRect.new(self.origin, [self.width, self.height - dist])
+  end
+
   def above(margin = 0)
     self.above(margin, height:self.height)
   end
