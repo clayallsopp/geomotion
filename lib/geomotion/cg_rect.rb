@@ -185,7 +185,11 @@ class CGRect
   end
 
   def beside(margin = 0)
-    CGRect.new([self.x + self.width + margin, self.y], self.size)
+    self.beside(margin, width: self.width)
+  end
+
+  def beside(margin = 0, width:width)
+    CGRect.new([self.x + self.width + margin, self.y], [width, self.height])
   end
 
   def center(absolute = false)
