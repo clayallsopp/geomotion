@@ -188,7 +188,7 @@ class CGRect
     self.beside(margin, width: self.width)
   end
 
-  def beside(margin = 0, width:width)
+  def beside(margin, width:width)
     CGRect.new([self.x + self.width + margin, self.y], [width, self.height])
   end
 
