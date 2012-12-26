@@ -37,7 +37,6 @@ describe "CGRect" do
 
   describe "#empty?" do
     it "should work" do
-      p "ZERO1 #{CGRectZero.inspect}"
       CGRectZero.empty?.should == true
     end
   end
