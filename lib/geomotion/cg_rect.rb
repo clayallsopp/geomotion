@@ -72,6 +72,7 @@ class CGRect
     rect
   end
 
+  # bounds
   def min_x
     CGRectGetMinX(self)
   end
@@ -88,6 +89,7 @@ class CGRect
     CGRectGetMaxY(self)
   end
 
+  # getters/setters
   def x(setter = nil)
     if setter
       return CGRect.new([setter, self.y], self.size)
@@ -132,6 +134,7 @@ class CGRect
     self.size.height = _height
   end
 
+  # modified rects
   def left(dist = 0)
     CGRect.new([self.x - dist, self.y], self.size)
   end
@@ -164,6 +167,7 @@ class CGRect
     CGRect.new(self.origin, [self.width, self.height - dist])
   end
 
+  # adjacent rects
   def above(margin = 0)
     self.above(margin, height:self.height)
   end
@@ -192,12 +196,14 @@ class CGRect
     CGRect.new([self.x + self.width + margin, self.y], [width, self.height])
   end
 
+  # locations
   def center(absolute = false)
     offset_x = absolute ? self.x : 0
     offset_y = absolute ? self.y : 0
     CGPoint.new(offset_x + self.width / 2, offset_y + self.height / 2)
   end
 
+  # others
   def round
     CGRect.new([self.x.round, self.y.round], [self.width.round, self.height.round])
   end
