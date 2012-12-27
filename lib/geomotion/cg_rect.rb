@@ -204,43 +204,51 @@ class CGRect
     CGRect.new([self.x + self.width + margin, self.y], [width, self.height])
   end
 
-  # locations
+  # positions
+private
+  def cgrect_offset(absolute)
+    if absolute
+      CGPoint.new(self.min_x, self.min_y)
+    else
+      CGPoint.new(0, 0)
+    end
+  end
+
+public
   def center(absolute = false)
-    offset_x = absolute ? self.x : 0
-    offset_y = absolute ? self.y : 0
-    CGPoint.new(offset_x + self.width / 2, offset_y + self.height / 2)
+    cgrect_offset(absolute) + CGPoint.new(self.width / 2, self.height / 2)
   end
 
-  def top_left
-    CGPoint.new(CGRectGetMinX(self), CGRectGetMinY(self))
+  def top_left(absolute = false)
+    cgrect_offset(absolute) + CGPoint.new(0, 0)
   end
 
-  def top_center
-    CGPoint.new(CGRectGetMidX(self), CGRectGetMinY(self))
+  def top_center(absolute = false)
+    cgrect_offset(absolute) + CGPoint.new(self.width / 2, 0)
   end
 
-  def top_right
-    CGPoint.new(CGRectGetMaxX(self), CGRectGetMinY(self))
+  def top_right(absolute = false)
+    cgrect_offset(absolute) + CGPoint.new(self.width, 0)
   end
 
-  def center_right
-    CGPoint.new(CGRectGetMaxX(self), CGRectGetMidY(self))
+  def center_right(absolute = false)
+    cgrect_offset(absolute) + CGPoint.new(self.width, self.height / 2)
   end
 
-  def bottom_right
-    CGPoint.new(CGRectGetMaxX(self), CGRectGetMaxY(self))
+  def bottom_right(absolute = false)
+    cgrect_offset(absolute) + CGPoint.new(self.width, self.height)
   end
 
-  def bottom_center
-    CGPoint.new(CGRectGetMidX(self), CGRectGetMaxY(self))
+  def bottom_center(absolute = false)
+    cgrect_offset(absolute) + CGPoint.new(self.width / 2, self.height)
   end
 
-  def bottom_left
-    CGPoint.new(CGRectGetMinX(self), CGRectGetMaxY(self))
+  def bottom_left(absolute = false)
+    cgrect_offset(absolute) + CGPoint.new(0, self.height)
   end
 
-  def center_left
-    CGPoint.new(CGRectGetMinX(self), CGRectGetMidY(self))
+  def center_left(absolute = false)
+    cgrect_offset(absolute) + CGPoint.new(0, self.height / 2)
   end
 
   # others
