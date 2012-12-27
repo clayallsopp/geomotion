@@ -333,6 +333,13 @@ describe "CGRect" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.top_left
       point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(0, 0)).should == true
+    end
+
+    it "works as relative" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.top_left(true)
+      point.is_a?(CGPoint).should == true
       CGPointEqualToPoint(point, CGPointMake(10, 20)).should == true
     end
   end
@@ -341,6 +348,13 @@ describe "CGRect" do
     it "works" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.top_center
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(50, 0)).should == true
+    end
+
+    it "works as relative" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.top_center(true)
       point.is_a?(CGPoint).should == true
       CGPointEqualToPoint(point, CGPointMake(60, 20)).should == true
     end
@@ -351,6 +365,13 @@ describe "CGRect" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.top_right
       point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(100, 0)).should == true
+    end
+
+    it "works as relative" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.top_right(true)
+      point.is_a?(CGPoint).should == true
       CGPointEqualToPoint(point, CGPointMake(110, 20)).should == true
     end
   end
@@ -359,6 +380,13 @@ describe "CGRect" do
     it "works" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.center_right
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(100, 100)).should == true
+    end
+
+    it "works as relative" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.center_right(true)
       point.is_a?(CGPoint).should == true
       CGPointEqualToPoint(point, CGPointMake(110, 120)).should == true
     end
@@ -369,6 +397,13 @@ describe "CGRect" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.bottom_right
       point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(100, 200)).should == true
+    end
+
+    it "works as relative" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.bottom_right(true)
+      point.is_a?(CGPoint).should == true
       CGPointEqualToPoint(point, CGPointMake(110, 220)).should == true
     end
   end
@@ -377,6 +412,13 @@ describe "CGRect" do
     it "works" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.bottom_center
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(50, 200)).should == true
+    end
+
+    it "works as relative" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.bottom_center(true)
       point.is_a?(CGPoint).should == true
       CGPointEqualToPoint(point, CGPointMake(60, 220)).should == true
     end
@@ -387,6 +429,13 @@ describe "CGRect" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.bottom_left
       point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(0, 200)).should == true
+    end
+
+    it "works as relative" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.bottom_left(true)
+      point.is_a?(CGPoint).should == true
       CGPointEqualToPoint(point, CGPointMake(10, 220)).should == true
     end
   end
@@ -395,6 +444,13 @@ describe "CGRect" do
     it "works" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.center_left
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(0, 100)).should == true
+    end
+
+    it "works as relative" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.center_left(true)
       point.is_a?(CGPoint).should == true
       CGPointEqualToPoint(point, CGPointMake(10, 120)).should == true
     end
