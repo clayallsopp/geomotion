@@ -77,12 +77,20 @@ class CGRect
     CGRectGetMinX(self)
   end
 
+  def mid_x
+    CGRectGetMidX(self)
+  end
+
   def max_x
     CGRectGetMaxX(self)
   end
 
   def min_y
     CGRectGetMinY(self)
+  end
+
+  def mid_y
+    CGRectGetMidY(self)
   end
 
   def max_y
