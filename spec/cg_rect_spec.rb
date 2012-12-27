@@ -142,6 +142,11 @@ describe "CGRect" do
     it "returns value when no args" do
       @rect.x.should == 10
     end
+    it "returns min_x when width is negative" do
+      rect = CGRect.make(x: 110, y: 10, width: -100, height: 100)
+      rect.x.should == 10
+      rect.origin.x.should == 110
+    end
 
     it "returns copy when has args" do
       rect = @rect.x(20)
@@ -161,6 +166,11 @@ describe "CGRect" do
   describe "#y" do
     it "returns value when no args" do
       @rect.y.should == 100
+    end
+    it "returns min_y when height is negative" do
+      rect = CGRect.make(x: 10, y: 110, width: 100, height: -100)
+      rect.y.should == 10
+      rect.origin.y.should == 110
     end
 
     it "returns copy when has args" do
@@ -182,7 +192,10 @@ describe "CGRect" do
     it "returns value when no args" do
       @rect.width.should == 50
     end
-
+    it "always returns positive width" do
+      rect = CGRect.make(x: 10, y: 110, width: -100, height: -100)
+      rect.width.should == 100
+    end
     it "returns copy when has args" do
       rect = @rect.width(20)
       rect.is_a?(CGRect).should == true
@@ -202,7 +215,10 @@ describe "CGRect" do
     it "returns value when no args" do
       @rect.height.should == 20
     end
-
+    it "always returns positive height" do
+      rect = CGRect.make(x: 10, y: 110, width: -100, height: -100)
+      rect.height.should == 100
+    end
     it "returns copy when has args" do
       rect = @rect.height(50)
       rect.is_a?(CGRect).should == true
@@ -215,6 +231,51 @@ describe "CGRect" do
       rect = CGRect.empty
       rect.height = 50
       rect.size.height.should == 50
+    end
+  end
+
+  describe "#min_x, #mid_x, #max_x, #min_y, #mid_y, #max_y" do
+    before do
+      @min_rect = CGRect.make(x: 10, y: 10, width: 100, height: 100)
+      @min_rect_negative = CGRect.make(x: 110, y: 110, width: -100, height: -100)
+    end
+
+    it "#min_x works" do
+      @min_rect.min_x.should == 10
+    end
+    it "#mid_x works" do
+      @min_rect.mid_x.should == 60
+    end
+    it "#max_x works" do
+      @min_rect.max_x.should == 110
+    end
+    it "#min_x works with negative width" do
+      @min_rect_negative.min_x.should == 10
+    end
+    it "#mid_x works with negative width" do
+      @min_rect_negative.mid_x.should == 60
+    end
+    it "#max_x works with negative width" do
+      @min_rect_negative.max_x.should == 110
+    end
+
+    it "#min_y works" do
+      @min_rect.min_y.should == 10
+    end
+    it "#mid_y works" do
+      @min_rect.mid_y.should == 60
+    end
+    it "#max_y works" do
+      @min_rect.max_y.should == 110
+    end
+    it "#min_y works with negative height" do
+      @min_rect_negative.min_y.should == 10
+    end
+    it "#mid_y works with negative height" do
+      @min_rect_negative.mid_y.should == 60
+    end
+    it "#max_y works with negative height" do
+      @min_rect_negative.max_y.should == 110
     end
   end
 
