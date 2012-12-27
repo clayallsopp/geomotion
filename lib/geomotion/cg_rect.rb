@@ -207,16 +207,32 @@ class CGRect
     CGPoint.new(CGRectGetMinX(self), CGRectGetMinY(self))
   end
 
+  def top_center
+    CGPoint.new(CGRectGetMidX(self), CGRectGetMinY(self))
+  end
+
   def top_right
     CGPoint.new(CGRectGetMaxX(self), CGRectGetMinY(self))
+  end
+
+  def center_right
+    CGPoint.new(CGRectGetMaxX(self), CGRectGetMidY(self))
+  end
+
+  def bottom_right
+    CGPoint.new(CGRectGetMaxX(self), CGRectGetMaxY(self))
+  end
+
+  def bottom_center
+    CGPoint.new(CGRectGetMidX(self), CGRectGetMaxY(self))
   end
 
   def bottom_left
     CGPoint.new(CGRectGetMinX(self), CGRectGetMaxY(self))
   end
 
-  def bottom_right
-    CGPoint.new(CGRectGetMaxX(self), CGRectGetMaxY(self))
+  def center_left
+    CGPoint.new(CGRectGetMinX(self), CGRectGetMidY(self))
   end
 
   # others

@@ -12,13 +12,21 @@ class CGPoint
     CGRect.new([self.x, self.y], size)
   end
 
-  def +(other)
-    case other
-    when CGSize
-      return self.rect_of_size(other)
-    when CGPoint
-      return CGPoint.new(self.x + other.x, self.y + other.y)
-    end
+  # modified points
+  def left(dist = 0)
+    CGPoint.new(self.x - dist, self.y)
+  end
+
+  def right(dist = 0)
+    CGPoint.new(self.x + dist, self.y)
+  end
+
+  def up(dist = 0)
+    CGPoint.new(self.x, self.y - dist)
+  end
+
+  def down(dist = 0)
+    CGPoint.new(self.x, self.y + dist)
   end
 
   def round
@@ -27,6 +35,16 @@ class CGPoint
 
   def inside?(rect)
     CGRectContainsPoint(rect, self)
+  end
+
+  # operator
+  def +(other)
+    case other
+    when CGSize
+      return self.rect_of_size(other)
+    when CGPoint
+      return CGPoint.new(self.x + other.x, self.y + other.y)
+    end
   end
 
   def ==(point)

@@ -20,10 +20,24 @@ rect_zero = CGRect.empty
 rect_zero.empty?
 => true
 
+# to get the center of the frame, relative to the origin or in absolute coordinates
 rect.center
-=> CGPoint(25, 10) # center as bounds
+=> CGPoint(25, 10) # center relative to bounds
 rect.center(true)
-=> CGPoint(35, 110) # center as frame
+=> CGPoint(35, 110) # center relative to frame
+
+# Other points in the rect can be returned as well, but these are only in absolute coordinates
+
+         top_left  top_center
+                |  |
+                o--o--o top_right
+                |     |
+    center_left o  x  o center_right
+                |     |
+                o--o--o bottom_right
+                |  |
+      bottom_left  bottom_center
+
 
 # Operator Overloading
 -rect
@@ -130,6 +144,13 @@ size.rect_at_point CGPoint.make(x: 10, y: 30)
 ```ruby
 # Initializers
 point = CGPoint.make(x: 10, y: 100)
+
+# Return a modified copy
+point.up(50).left(5)
+=> CGPoint(5, 50)
+# original is not modified, a new point is returned
+point.down(50).right(5)
+=> CGPoint(15, 150)
 
 # Operator Overloading
 -point

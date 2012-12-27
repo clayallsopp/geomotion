@@ -20,6 +20,41 @@ describe "CGPoint" do
     end
   end
 
+  describe "#up" do
+    it "should work" do
+      point = CGPointMake(1, 1).up(1)
+      CGPointEqualToPoint(point, CGPointMake(1, 0)).should == true
+    end
+  end
+
+  describe "#down" do
+    it "should work" do
+      point = CGPointMake(1, 1).down(1)
+      CGPointEqualToPoint(point, CGPointMake(1, 2)).should == true
+    end
+  end
+
+  describe "#left" do
+    it "should work" do
+      point = CGPointMake(1, 1).left(1)
+      CGPointEqualToPoint(point, CGPointMake(0, 1)).should == true
+    end
+  end
+
+  describe "#right" do
+    it "should work" do
+      point = CGPointMake(1, 1).right(1)
+      CGPointEqualToPoint(point, CGPointMake(2, 1)).should == true
+    end
+  end
+
+  describe "#chaining up().down().left().right()" do
+    it "should work" do
+      point = CGPointMake(1, 1).up(2).down(1).left(2).right(1)
+      CGPointEqualToPoint(point, CGPointMake(0, 0)).should == true
+    end
+  end
+
   describe "#+" do
     it "should work with CGSize" do
       size = CGSizeMake(20, 30)

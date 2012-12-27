@@ -337,12 +337,12 @@ describe "CGRect" do
     end
   end
 
-  describe "#bottom_left" do
+  describe "#top_center" do
     it "works" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
-      point = rect.bottom_left
+      point = rect.top_center
       point.is_a?(CGPoint).should == true
-      CGPointEqualToPoint(point, CGPointMake(10, 220)).should == true
+      CGPointEqualToPoint(point, CGPointMake(60, 20)).should == true
     end
   end
 
@@ -355,12 +355,48 @@ describe "CGRect" do
     end
   end
 
+  describe "#center_right" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.center_right
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(110, 120)).should == true
+    end
+  end
+
   describe "#bottom_right" do
     it "works" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.bottom_right
       point.is_a?(CGPoint).should == true
       CGPointEqualToPoint(point, CGPointMake(110, 220)).should == true
+    end
+  end
+
+  describe "#bottom_center" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.bottom_center
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(60, 220)).should == true
+    end
+  end
+
+  describe "#bottom_left" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.bottom_left
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(10, 220)).should == true
+    end
+  end
+
+  describe "#center_left" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.center_left
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(10, 120)).should == true
     end
   end
 
