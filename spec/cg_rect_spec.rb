@@ -328,6 +328,42 @@ describe "CGRect" do
     end
   end
 
+  describe "#top_left" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.top_left
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(10, 20)).should == true
+    end
+  end
+
+  describe "#bottom_left" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.bottom_left
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(10, 220)).should == true
+    end
+  end
+
+  describe "#top_right" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.top_right
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(110, 20)).should == true
+    end
+  end
+
+  describe "#bottom_right" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.bottom_right
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(110, 220)).should == true
+    end
+  end
+
   describe "#center" do
     it "works" do
       point = CGRect.make(width: 100, height: 100).center

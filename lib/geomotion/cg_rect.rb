@@ -203,6 +203,22 @@ class CGRect
     CGPoint.new(offset_x + self.width / 2, offset_y + self.height / 2)
   end
 
+  def top_left
+    CGPoint.new(CGRectGetMinX(self), CGRectGetMinY(self))
+  end
+
+  def top_right
+    CGPoint.new(CGRectGetMaxX(self), CGRectGetMinY(self))
+  end
+
+  def bottom_left
+    CGPoint.new(CGRectGetMinX(self), CGRectGetMaxY(self))
+  end
+
+  def bottom_right
+    CGPoint.new(CGRectGetMaxX(self), CGRectGetMaxY(self))
+  end
+
   # others
   def round
     CGRect.new([self.x.round, self.y.round], [self.width.round, self.height.round])
