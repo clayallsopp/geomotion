@@ -148,6 +148,22 @@ class CGRect
     CGRect.new([self.x, self.y + dist], self.size)
   end
 
+  def wider(dist)
+    CGRect.new(self.origin, [self.width + dist, self.height])
+  end
+
+  def thinner(dist)
+    CGRect.new(self.origin, [self.width - dist, self.height])
+  end
+
+  def taller(dist)
+    CGRect.new(self.origin, [self.width, self.height + dist])
+  end
+
+  def shorter(dist)
+    CGRect.new(self.origin, [self.width, self.height - dist])
+  end
+
   def above(margin = 0)
     self.above(margin, height:self.height)
   end
@@ -169,7 +185,11 @@ class CGRect
   end
 
   def beside(margin = 0)
-    CGRect.new([self.x + self.width + margin, self.y], self.size)
+    self.beside(margin, width: self.width)
+  end
+
+  def beside(margin, width:width)
+    CGRect.new([self.x + self.width + margin, self.y], [width, self.height])
   end
 
   def center(absolute = false)
@@ -183,10 +203,7 @@ class CGRect
   end
 
   def centered_in(rect, absolute = false)
-    offset_x = absolute ? rect.x : 0
-    offset_y = absolute ? rect.y : 0
-    CGRect.new([offset_x + ((rect.width - self.width) / 2),
-                offset_y + ((rect.height - self.height) / 2)], self.size)
+    self.size.centered_in(rect, absolute)
   end
 
   def +(other)
