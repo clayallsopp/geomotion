@@ -1,29 +1,48 @@
 class CGRect
-  # CGRect.make(x: 10, y: 30)
+  # CGRect.make  # default rect: {origin: {x: 0, y: 0}, size: {width:0, height:0}}
+  #              # aka CGRectZero
+  # CGRect.make(x: 10, y: 30)  # default size: [0, 0]
   # CGRect.make(x: 10, y: 30, width:100, height: 20)
+  #
+  # point = CGPoint.make(x: 10, y: 30)
+  # size = CGSize.make(width: 100, height: 20)
+  # CGRect.make(origin: point, size: size)
   def self.make(options = {})
     if options[:origin]
-      options[:x] = options[:origin].x
-      options[:y] = options[:origin].y
+      x = options[:origin].x
+      y = options[:origin].y
+    else
+      x = options[:x] || 0
+      y = options[:y] || 0
     end
     if options[:size]
-      options[:width] = options[:size].width
-      options[:height] = options[:size].height
+      w = options[:size].width
+      h = options[:size].height
+    else
+      w = options[:width] || 0
+      h = options[:height] || 0
     end
-    CGRect.new([options[:x] || 0, options[:y] || 0], [options[:width] || 0, options[:height] || 0])
+    self.new([x, y], [w, h])
   end
 
   def self.empty
-    # Don't return CGRectZero; can be mutated
-    CGRect.make
+    # Don't just return CGRectZero; can be mutated
+    CGRectZero.dup
   end
 
   def self.null
-    CGRectNull
+    # Don't just return CGRectNull; can be mutated
+    CGRectNull.dup
   end
 
   def self.infinite
-    self.new([0, 0], CGSize.infinite)
+    # This actually returns the not-very-infinite value of:
+    # [[-1.7014114289565e+38, -1.7014114289565e+38], [3.402822857913e+38, 3.402822857913e+38]]
+    # originally this method returned [[-Infinity, -Infinity], [Infinity, Infinity]],
+    # but that rect ended up returning `false` for any point in the method
+    # CGRect.infinite.contains?(point).  CGRectInfinite returns `true` for any
+    # (sensible) point, so we'll go with that instead
+    CGRectInfinite.dup
   end
 
   # OPTIONS: [:above, :below, :left_of, :right_of, :margins]
@@ -31,11 +50,11 @@ class CGRect
   # EX CGRect.layout(rect1, above: rect2, left_of: rect3, margins: [0, 10, 20, 0])
   def self.layout(rect1, options)
     if options.empty?
-      p "No options provided in CGRect.layout"
+      p "No options provided in #{self.class}.layout"
       return rect1
     end
 
-    rect = CGRect.new
+    rect = self.new
     rect.size = rect1.size
 
     options[:margins] ||= []
@@ -53,6 +72,7 @@ class CGRect
     rect
   end
 
+  # bounds
   def min_x
     CGRectGetMinX(self)
   end
@@ -69,6 +89,7 @@ class CGRect
     CGRectGetMaxY(self)
   end
 
+  # getters/setters
   def x(setter = nil)
     if setter
       return CGRect.new([setter, self.y], self.size)
@@ -113,6 +134,7 @@ class CGRect
     self.size.height = _height
   end
 
+  # modified rects
   def left(dist = 0)
     CGRect.new([self.x - dist, self.y], self.size)
   end
@@ -129,6 +151,23 @@ class CGRect
     CGRect.new([self.x, self.y + dist], self.size)
   end
 
+  def wider(dist)
+    CGRect.new(self.origin, [self.width + dist, self.height])
+  end
+
+  def thinner(dist)
+    CGRect.new(self.origin, [self.width - dist, self.height])
+  end
+
+  def taller(dist)
+    CGRect.new(self.origin, [self.width, self.height + dist])
+  end
+
+  def shorter(dist)
+    CGRect.new(self.origin, [self.width, self.height - dist])
+  end
+
+  # adjacent rects
   def above(margin = 0)
     self.above(margin, height:self.height)
   end
@@ -150,24 +189,43 @@ class CGRect
   end
 
   def beside(margin = 0)
-    CGRect.new([self.x + self.width + margin, self.y], self.size)
+    self.beside(margin, width: self.width)
   end
 
-  def center(relative = false)
-    offset_x = relative ? self.x : 0
-    offset_y = relative ? self.y : 0
+  def beside(margin, width:width)
+    CGRect.new([self.x + self.width + margin, self.y], [width, self.height])
+  end
+
+  # locations
+  def center(absolute = false)
+    offset_x = absolute ? self.x : 0
+    offset_y = absolute ? self.y : 0
     CGPoint.new(offset_x + self.width / 2, offset_y + self.height / 2)
   end
 
+  def top_left
+    CGPoint.new(CGRectGetMinX(self), CGRectGetMinY(self))
+  end
+
+  def top_right
+    CGPoint.new(CGRectGetMaxX(self), CGRectGetMinY(self))
+  end
+
+  def bottom_left
+    CGPoint.new(CGRectGetMinX(self), CGRectGetMaxY(self))
+  end
+
+  def bottom_right
+    CGPoint.new(CGRectGetMaxX(self), CGRectGetMaxY(self))
+  end
+
+  # others
   def round
     CGRect.new([self.x.round, self.y.round], [self.width.round, self.height.round])
   end
 
-  def centered_in(rect, relative = false)
-    offset_x = relative ? rect.x : 0
-    offset_y = relative ? rect.y : 0
-    CGRect.new([offset_x + ((rect.width - self.width) / 2),
-                offset_y + ((rect.height - self.height) / 2)], self.size)
+  def centered_in(rect, absolute = false)
+    self.size.centered_in(rect, absolute)
   end
 
   def +(other)
@@ -212,7 +270,7 @@ class CGRect
   end
 
   def infinite?
-    self.size.infinite?
+    self.size.infinite? || CGRectEqualToRect(self, CGRectInfinite)
   end
 
   def null?
@@ -224,7 +282,7 @@ class CGRect
     when CGRect
       CGRectIntersectsRect(self, rect)
     else
-      super
+      super  # raises an error
     end
   end
 
@@ -235,7 +293,7 @@ class CGRect
     when CGRect
       CGRectContainsRect(self, rect_or_point)
     else
-      super
+      super  # raises an error
     end
   end
 
@@ -249,6 +307,10 @@ class CGRect
 
   def -(other)
     self.+(-other)
+  end
+
+  def inspect
+    "#{self.class.name}([#{self.origin.x}, #{self.origin.y}], [#{self.size.width}, #{self.size.height}])"
   end
 
 end

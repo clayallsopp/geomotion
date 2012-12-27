@@ -24,11 +24,19 @@ describe "CGRect" do
     it "should work" do
       CGRectIsEmpty(CGRect.empty).should == true
     end
+
+    it "should not be mutable" do
+      f = CGRect.empty
+      f.width = 10
+      f.height = 10
+      f.x = 10
+      f.y = 10
+      CGRectIsEmpty(CGRect.empty).should == true
+    end
   end
 
   describe "#empty?" do
     it "should work" do
-      p "ZERO1 #{CGRectZero.inspect}"
       CGRectZero.empty?.should == true
     end
   end
@@ -37,26 +45,44 @@ describe "CGRect" do
     it "should work" do
       CGRectIsNull(CGRect.null).should == true
     end
+
+    it "should not be mutable" do
+      f = CGRect.null
+      f.width = 10
+      f.height = 10
+      f.x = 10
+      f.y = 10
+      CGRectIsNull(CGRect.null).should == true
+    end
   end
 
   describe "#null?" do
     it "should work" do
       CGRectNull.null?.should == true
+      CGRect.null.null?.should == true
     end
   end
 
   # Currently does NOT work due to some strange RM bug?
-=begin
   describe ".infinite" do
     it "should work" do
-      CGRectIsInfinite(CGRect.infinite).should == true
+      CGRect.infinite.infinite?.should == true
+    end
+
+    it "should not be mutable" do
+      f = CGRect.infinite
+      f.width = 10
+      f.height = 10
+      f.x = 10
+      f.y = 10
+      CGRect.infinite.infinite?.should == true
     end
   end
-=end
 
   describe "#infinite?" do
     it "should work" do
       CGRect.infinite.infinite?.should == true
+      CGRectInfinite.infinite?.should == true
     end
   end
 
@@ -221,6 +247,34 @@ describe "CGRect" do
     end
   end
 
+  describe "#wider" do
+    it "works" do
+      rect = CGRect.empty.wider(20)
+      rect.size.width.should == 20
+    end
+  end
+
+  describe "#thinner" do
+    it "works" do
+      rect = CGRect.empty.thinner(20)
+      rect.size.width.should == -20
+    end
+  end
+
+  describe "#taller" do
+    it "works" do
+      rect = CGRect.empty.taller(20)
+      rect.size.height.should == 20
+    end
+  end
+
+  describe "#shorter" do
+    it "works" do
+      rect = CGRect.empty.shorter(20)
+      rect.size.height.should == -20
+    end
+  end
+
   describe "#above" do
     it "works with margins" do
       rect = CGRect.make(height: 50).above(20)
@@ -263,6 +317,50 @@ describe "CGRect" do
     it "works without margins" do
       rect = CGRect.make(x: 50, width: 20).beside
       rect.origin.x.should == 70
+    end
+  end
+
+  describe "#beside:width:" do
+    it "works" do
+      rect = CGRect.make(x: 50, width: 20).beside(10, width: 30)
+      rect.origin.x.should == 80
+      rect.size.width.should == 30
+    end
+  end
+
+  describe "#top_left" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.top_left
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(10, 20)).should == true
+    end
+  end
+
+  describe "#bottom_left" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.bottom_left
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(10, 220)).should == true
+    end
+  end
+
+  describe "#top_right" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.top_right
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(110, 20)).should == true
+    end
+  end
+
+  describe "#bottom_right" do
+    it "works" do
+      rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
+      point = rect.bottom_right
+      point.is_a?(CGPoint).should == true
+      CGPointEqualToPoint(point, CGPointMake(110, 220)).should == true
     end
   end
 
