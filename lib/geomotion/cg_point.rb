@@ -6,7 +6,7 @@ class CGPoint
 
   # size = CGSize.make width: 100, height: 100
   # point = CPPoint.make x:0, y:10
-  # point.rect_of_size(point)  # => CGRect([0, 10], [100, 100])
+  # point.rect_of_size(size)  # => CGRect([0, 10], [100, 100])
   # point.rect_of_size([10, 20])  # => CGRect([10, 20], [100, 100])
   def rect_of_size(size)
     CGRect.new([self.x, self.y], size)
@@ -39,6 +39,10 @@ class CGPoint
 
   def -(other)
     self.+(-other)
+  end
+
+  def inspect
+    "#{self.class.name}(#{self.x}, #{self.y})"
   end
 
 end

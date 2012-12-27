@@ -53,6 +53,19 @@ describe "CGSize" do
     end
   end
 
+  describe ".empty" do
+    it "should work" do
+      CGRectIsEmpty(CGSize.empty.rect_at_point([0, 0])).should == true
+    end
+
+    it "should not be mutable" do
+      f = CGSize.empty
+      f.width = 10
+      f.height = 10
+      CGRectIsEmpty(CGSize.empty.rect_at_point([0, 0])).should == true
+    end
+  end
+
   describe "#empty?" do
     it "should return true" do
       empty = CGSizeMake(0, 0)
@@ -71,4 +84,23 @@ describe "CGSize" do
       @size.should != size
     end
   end
+
+  describe "#centered_in" do
+    it "works" do
+      outer_rect = CGRect.make(width: 100, height: 100)
+      inner_size = CGSize.make(width: 50, height: 50)
+
+      centered_rect = inner_size.centered_in(outer_rect)
+      CGRectEqualToRect(centered_rect, CGRectMake(25, 25, 50, 50)).should == true
+    end
+
+    it "works as relative" do
+      outer_rect = CGRect.make(x: 20, y: 30, width: 100, height: 100)
+      inner_size = CGSize.make(width: 50, height: 50)
+
+      centered_rect = inner_size.centered_in(outer_rect, true)
+      CGRectEqualToRect(centered_rect, CGRectMake(45, 55, 50, 50)).should == true
+    end
+  end
+
 end
