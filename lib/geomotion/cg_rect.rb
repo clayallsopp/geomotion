@@ -287,14 +287,14 @@ public
     if size.is_a? Numeric
       size = CGSize.new(size, size)
     end
-    CGRectInset(self, -size.width, -size.height)
+    CGRectInset(self, -size[0], -size[1])
   end
 
   def shrink(size)
     if size.is_a? Numeric
       size = CGSize.new(size, size)
     end
-    CGRectInset(self, size.width, size.height)
+    CGRectInset(self, size[0], size[1])
   end
 
   def empty?

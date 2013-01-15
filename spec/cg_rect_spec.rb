@@ -642,5 +642,10 @@ describe "CGRect" do
       rect = @rect.shrink(CGSizeMake(20, 10))
       CGRectEqualToRect(rect, CGRectMake(30, 110, 10, 0)).should == true
     end
+
+    it "should work with Array" do
+      rect = @rect.shrink([20, 10])
+      CGRectEqualToRect(rect, CGRectMake(30, 110, 10, 0)).should == true
+    end
   end
 end
