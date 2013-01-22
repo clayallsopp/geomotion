@@ -629,6 +629,24 @@ describe "CGRect" do
     end
   end
 
+  describe "#*" do
+    it "should work with Numeric" do
+      rect = CGRectMake(0, 0, 12, 24)
+      bigger = rect * 3
+      bigger.size.width.should == 36
+      bigger.size.height.should == 72
+    end
+  end
+
+  describe "#/" do
+    it "should work with Numeric" do
+      rect = CGRectMake(0, 0, 12, 24)
+      smaller = rect / 3
+      smaller.size.width.should == 4
+      smaller.size.height.should == 8
+    end
+  end
+
   describe "#intersection_with" do
     it "should work" do
       lower_rect = CGRectMake(0, 0, 100, 100)

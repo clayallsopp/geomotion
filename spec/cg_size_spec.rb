@@ -47,14 +47,20 @@ describe "CGSize" do
   end
 
   describe "#*" do
-    it "should work" do
-      (@size * 2).should == CGSizeMake(200, 400)
+    it "should work with Numeric" do
+      size = CGSizeMake(12, 24)
+      bigger = size * 3
+      bigger.width.should == 36
+      bigger.height.should == 72
     end
   end
 
   describe "#/" do
-    it "should work" do
-      (@size / 2).should == CGSizeMake(50, 100)
+    it "should work with Numeric" do
+      size = CGSizeMake(12, 24)
+      smaller = size / 3
+      smaller.width.should == 4
+      smaller.height.should == 8
     end
   end
 

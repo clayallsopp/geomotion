@@ -275,6 +275,26 @@ public
     end
   end
 
+  def *(scale)
+    case scale
+    when Numeric
+      return CGRect.new(self.origin, self.size * scale)
+    else
+      super
+    end
+  end
+
+  # it is tempting to define this as self * (1.0/scale) but floating point
+  # errors result in too many errors
+  def /(scale)
+    case scale
+    when Numeric
+      return CGRect.new(self.origin, self.size / scale)
+    else
+      super
+    end
+  end
+
   def intersection_with(rect)
     CGRectIntersection(self, rect)
   end

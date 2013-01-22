@@ -47,6 +47,26 @@ class CGPoint
     end
   end
 
+  def *(scale)
+    case scale
+    when Numeric
+      return CGPoint.new(self.x * scale, self.y * scale)
+    else
+      super
+    end
+  end
+
+  # it is tempting to define this as self * (1.0/scale) but floating point
+  # errors result in too many errors
+  def /(scale)
+    case scale
+    when Numeric
+      return CGPoint.new(self.x / scale, self.y / scale)
+    else
+      super
+    end
+  end
+
   def ==(point)
     point.is_a?(CGPoint) && CGPointEqualToPoint(self, point)
   end

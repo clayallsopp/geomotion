@@ -67,6 +67,24 @@ describe "CGPoint" do
     end
   end
 
+  describe "#*" do
+    it "should work with Numeric" do
+      point = CGPointMake(12, 24)
+      bigger = point * 3
+      bigger.x.should == 36
+      bigger.y.should == 72
+    end
+  end
+
+  describe "#/" do
+    it "should work with Numeric" do
+      point = CGPointMake(12, 24)
+      smaller = point / 3
+      smaller.x.should == 4
+      smaller.y.should == 8
+    end
+  end
+
   describe "#- (unary)" do
     it "should work" do
       point = CGPoint.make(x: 100, y: 200)

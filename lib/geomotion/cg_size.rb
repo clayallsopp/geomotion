@@ -38,11 +38,23 @@ class CGSize
   end
 
   def *(scale)
-    return CGSize.new(self.width * scale, self.height * scale)
+    case scale
+    when Numeric
+      return CGSize.new(self.width * scale, self.height * scale)
+    else
+      super
+    end
   end
 
+  # it is tempting to define this as self * (1.0/scale) but floating point
+  # errors result in too many miscalculations
   def /(scale)
-    return CGSize.new(self.width / scale, self.height / scale)
+    case scale
+    when Numeric
+      return CGSize.new(self.width / scale, self.height / scale)
+    else
+      super
+    end
   end
 
   def infinite?
