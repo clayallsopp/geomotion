@@ -37,6 +37,14 @@ class CGSize
     end
   end
 
+  def *(scale)
+    return CGSize.new(self.width * scale, self.height * scale)
+  end
+
+  def /(scale)
+    return CGSize.new(self.width / scale, self.height / scale)
+  end
+
   def infinite?
     infinity = CGRect.null[0][0]  # null rects are rects with infinite width & height
     self.width == infinity or self.height == infinity

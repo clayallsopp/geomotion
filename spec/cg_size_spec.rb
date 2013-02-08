@@ -46,6 +46,18 @@ describe "CGSize" do
     end
   end
 
+  describe "#*" do
+    it "should work" do
+      (@size * 2).should == CGSizeMake(200, 400)
+    end
+  end
+
+  describe "#/" do
+    it "should work" do
+      (@size / 2).should == CGSizeMake(50, 100)
+    end
+  end
+
   describe "#infinite?" do
     it "should return true" do
       infinite = CGSize.infinite
