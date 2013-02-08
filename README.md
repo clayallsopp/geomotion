@@ -20,10 +20,24 @@ rect_zero = CGRect.empty
 rect_zero.empty?
 => true
 
+# to get the center of the frame, relative to the origin or in absolute coordinates
 rect.center
-=> CGPoint(25, 10) # center as bounds
+=> CGPoint(25, 10) # center relative to bounds
 rect.center(true)
-=> CGPoint(35, 110) # center as frame
+=> CGPoint(35, 110) # center relative to frame
+
+# Other points in the rect can be returned as well, and the same
+# relative/absolute return values are supported (defaults to relative)
+
+         top_left  top_center
+                |  |
+                o--o--o top_right
+                |     |
+    center_left o  x  o center_right
+                |     |
+                o--o--o bottom_right
+                |  |
+      bottom_left  bottom_center
 
 # Operator Overloading
 -rect
@@ -98,6 +112,75 @@ CGRect.layout(rect, above: rect2, right_of: rect3, margins: [0, 0, 10, 15])
 
 ```
 
+## *Relative* vs *Absolute*
+
+When you are positioning frames, you'll be doing so in one of two ways:
+
+1. Two frames relative *to each other*, within a common parent frame
+2. A frame being added *as a child* of another frame
+
+*(generally speaking)*
+
+geomotion is optimized for both cases, but the arsenal of methods is different.
+
+###### frames relative to each other
+
+Any of the location methods (`up, down, left, right, beside, before, above, below`)
+will return a frame that is in the same coordinate system of the receiver, and
+this behavior cannot be changed.
+
+```ruby
+frame = CGRect.new(x: 10, y: 10, width:10, height: 10)
+frame.beside
+# => [[20, 10], [10, 10]]
+
+frame.right(30).down(5).taller(100)
+# => [[10+30, 10+5], [10, 10+100]]
+# aka
+# => [[40, 15], [10, 110]]
+```
+
+Any methods that include the *x* or *y* variable in their name will be absolute.
+
+```ruby
+frame.x
+frame.min_x
+frame.max_x
+frame.mid_x
+frame.y
+frame.min_y
+frame.max_y
+frame.mid_y
+```
+
+###### positions relative to the frame's origin
+
+Any of the position methods that do *NOT* include the *x* or *y* variable will
+*ignore* the *x* and *y* values unless explicitly told to use absolute
+coordinates.
+
+*Note:* These methods will "normalize" the width and height, so even if
+the width or height is negative, these methods will always return positive
+numbers.  If you specify absolute coordinates, the values might be negative, but
+they will also be sorted (x == min, min < mid, mid < max, x + width == max).
+
+```ruby
+frame = CGRect.new(x: 10, y: 10, width:10, height: 10)
+frame.top_left  # => [0, 0]
+frame.top_center  # => [5, 0]
+frame.bottom_right  # => [10, 10]
+
+# use absolute coordinates
+frame.top_left(true)  # => [10, 10]
+frame.top_center(true)  # => [15, 10]
+frame.bottom_right(true)  # => [20, 20]
+
+# negative widths and heights are "corrected" when using absolute coordinates
+frame = CGRect.new(x: 20, y: 20, width:-10, height: -10)
+frame.top_center(true)  # => [15, 10]
+frame.bottom_right(true)  # => [20, 20]
+```
+
 ### CGSize
 
 ```ruby
@@ -130,6 +213,13 @@ size.rect_at_point CGPoint.make(x: 10, y: 30)
 ```ruby
 # Initializers
 point = CGPoint.make(x: 10, y: 100)
+
+# Return a modified copy
+point.up(50).left(5)
+=> CGPoint(5, 50)
+# original is not modified, a new point is returned
+point.down(50).right(5)
+=> CGPoint(15, 150)
 
 # Operator Overloading
 -point
