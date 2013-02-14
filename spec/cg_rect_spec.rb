@@ -596,8 +596,35 @@ describe "CGRect" do
     end
 
     it "works with UIEdgeInsets" do
-      inset = UIEdgeInsetsMake(10, 10, 10, 5)
-      rect = (@rect + inset)
+      insets = UIEdgeInsetsMake(10, 10, 10, 5)
+      rect = (@rect + insets)
+      CGRectEqualToRect(rect, CGRectMake(20, 110, 35, 0)).should == true
+    end
+  end
+
+  describe "offset" do
+    it "works with x, y" do
+      rect = @rect.offset(50, 20)
+      CGRectEqualToRect(rect, CGRectMake(60, 120, 50, 20)).should == true
+    end
+
+    it "works with CGPoint" do
+      point = CGPointMake(50, 20)
+      rect = @rect.offset(point)
+      CGRectEqualToRect(rect, CGRectMake(60, 120, 50, 20)).should == true
+    end
+
+    it "works with UIOffset" do
+      offset = UIOffsetMake(50, 20)
+      rect = @rect.offset(offset)
+      CGRectEqualToRect(rect, CGRectMake(60, 120, 50, 20)).should == true
+    end
+  end
+
+  describe "inset" do
+    it "works with UIEdgeInsets" do
+      insets = UIEdgeInsetsMake(10, 10, 10, 5)
+      rect = @rect.inset(insets)
       CGRectEqualToRect(rect, CGRectMake(20, 110, 35, 0)).should == true
     end
   end

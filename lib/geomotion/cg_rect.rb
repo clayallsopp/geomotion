@@ -267,11 +267,11 @@ public
     when CGSize
       return CGRect.new([self.x, self.y], [self.width + other.width, self.height + other.height])
     when CGPoint
-      return CGRectOffset(self, other.x, other.y)
+      return self.offset(other.x, other.y)
     when UIOffset
-      CGRectOffset(self, other.horizontal, other.vertical)
+      return self.offset(other.horizontal, other.vertical)
     when UIEdgeInsets
-      UIEdgeInsetsInsetRect(self, other)
+      return self.inset(other)
     end
   end
 
@@ -281,6 +281,18 @@ public
 
   def union_with(rect)
     CGRectUnion(self, rect)
+  end
+
+  def inset(insets)
+    UIEdgeInsetsInsetRect(self, insets)
+  end
+
+  def offset(point_or_x, y=nil)
+    if y
+      CGRectOffset(self, point_or_x, y)
+    else
+      CGRectOffset(self, point_or_x[0], point_or_x[1])
+    end
   end
 
   def grow(size)

@@ -43,16 +43,24 @@ rect.center(true)
 -rect
 => CGRect(-10, -100, -50, -20)
 
+# union of rects
 rect + CGRect.make(x: 9, y: 99, width: 10, height: 10)
-=> CGRect(9, 99, 50, 20) # == union of rects
+=> rect.union_with(CGRect.make(x: 9, y: 99, width: 10, height: 10))
+=> CGRect(9, 99, 50, 20)
 
+# increases the size, but keeps the origin
 rect + CGSize.make(width: 11, height: 1)
-=> CGRect(10, 100, 61, 21) # == increases the size, but keeps the origin
+=> CGRect(10, 100, 61, 21)
+# not the same as `grow`, which grows the rect in all directions
 
+# moves the rect
 rect + CGPoint.make(x: 10, y: 10)
+=> rect.offset(CGPoint.make(x: 10, y: 10))
 => CGRect(20, 110, 50, 20)
 
+# moves the rect
 rect + UIOffsetMake(10, 10)
+=> rect.offset(UIOffsetMake(10, 10))
 => CGRect(20, 110, 50, 20)
 
 a_point + a_size
