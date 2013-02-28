@@ -13,6 +13,34 @@ describe "CGSize" do
     end
   end
 
+  describe "#wider" do
+    it "works" do
+      size = CGSize.new(0, 0).wider(20)
+      size.width.should == 20
+    end
+  end
+
+  describe "#thinner" do
+    it "works" do
+      size = CGSize.new(0, 0).thinner(20)
+      size.width.should == -20
+    end
+  end
+
+  describe "#taller" do
+    it "works" do
+      size = CGSize.new(0, 0).taller(20)
+      size.height.should == 20
+    end
+  end
+
+  describe "#shorter" do
+    it "works" do
+      size = CGSize.new(0, 0).shorter(20)
+      size.height.should == -20
+    end
+  end
+
   describe "#rect_at_point" do
     it "should work" do
       point = CGPointMake(20, 30)
