@@ -13,6 +13,22 @@ class CGSize
     CGSizeZero.dup
   end
 
+  def wider(dist)
+    CGSize.new(self.width + dist, self.height)
+  end
+
+  def thinner(dist)
+    CGSize.new(self.width - dist, self.height)
+  end
+
+  def taller(dist)
+    CGSize.new(self.width, self.height + dist)
+  end
+
+  def shorter(dist)
+    CGSize.new(self.width, self.height - dist)
+  end
+
   # size = CGSize.make width: 100, height: 100
   # point = CPPoint.make x:0, y:10
   # size.rect_at_point(point)  # => CGRect([0, 10], [100, 100])

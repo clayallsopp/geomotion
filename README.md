@@ -243,9 +243,13 @@ point + CGSize.make(width: 50, height: 20)
 point.rect_of_size CGSize.make(width: 50, height: 20)
 => CGRect(10, 100, 50, 20)
 
-# Combine with CGRect
+# Compare with CGRect
 point.inside? CGRect.make(x: 0, y: 0, width: 20, height: 110)
 => true
+
+# Distance to point
+point.distance_to(CGPoint.make(x: 13, y:104))
+=> 5
 ```
 
 ## Install
