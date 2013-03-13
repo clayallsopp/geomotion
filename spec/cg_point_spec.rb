@@ -48,10 +48,18 @@ describe "CGPoint" do
     end
   end
 
-  describe "#chaining up().down().left().right()" do
+  describe "chaining up().down().left().right()" do
     it "should work" do
       point = CGPointMake(1, 1).up(2).down(1).left(2).right(1)
       CGPointEqualToPoint(point, CGPointMake(0, 0)).should == true
+    end
+  end
+
+  describe "#distance_to" do
+    it "should work" do
+      point = CGPoint.make(x: 10, y: 100)
+      point.distance_to(CGPoint.make(x: 13, y:104)).should == 5
+      point.distance_to(CGPoint.make(x: 14, y:103)).should == 5
     end
   end
 

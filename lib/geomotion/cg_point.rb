@@ -37,6 +37,12 @@ class CGPoint
     CGRectContainsPoint(rect, self)
   end
 
+  def distance_to(point)
+    dx = self.x - point.x
+    dy = self.y - point.y
+    return Math.sqrt(dx**2 + dy**2)
+  end
+
   # operator
   def +(other)
     case other

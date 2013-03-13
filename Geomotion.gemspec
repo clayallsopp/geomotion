@@ -4,8 +4,8 @@ require File.expand_path('../lib/geomotion/version', __FILE__)
 Gem::Specification.new do |s|
   s.name        = "geomotion"
   s.version     = Geomotion::VERSION
-  s.authors     = ["Clay Allsopp"]
-  s.email       = ["clay.allsopp@gmail.com"]
+  s.authors     = ["Clay Allsopp", "Colin T.A. Gray"]
+  s.email       = ["clay.allsopp@gmail.com", "colinta@gmail.com"]
   s.homepage    = "https://github.com/clayallsopp/geomotion"
   s.summary     = "A RubyMotion Geometry Wrapper"
   s.description = "A RubyMotion Geometry Wrapper"
