@@ -138,7 +138,7 @@ will return a frame that is in the same coordinate system of the receiver, and
 this behavior cannot be changed.
 
 ```ruby
-frame = CGRect.new(x: 10, y: 10, width:10, height: 10)
+frame = CGRect.make(x: 10, y: 10, width:10, height: 10)
 frame.beside
 # => [[20, 10], [10, 10]]
 
@@ -173,7 +173,7 @@ numbers.  If you specify absolute coordinates, the values might be negative, but
 they will also be sorted (x == min, min < mid, mid < max, x + width == max).
 
 ```ruby
-frame = CGRect.new(x: 10, y: 10, width:10, height: 10)
+frame = CGRect.make(x: 10, y: 10, width:10, height: 10)
 frame.top_left  # => [0, 0]
 frame.top_center  # => [5, 0]
 frame.bottom_right  # => [10, 10]
@@ -184,7 +184,7 @@ frame.top_center(true)  # => [15, 10]
 frame.bottom_right(true)  # => [20, 20]
 
 # negative widths and heights are "corrected" when using absolute coordinates
-frame = CGRect.new(x: 20, y: 20, width:-10, height: -10)
+frame = CGRect.make(x: 20, y: 20, width:-10, height: -10)
 frame.top_center(true)  # => [15, 10]
 frame.bottom_right(true)  # => [20, 20]
 ```
