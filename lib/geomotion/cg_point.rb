@@ -43,6 +43,12 @@ class CGPoint
     return Math.sqrt(dx**2 + dy**2)
   end
 
+  def angle_to(point)
+    dx = point.x - self.x
+    dy = point.y - self.y
+    return Math.atan2(dy, dx)
+  end
+
   # operator
   def +(other)
     case other

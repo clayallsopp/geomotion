@@ -250,6 +250,11 @@ point.inside? CGRect.make(x: 0, y: 0, width: 20, height: 110)
 # Distance to point
 point.distance_to(CGPoint.make(x: 13, y:104))
 => 5
+
+# Angle between target and receiver
+# (up 10, over 10)
+point.angle_to(CGPoint.make(x: 20, y:110))
+=> 0.785398163397  (pi/4)
 ```
 
 ## Install

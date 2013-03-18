@@ -63,6 +63,17 @@ describe "CGPoint" do
     end
   end
 
+  describe "#angle_to" do
+    it "should work" do
+      point = CGPoint.make(x: 0, y: 0)
+      point.angle_to(CGPoint.make(x: 10, y:0)).should == 0
+      (0.785 - point.angle_to(CGPoint.make(x: 10, y:10))).abs.should < 0.01  # ~= Math::PI/4
+      (1.57 - point.angle_to(CGPoint.make(x: 0, y:10))).abs.should < 0.01  # ~= Math::PI/2
+      (3.14 - point.angle_to(CGPoint.make(x: -10, y:0))).abs.should < 0.01  # ~= Math::PI
+      (-1.57 - point.angle_to(CGPoint.make(x: 0, y:-10))).abs.should < 0.01  # ~= -Math::PI/2
+    end
+  end
+
   describe "#+" do
     it "should work with CGSize" do
       size = CGSizeMake(20, 30)
