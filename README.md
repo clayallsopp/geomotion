@@ -257,6 +257,43 @@ point.angle_to(CGPoint.make(x: 20, y:110))
 => 0.785398163397  (pi/4)
 ```
 
+### CGAffineTransform
+
+```ruby
+# you *can* create it manually
+transform = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+
+# but don't!  the `make` method accepts `translate`, `scale`, and `rotate` args
+transform = CGAffineTransform.make(scale: 2, translate: [10, 10], rotate: Math::PI)
+
+# identity transform is easy
+CGAffineTransform.identity
+
+# just to be sure
+CGAffineTransform.identity.identity?  # => true
+
+# Operator Overloading
+transform1 = CGAffineTransform.make(scale: 2)
+transform2 = CGAffineTransform.make(translate: [10, 10])
+# concatenate transforms
+transform1 + transform2
+transform1 << transform2  # alias
+transform1 - transform2
+# => transform1 + -transform2
+# => transform1 + transform2.invert
+transform1 - transform1  # => CGAffineTransform.identity
+
+# create new transforms by calling `translate`, `scale`, or `rotate` as factory
+# methods
+CGAffineTransform.translate(10, 10)
+CGAffineTransform.scale(2)
+CGAffineTransform.scale(2, 4)
+CGAffineTransform.rotate(Math::PI / 4)
+
+# or you can chain these methods
+CGAffineTransform.identity.translate(10, 10).scale(2).rotate(Math::PI / 4)
+```
+
 ## Install
 
 1. `gem install geomotion`

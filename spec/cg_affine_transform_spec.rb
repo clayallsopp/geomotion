@@ -7,51 +7,39 @@ describe "CGAffineTransform" do
     end
 
     it "should support +" do
-      (
-        CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
-        +
-        CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      ).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
+      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
+      (t1 + t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
     end
 
     it "should support <<" do
-      (
-        CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
-        <<
-        CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      ).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
+      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
+      (t1 << t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
     end
 
     it "should support -" do
-      (
-        CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
-        -
-        CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      ).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: -10, ty: -10)
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
+      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
+      (t1 - t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: -10, ty: -10)
     end
 
     it "subtracting itself should return identity (scale)" do
-      (
-        CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
-        -
-        CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
-      ).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
+      t2 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
+      (t1 - t2).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
     end
 
     it "subtracting itself should return identity (translate)" do
-      (
-        CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10) \
-        -
-        CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      ).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+      t1 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10) \
+      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
+      (t1 - t2).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
     end
 
     it "subtracting itself should return identity (rotate)" do
-      (
-        CGAffineTransform.make(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0) \
-        -
-        CGAffineTransform.make(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
-      ).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+      t1 = CGAffineTransform.make(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0) \
+      t2 = CGAffineTransform.make(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
+      (t1 - t2).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
     end
 
     it "should support unary -" do
@@ -65,6 +53,11 @@ describe "CGAffineTransform" do
   end
 
   describe ".make" do
+
+    it "should work with no arguments" do
+      transform = CGAffineTransform.make
+      transform.should == CGAffineTransformMake(1, 0, 0, 1, 0, 0)
+    end
 
     it "should work with options" do
       transform = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
@@ -106,7 +99,7 @@ describe "CGAffineTransform" do
     end
 
     it "identity? should return false other matrices" do
-      CGAffineTransform.scale(2).identity?.should == false
+      CGAffineTransform.new(2, 0, 0, 2, 0, 0).identity?.should == false
     end
 
   end
@@ -197,6 +190,21 @@ describe "CGAffineTransform" do
     it "should not work on anything else" do
       ->{ @transform.apply_to(1) }.should.raise
       ->{ @transform.apply_to([0, 0]) }.should.raise
+    end
+
+  end
+
+  describe "other methods" do
+
+    it "should support concat" do
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
+      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
+      t1.concat(t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
+    end
+
+    it "should support invert" do
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
+      t1.invert.should == CGAffineTransform.make(a: 0.5, b: 0, c: 0, d: 0.5, tx: 0, ty: 0)
     end
 
   end

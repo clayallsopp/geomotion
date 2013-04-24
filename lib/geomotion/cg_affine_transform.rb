@@ -6,7 +6,7 @@ class CGAffineTransform
   # # make a transform using primitives
   # CGAffineTransform.make(scale: 2, translate: [10, 10], rotate: Math::PI)
   def self.make(options = {})
-    if options[:a]
+    if options.key?(:a)
       a = options[:a]
       raise "`:a` is required" unless a
       b = options[:b]
@@ -42,8 +42,6 @@ class CGAffineTransform
   def self.translate(point, y=nil)
     if y
       x = point
-    elsif point.is_a?(Numeric)
-      x = y = point
     else
       x = point[0]
       y = point[1]
@@ -52,8 +50,8 @@ class CGAffineTransform
   end
 
   # Returns a transform that is scaled. Accepts one or two arguments. One
-  # argument can be a Point or Array with two items, two arguments should be the
-  # x and y values.
+  # argument can be a Point or Array with two items or a number that will be
+  # used to scale both directions. Two arguments should be the x and y values.
   def self.scale(scale, sy=nil)
     if sy
       sx = scale
@@ -97,35 +95,30 @@ class CGAffineTransform
 
   # Concatenates the two transforms
   # @return CGAffineTransform
-  def +(transform)
+  def concat(transform)
     CGAffineTransformConcat(self, transform)
   end
-
-  # Concatenates the two transforms
-  # @return CGAffineTransform
-  def <<(transform)
-    CGAffineTransformConcat(self, transform)
-  end
-
-  # Inverts the transform
-  # @return CGAffineTransform
-  def -@
-    CGAffineTransformInvert(self)
-  end
+  alias :+ :concat
+  alias :<< :concat
 
   # Inverts the second transform and adds the result to `self`
   # @return CGAffineTransform
   def -(transform)
-    self + -transform
+    self.concat transform.invert
   end
+
+  # Inverts the transform
+  # @return CGAffineTransform
+  def invert
+    CGAffineTransformInvert(self)
+  end
+  alias :-@ :invert
 
   # Applies a translation transform to the receiver
   # @return CGAffineTransform
   def translate(point, y=nil)
     if y
       x = point
-    elsif point.is_a?(Numeric)
-      x = y = point
     else
       x = point[0]
       y = point[1]
