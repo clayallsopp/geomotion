@@ -7,37 +7,37 @@ describe "CGAffineTransform" do
     end
 
     it "should support +" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
       t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
       (t1 + t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
     end
 
     it "should support <<" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
       t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
       (t1 << t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
     end
 
     it "should support -" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
       t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
       (t1 - t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: -10, ty: -10)
     end
 
     it "subtracting itself should return identity (scale)" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0) \
+      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
       t2 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
       (t1 - t2).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
     end
 
     it "subtracting itself should return identity (translate)" do
-      t1 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10) \
+      t1 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
       t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
       (t1 - t2).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
     end
 
     it "subtracting itself should return identity (rotate)" do
-      t1 = CGAffineTransform.make(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0) \
+      t1 = CGAffineTransform.make(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
       t2 = CGAffineTransform.make(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
       (t1 - t2).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
     end
