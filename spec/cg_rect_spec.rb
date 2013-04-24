@@ -8,9 +8,16 @@ describe "CGRect" do
       CGRectEqualToRect(@rect, CGRectMake(10, 100, 50, 20)).should == true
     end
 
-    it "should work with nested options" do
+    it "should work with nested options (CGPoint, CGSize)" do
       CGRectEqualToRect(
         CGRect.make(origin: CGPointMake(10, 100), size: CGSizeMake(50,20)),
+        CGRectMake(10, 100, 50, 20)
+      ).should == true
+    end
+
+    it "should work with nested options (Arrays)" do
+      CGRectEqualToRect(
+        CGRect.make(origin: [10, 100], size: [50,20]),
         CGRectMake(10, 100, 50, 20)
       ).should == true
     end
