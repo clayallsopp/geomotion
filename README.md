@@ -292,11 +292,9 @@ CGAffineTransform.translate(10, 10)
 CGAffineTransform.scale(2)  # scale x and y by 2
 CGAffineTransform.scale(2, 4)  # scale x by 2 and y by 4
 CGAffineTransform.rotate(Math::PI / 4)
-# "shearing" turns a rectangle into a parallelogram
-CGAffineTransform.shear(0.5, :x)
-CGAffineTransform.shear(0.5, :y)
 
 # "shearing" turns a rectangle into a parallelogram
+# see sceenshot below or run geomotion app
 CGAffineTransform.shear(0.5, 0)  # in x direction
 CGAffineTransform.shear(0, 0.5)  # in y direction
 # you can combine these, but it looks kind of strange.  better to pick one
@@ -305,6 +303,10 @@ CGAffineTransform.shear(0, 0.5)  # in y direction
 # or you can chain these methods
 CGAffineTransform.identity.translate(10, 10).scale(2).rotate(Math::PI / 4)
 ```
+
+###### Shearing
+
+![Shearing](https://github.com/clayallsopp/geomotion/tree/master/resources/shearing.png)
 
 ### CATransform3D
 
@@ -347,12 +349,17 @@ CATransform3D.shear(0.5, 0)  # in x direction
 CATransform3D.shear(0, 0.5)  # in y direction
 # "perspective" changes are better than rotation because they make one side
 # bigger and one side smaller
+# see sceenshot below or run geomotion app
 CATransform3D.perspective(0.002, 0)  # similar to rotating around x-axis
 CATransform3D.perspective(0, 0.002)  # "rotates" around the y-axis
 
 # or you can chain these methods
 CATransform3D.identity.translate(10, 10, 10).scale(2).rotate(Math::PI / 4)
 ```
+
+###### Perspective
+
+![Perspective](https://github.com/clayallsopp/geomotion/tree/master/resources/perspective.png)
 
 ## Install
 
