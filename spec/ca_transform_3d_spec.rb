@@ -322,7 +322,7 @@ describe "CATransform3D" do
     it "should support concat" do
       t1 = CATransform3D.translate(10, 20, 30)
       t2 = CATransform3D.scale(2)
-      t1.concat(t2).should == CATransform3D.new(2,0,0,0 ,0,2,0,0 ,0,0,1,0 ,20,40,60,1)
+      t1.concat(t2).should == CATransform3D.new(2,0,0,0 ,0,2,0,0 ,0,0,1,0 ,20,40,30,1)
     end
 
     it "should support invert" do
