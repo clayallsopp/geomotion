@@ -3,51 +3,48 @@ describe "CGAffineTransform" do
   describe "operations" do
 
     it "should support ==" do
-      CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
+      CGAffineTransformMake(2, 0, 0, 2, 0, 0).should == CGAffineTransformMake(2, 0, 0, 2, 0, 0)
     end
 
     it "should support +" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
-      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      (t1 + t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
+      t1 = CGAffineTransformMake(2, 0, 0, 2, 0, 0)
+      t2 = CGAffineTransformMake(1, 0, 0, 1, 10, 10)
+      (t1 + t2).should == CGAffineTransformMake(2, 0, 0, 2, 10, 10)
     end
 
     it "should support <<" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
-      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      (t1 << t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
+      t1 = CGAffineTransformMake(2, 0, 0, 2, 0, 0)
+      t2 = CGAffineTransformMake(1, 0, 0, 1, 10, 10)
+      (t1 << t2).should == CGAffineTransformMake(2, 0, 0, 2, 10, 10)
     end
 
     it "should support -" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
-      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      (t1 - t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: -10, ty: -10)
+      t1 = CGAffineTransformMake(2, 0, 0, 2, 0, 0)
+      t2 = CGAffineTransformMake(1, 0, 0, 1, 10, 10)
+      (t1 - t2).should == CGAffineTransformMake(2, 0, 0, 2, -10, -10)
     end
 
     it "subtracting itself should return identity (scale)" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
-      t2 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
-      (t1 - t2).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+      t1 = CGAffineTransformMake(2, 0, 0, 2, 0, 0)
+      (t1 - t1).should == CGAffineTransformMake(1, 0, 0, 1, 0, 0)
     end
 
     it "subtracting itself should return identity (translate)" do
-      t1 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      (t1 - t2).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+      t1 = CGAffineTransformMake(1, 0, 0, 1, 10, 10)
+      (t1 - t1).should == CGAffineTransformMake(1, 0, 0, 1, 0, 0)
     end
 
     it "subtracting itself should return identity (rotate)" do
-      t1 = CGAffineTransform.make(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
-      t2 = CGAffineTransform.make(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
-      (t1 - t2).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+      t1 = CGAffineTransformMake(-1, 0, 0, -1, 0, 0)
+      (t1 - t1).should == CGAffineTransformMake(1, 0, 0, 1, 0, 0)
     end
 
     it "should support unary -" do
-      (- CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)).should == CGAffineTransform.make(a: 0.5, b: 0, c: 0, d: 0.5, tx: 0, ty: 0)
+      (- CGAffineTransformMake(2, 0, 0, 2, 0, 0)).should == CGAffineTransformMake(0.5, 0, 0, 0.5, 0, 0)
     end
 
     it "should support unary +" do
-      (+ CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)).should == CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+      (+ CGAffineTransformMake(1, 0, 0, 1, 0, 0)).should == CGAffineTransformMake(1, 0, 0, 1, 0, 0)
     end
 
   end
@@ -166,10 +163,34 @@ describe "CGAffineTransform" do
 
   end
 
+  describe ".shear" do
+
+    it "should work as a factory with proportion in x direction" do
+      CGAffineTransform.shear(1.5, 0).should == CGAffineTransformMake(1, 0, 1.5, 1, 0, 0)
+    end
+
+    it "should work as a factory with proportion and y direction" do
+      CGAffineTransform.shear(0, 1.5).should == CGAffineTransformMake(1, 1.5, 0, 1, 0, 0)
+    end
+
+    it "should work as a factory with proportion and both directions" do
+      CGAffineTransform.shear(1.5, 1.5).should == CGAffineTransformMake(1, 1.5, 1.5, 1, 0, 0)
+    end
+
+    it "should work as an instance method with proportion and x direction" do
+      CGAffineTransform.identity.shear(1.5, 0).should == CGAffineTransformMake(1, 0, 1.5, 1, 0, 0)
+    end
+
+    it "should work as an instance method with proportion and y direction" do
+      CGAffineTransform.identity.shear(0, 1.5).should == CGAffineTransformMake(1, 1.5, 0, 1, 0, 0)
+    end
+
+  end
+
   describe "apply_to" do
 
     before do
-      @transform = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 3, tx: 10, ty: 20)
+      @transform = CGAffineTransformMake(2, 0, 0, 3, 10, 20)
     end
 
     it "should work on a point" do
@@ -197,14 +218,28 @@ describe "CGAffineTransform" do
   describe "other methods" do
 
     it "should support concat" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
-      t2 = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 10, ty: 10)
-      t1.concat(t2).should == CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 10, ty: 10)
+      t1 = CGAffineTransformMake(2, 0, 0, 2, 0, 0)
+      t2 = CGAffineTransformMake(1, 0, 0, 1, 10, 10)
+      t1.concat(t2).should == CGAffineTransformMake(2, 0, 0, 2, 10, 10)
+
+      t1 = CGAffineTransformMake(1, 0, 0, 1, 10, 10)
+      t2 = CGAffineTransformMake(2, 0, 0, 2, 0, 0)
+      t1.concat(t2).should == CGAffineTransformMake(2, 0, 0, 2, 20, 20)
     end
 
     it "should support invert" do
-      t1 = CGAffineTransform.make(a: 2, b: 0, c: 0, d: 2, tx: 0, ty: 0)
-      t1.invert.should == CGAffineTransform.make(a: 0.5, b: 0, c: 0, d: 0.5, tx: 0, ty: 0)
+      t1 = CGAffineTransformMake(2, 0, 0, 2, 0, 0)
+      t1.invert.should == CGAffineTransformMake(0.5, 0, 0, 0.5, 0, 0)
+    end
+
+    it "should support to_transform3d" do
+      t1 = CGAffineTransformMake(2, 0, 0, 2, 0, 0)
+      t1.to_transform3d.should == CATransform3D.new(2,0,0,0 ,0,2,0,0 ,0,0,1,0 ,0,0,0,1)
+    end
+
+    it 'should support to_a' do
+      t1 = CGAffineTransformMake(2, 0, 0, 2, 0, 0)
+      t1.to_a.should == [2, 0, 0, 2, 0, 0]
     end
 
   end
