@@ -306,7 +306,7 @@ CGAffineTransform.identity.translate(10, 10).scale(2).rotate(Math::PI / 4)
 
 ###### Shearing
 
-![Shearing](https://github.com/colinta/geomotion/tree/master/resources/shearing.png)
+![Shearing](https://raw.github.com/colinta/geomotion/master/resources/shearing.png)
 
 ### CATransform3D
 
@@ -359,7 +359,7 @@ CATransform3D.identity.translate(10, 10, 10).scale(2).rotate(Math::PI / 4)
 
 ###### Perspective
 
-![Perspective](https://github.com/colinta/geomotion/tree/master/resources/perspective.png)
+![Perspective](https://raw.github.com/colinta/geomotion/master/resources/perspective.png)
 
 ## Install
 
