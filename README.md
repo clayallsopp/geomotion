@@ -259,6 +259,9 @@ point.angle_to(CGPoint.make(x: 20, y:110))
 
 ### CGAffineTransform
 
+These are assigned to the `UIView#transform` parameter.  See `CATransform3D` for
+the transforms that are designed for `CALayer` object.
+
 ```ruby
 # you *can* create it manually
 transform = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
@@ -286,13 +289,77 @@ transform1 - transform1  # => CGAffineTransform.identity
 # create new transforms by calling `translate`, `scale`, or `rotate` as factory
 # methods
 CGAffineTransform.translate(10, 10)
-CGAffineTransform.scale(2)
-CGAffineTransform.scale(2, 4)
+CGAffineTransform.scale(2)  # scale x and y by 2
+CGAffineTransform.scale(2, 4)  # scale x by 2 and y by 4
 CGAffineTransform.rotate(Math::PI / 4)
+
+# "shearing" turns a rectangle into a parallelogram
+# see sceenshot below or run geomotion app
+CGAffineTransform.shear(0.5, 0)  # in x direction
+CGAffineTransform.shear(0, 0.5)  # in y direction
+# you can combine these, but it looks kind of strange.  better to pick one
+# direction
 
 # or you can chain these methods
 CGAffineTransform.identity.translate(10, 10).scale(2).rotate(Math::PI / 4)
 ```
+
+###### Shearing
+
+![Shearing](https://raw.github.com/colinta/geomotion/master/resources/shearing.png)
+
+### CATransform3D
+
+`CALayer`s can take on full 3D transforms.
+
+```ruby
+# these are really gnarly
+transform = CATransform3D.make(
+  m11: 1, m12: 0, m13: 0, m14: 0,
+  m21: 0, m22: 1, m23: 0, m24: 0,
+  m31: 0, m32: 0, m33: 1, m34: 0,
+  m41: 0, m42: 0, m43: 0, m44: 1,)
+
+# accepts transforms like CGAffineTransform, but many take 3 instead of 2 args
+transform = CATransform3D.make(scale: [2, 2, 1], translate: [10, 10, 10], rotate: Math::PI)
+
+# identity transform
+CATransform3D.identity
+CATransform3D.identity.identity?  # => true
+
+# Operator Overloading
+transform1 = CATransform3D.make(scale: 2)
+transform2 = CATransform3D.make(translate: [10, 10])
+# concatenate transforms
+transform1 + transform2
+transform1 << transform2  # alias
+transform1 - transform2
+# => transform1 + -transform2
+# => transform1 + transform2.invert
+transform1 - transform1  # => CATransform3D.identity
+
+# create new transforms by calling factory methods
+CATransform3D.translate(10, 10, 10)
+CATransform3D.scale(2)  # scale x and y by 2
+CATransform3D.scale(2, 4, 3)  # scale x by 2, y by 4, z by 3
+CATransform3D.rotate(Math::PI / 4)
+
+# "shearing" works the same as CGAffineTransform
+CATransform3D.shear(0.5, 0)  # in x direction
+CATransform3D.shear(0, 0.5)  # in y direction
+# "perspective" changes are better than rotation because they make one side
+# bigger and one side smaller
+# see sceenshot below or run geomotion app
+CATransform3D.perspective(0.002, 0)  # similar to rotating around x-axis
+CATransform3D.perspective(0, 0.002)  # "rotates" around the y-axis
+
+# or you can chain these methods
+CATransform3D.identity.translate(10, 10, 10).scale(2).rotate(Math::PI / 4)
+```
+
+###### Perspective
+
+![Perspective](https://raw.github.com/colinta/geomotion/master/resources/perspective.png)
 
 ## Install
 

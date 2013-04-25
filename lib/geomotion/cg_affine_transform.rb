@@ -7,19 +7,15 @@ class CGAffineTransform
   # CGAffineTransform.make(scale: 2, translate: [10, 10], rotate: Math::PI)
   def self.make(options = {})
     if options.key?(:a)
-      a = options[:a]
-      raise "`:a` is required" unless a
-      b = options[:b]
-      raise "`:b` is required" unless b
-      c = options[:c]
-      raise "`:c` is required" unless c
-      d = options[:d]
-      raise "`:d` is required" unless d
-      tx = options[:tx]
-      raise "`:tx` is required" unless tx
-      ty = options[:ty]
-      raise "`:ty` is required" unless ty
-      return self.new(a, b, c, d, tx, ty)
+      args = [
+        :a, :b,
+        :c, :d,
+        :tx, :ty,
+      ].map do |key|
+        raise "#{key.inspect} is required" unless options.key? key
+        options[key]
+      end
+      return self.new(*args)
     else
       retval = self.identity
       if options[:translate]
@@ -39,14 +35,14 @@ class CGAffineTransform
   # argument can be a Point or Array with two items, two arguments should be the
   # x and y values.
   # @return CGAffineTransform
-  def self.translate(point, y=nil)
-    if y
-      x = point
+  def self.translate(point, ty=nil)
+    if ty
+      tx = point
     else
-      x = point[0]
-      y = point[1]
+      tx = point[0]
+      ty = point[1]
     end
-    CGAffineTransformMakeTranslation(x, y)
+    CGAffineTransformMakeTranslation(tx, ty)
   end
 
   # Returns a transform that is scaled. Accepts one or two arguments. One
@@ -70,6 +66,14 @@ class CGAffineTransform
     CGAffineTransformMakeRotation(angle)
   end
 
+  # A "shear" translation turns a rectangle into a parallelogram
+  # @param px [Numeric] how much to shear in x direction
+  # @param py [Numeric] how much to shear in y direction
+  # @return CGAffineTransform
+  def self.shear(px, py)
+    CGAffineTransformMake(1, py, px, 1, 0, 0)
+  end
+
   # Returns the CGAffineTransform identity matrix
   # @return CGAffineTransform
   def self.identity
@@ -80,6 +84,11 @@ class CGAffineTransform
   # @return CGAffineTransform
   def identity?
     CGAffineTransformIsIdentity(self)
+  end
+
+  # @return [CATransform3D]
+  def to_transform3d
+    CATransform3DMakeAffineTransform(self)
   end
 
   # @return [Boolean] true if the two matrices are equal
@@ -101,12 +110,6 @@ class CGAffineTransform
   alias :+ :concat
   alias :<< :concat
 
-  # Inverts the second transform and adds the result to `self`
-  # @return CGAffineTransform
-  def -(transform)
-    self.concat transform.invert
-  end
-
   # Inverts the transform
   # @return CGAffineTransform
   def invert
@@ -114,16 +117,22 @@ class CGAffineTransform
   end
   alias :-@ :invert
 
+  # Inverts the second transform and adds the result to `self`
+  # @return CGAffineTransform
+  def -(transform)
+    self.concat transform.invert
+  end
+
   # Applies a translation transform to the receiver
   # @return CGAffineTransform
-  def translate(point, y=nil)
-    if y
-      x = point
+  def translate(point, ty=nil)
+    if ty
+      tx = point
     else
-      x = point[0]
-      y = point[1]
+      tx = point[0]
+      ty = point[1]
     end
-    CGAffineTransformTranslate(self, x, y)
+    CGAffineTransformTranslate(self, tx, ty)
   end
 
   # Applies a scale transform to the receiver
@@ -144,6 +153,12 @@ class CGAffineTransform
   # @return CGAffineTransform
   def rotate(angle)
     CGAffineTransformRotate(self, angle)
+  end
+
+  # Applies a shear transform to the receiver
+  # @return CGAffineTransform
+  def shear(px, py)
+    self.concat CGAffineTransform.shear(px, py)
   end
 
   def apply_to(thing)
