@@ -347,57 +347,84 @@ describe "CGRect" do
     it "works with margins" do
       rect = CGRect.make(height: 50).above(20)
       rect.origin.y.should == -70
+      rect.size.height.should == 50
+    end
+
+    it "works with height" do
+      rect = CGRect.make(height: 50).above(20, height: 10)
+      rect.origin.y.should == -30
+      rect.size.height.should == 10
     end
 
     it "works without margins" do
       rect = CGRect.make(height: 50).above
       rect.origin.y.should == -50
+      rect.size.height.should == 50
     end
   end
 
   describe "#below" do
-    it "works" do
+    it "works with margins" do
       rect = CGRect.make(height: 50).below(20)
       rect.origin.y.should == 70
+      rect.size.height.should == 50
+    end
+
+    it "works with height" do
+      rect = CGRect.make(height: 50).below(20, height: 10)
+      rect.origin.y.should == 70
+      rect.size.height.should == 10
+    end
+
+    it "works without margins" do
+      rect = CGRect.make(height: 50).below
+      rect.origin.y.should == 50
+      rect.size.height.should == 50
     end
   end
 
   describe "#before" do
-    it "works" do
-      rect = CGRect.make(x: 50).before(20)
-      rect.origin.x.should == 30
+    it "works with margins" do
+      rect = CGRect.make(width: 50).before(20)
+      rect.origin.x.should == -70
+      rect.size.width.should == 50
     end
-  end
 
-  describe "#before:width:" do
-    it "works" do
-      rect = CGRect.make(x: 50).before(20, width: 50)
-      rect.origin.x.should == -20
+    it "works with width" do
+      rect = CGRect.make(width: 50).before(20, width: 10)
+      rect.origin.x.should == -30
+      rect.size.width.should == 10
+    end
+
+    it "works without margins" do
+      rect = CGRect.make(width: 50).before
+      rect.origin.x.should == -50
+      rect.size.width.should == 50
     end
   end
 
   describe "#beside" do
     it "works with margins" do
-      rect = CGRect.make(x: 50, width: 20).beside(10)
-      rect.origin.x.should == 80
+      rect = CGRect.make(width: 50).beside(20)
+      rect.origin.x.should == 70
+      rect.size.width.should == 50
+    end
+
+    it "works with width" do
+      rect = CGRect.make(width: 50).beside(20, width: 10)
+      rect.origin.x.should == 70
+      rect.size.width.should == 10
     end
 
     it "works without margins" do
-      rect = CGRect.make(x: 50, width: 20).beside
-      rect.origin.x.should == 70
-    end
-  end
-
-  describe "#beside:width:" do
-    it "works" do
-      rect = CGRect.make(x: 50, width: 20).beside(10, width: 30)
-      rect.origin.x.should == 80
-      rect.size.width.should == 30
+      rect = CGRect.make(width: 50).beside
+      rect.origin.x.should == 50
+      rect.size.width.should == 50
     end
   end
 
   describe "#top_left" do
-    it "works" do
+    it "works with margins" do
       rect = CGRect.make(x: 10, y: 20, width: 100, height: 200)
       point = rect.top_left
       point.is_a?(CGPoint).should == true
