@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    geomotion (0.12.2)
+    geomotion (0.12.3)
 
 GEM
   remote: http://rubygems.org/
