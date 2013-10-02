@@ -1,4 +1,5 @@
 class CGPoint
+
   # CGPoint.make(x: 10, y: 30)
   def self.make(options = {})
     CGPoint.new(options[:x] || 0, options[:y] || 0)

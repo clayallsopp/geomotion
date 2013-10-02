@@ -1,4 +1,5 @@
 class CGRect
+
   # CGRect.make  # default rect: {origin: {x: 0, y: 0}, size: {width:0, height:0}}
   #              # aka CGRectZero
   # CGRect.make(x: 10, y: 30)  # default size: [0, 0]
