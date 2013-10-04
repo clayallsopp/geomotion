@@ -158,7 +158,7 @@ describe "CGRect" do
     it "returns copy when has args" do
       rect = @rect.x(20)
       rect.is_a?(CGRect).should == true
-      CGRectEqualToRect(rect, CGRectMake(20, 100, 50, 20)).should == true
+      rect.should == CGRectMake(20, 100, 50, 20)
     end
   end
 
@@ -183,7 +183,7 @@ describe "CGRect" do
     it "returns copy when has args" do
       rect = @rect.y(20)
       rect.is_a?(CGRect).should == true
-      CGRectEqualToRect(rect, CGRectMake(10, 20, 50, 20)).should == true
+      rect.should == CGRectMake(10, 20, 50, 20)
     end
   end
 
@@ -206,7 +206,7 @@ describe "CGRect" do
     it "returns copy when has args" do
       rect = @rect.width(20)
       rect.is_a?(CGRect).should == true
-      CGRectEqualToRect(rect, CGRectMake(10, 100, 20, 20)).should == true
+      rect.should == CGRectMake(10, 100, 20, 20)
     end
   end
 
@@ -229,7 +229,7 @@ describe "CGRect" do
     it "returns copy when has args" do
       rect = @rect.height(50)
       rect.is_a?(CGRect).should == true
-      CGRectEqualToRect(rect, CGRectMake(10, 100, 50, 50)).should == true
+      rect.should == CGRectMake(10, 100, 50, 50)
     end
   end
 
@@ -608,50 +608,50 @@ describe "CGRect" do
     it "works with CGRect" do
       _rect = CGRectMake(10, 100, 50, 20)
       rect = (_rect + CGRectMake(0, 0, 50, 110))
-      CGRectEqualToRect(rect, CGRectMake(0, 0, 60, 120)).should == true
+      rect.should == CGRectMake(0, 0, 60, 120)
     end
 
     it "works with CGSize" do
       size = CGSizeMake(50, 20)
       rect = (@rect + size)
-      CGRectEqualToRect(rect, CGRectMake(10, 100, 100, 40)).should == true
+      rect.should == CGRectMake(10, 100, 100, 40)
     end
 
     it "works with CGPoint" do
       point = CGPointMake(50, 20)
       rect = (@rect + point)
-      CGRectEqualToRect(rect, CGRectMake(60, 120, 50, 20)).should == true
+      rect.should == CGRectMake(60, 120, 50, 20)
     end
 
     it "works with UIOffset" do
       offset = UIOffsetMake(50, 20)
       rect = (@rect + offset)
-      CGRectEqualToRect(rect, CGRectMake(60, 120, 50, 20)).should == true
+      rect.should == CGRectMake(60, 120, 50, 20)
     end
 
     it "works with UIEdgeInsets" do
       insets = UIEdgeInsetsMake(10, 10, 10, 5)
       rect = (@rect + insets)
-      CGRectEqualToRect(rect, CGRectMake(20, 110, 35, 0)).should == true
+      rect.should == CGRectMake(20, 110, 35, 0)
     end
   end
 
   describe "offset" do
     it "works with x, y" do
       rect = @rect.offset(50, 20)
-      CGRectEqualToRect(rect, CGRectMake(60, 120, 50, 20)).should == true
+      rect.should == CGRectMake(60, 120, 50, 20)
     end
 
     it "works with CGPoint" do
       point = CGPointMake(50, 20)
       rect = @rect.offset(point)
-      CGRectEqualToRect(rect, CGRectMake(60, 120, 50, 20)).should == true
+      rect.should == CGRectMake(60, 120, 50, 20)
     end
 
     it "works with UIOffset" do
       offset = UIOffsetMake(50, 20)
       rect = @rect.offset(offset)
-      CGRectEqualToRect(rect, CGRectMake(60, 120, 50, 20)).should == true
+      rect.should == CGRectMake(60, 120, 50, 20)
     end
   end
 
@@ -659,7 +659,7 @@ describe "CGRect" do
     it "works with UIEdgeInsets" do
       insets = UIEdgeInsetsMake(10, 10, 10, 5)
       rect = @rect.inset(insets)
-      CGRectEqualToRect(rect, CGRectMake(20, 110, 35, 0)).should == true
+      rect.should == CGRectMake(20, 110, 35, 0)
     end
   end
 
@@ -686,7 +686,7 @@ describe "CGRect" do
       lower_rect = CGRectMake(0, 0, 100, 100)
       upper_rect = CGRectMake(10, 10, 100, 100)
       rect = lower_rect.intersection_with(upper_rect)
-      CGRectEqualToRect(rect, CGRectMake(10, 10, 90, 90)).should == true
+      rect.should == CGRectMake(10, 10, 90, 90)
     end
   end
 
@@ -695,36 +695,166 @@ describe "CGRect" do
       lower_rect = CGRectMake(0, 0, 100, 100)
       upper_rect = CGRectMake(10, 10, 100, 100)
       rect = lower_rect.union_with(upper_rect)
-      CGRectEqualToRect(rect, CGRectMake(0, 0, 110, 110)).should == true
+      rect.should == CGRectMake(0, 0, 110, 110)
     end
   end
 
   describe "#grow" do
     it "should work with Numeric" do
       rect = @rect.grow(10)
-      CGRectEqualToRect(rect, CGRectMake(0, 90, 70, 40)).should == true
+      rect.should == CGRectMake(0, 90, 70, 40)
     end
 
     it "should work with CGSize" do
       rect = @rect.grow(CGSizeMake(10, 20))
-      CGRectEqualToRect(rect, CGRectMake(0, 80, 70, 60)).should == true
+      rect.should == CGRectMake(0, 80, 70, 60)
     end
   end
 
   describe "#shrink" do
     it "should work with Numeric" do
       rect = @rect.shrink(10)
-      CGRectEqualToRect(rect, CGRectMake(20, 110, 30, 0)).should == true
+      rect.should == CGRectMake(20, 110, 30, 0)
     end
 
     it "should work with CGSize" do
       rect = @rect.shrink(CGSizeMake(20, 10))
-      CGRectEqualToRect(rect, CGRectMake(30, 110, 10, 0)).should == true
+      rect.should == CGRectMake(30, 110, 10, 0)
     end
 
     it "should work with Array" do
       rect = @rect.shrink([20, 10])
-      CGRectEqualToRect(rect, CGRectMake(30, 110, 10, 0)).should == true
+      rect.should == CGRectMake(30, 110, 10, 0)
     end
   end
+
+  describe "#apply" do
+
+    it "should support :left" do
+      rect = @rect.apply(left: 10)
+      rect.should == CGRectMake(0, 100, 50, 20)
+    end
+
+    it "should support :right" do
+      rect = @rect.apply(right: 10)
+      rect.should == CGRectMake(20, 100, 50, 20)
+    end
+
+    it "should support :up" do
+      rect = @rect.apply(up: 10)
+      rect.should == CGRectMake(10, 90, 50, 20)
+    end
+
+    it "should support :down" do
+      rect = @rect.apply(down: 10)
+      rect.should == CGRectMake(10, 110, 50, 20)
+    end
+
+    it "should support :wider" do
+      rect = @rect.apply(wider: 10)
+      rect.should == CGRectMake(10, 100, 60, 20)
+    end
+
+    it "should support :thinner" do
+      rect = @rect.apply(thinner: 10)
+      rect.should == CGRectMake(10, 100, 40, 20)
+    end
+
+    it "should support :taller" do
+      rect = @rect.apply(taller: 10)
+      rect.should == CGRectMake(10, 100, 50, 30)
+    end
+
+    it "should support :shorter" do
+      rect = @rect.apply(shorter: 10)
+      rect.should == CGRectMake(10, 100, 50, 10)
+    end
+
+    it "should support :x" do
+      rect = @rect.apply(x: 11)
+      rect.should == CGRectMake(11, 100, 50, 20)
+    end
+
+    it "should support :y" do
+      rect = @rect.apply(y: 10)
+      rect.should == CGRectMake(10, 10, 50, 20)
+    end
+
+    it "should support :origin" do
+      rect = @rect.apply(origin: [11, 10])
+      rect.should == CGRectMake(11, 10, 50, 20)
+    end
+
+    it "should support :width" do
+      rect = @rect.apply(width: 10)
+      rect.should == CGRectMake(10, 100, 10, 20)
+    end
+
+    it "should support :height" do
+      rect = @rect.apply(height: 10)
+      rect.should == CGRectMake(10, 100, 50, 10)
+    end
+
+    it "should support :size" do
+      rect = @rect.apply(size: [10, 10])
+      rect.should == CGRectMake(10, 100, 10, 10)
+    end
+
+    it "should support :grow" do
+      rect = @rect.apply(grow: 10)
+      rect.should == CGRectMake(0, 90, 70, 40)
+    end
+
+    it "should support :grow_up" do
+      rect = @rect.apply(grow_up: 10)
+      rect.should == CGRectMake(10, 90, 50, 30)
+    end
+
+    it "should support :shrink_down" do
+      rect = @rect.apply(shrink_down: 10)
+      rect.should == CGRectMake(10, 110, 50, 10)
+    end
+
+    it "should support :grow_left" do
+      rect = @rect.apply(grow_left: 10)
+      rect.should == CGRectMake(0, 100, 60, 20)
+    end
+
+    it "should support :shrink_right" do
+      rect = @rect.apply(shrink_right: 10)
+      rect.should == CGRectMake(20, 100, 40, 20)
+    end
+
+    it "should support :grow_width" do
+      rect = @rect.apply(grow_width: 10)
+      rect.should == CGRectMake(0, 100, 70, 20)
+    end
+
+    it "should support :grow_height" do
+      rect = @rect.apply(grow_height: 10)
+      rect.should == CGRectMake(10, 90, 50, 40)
+    end
+
+    it "should support :shrink" do
+      rect = @rect.apply(shrink: 10)
+      rect.should == CGRectMake(20, 110, 30, 0)
+    end
+
+    it "should support :shrink_width" do
+      rect = @rect.apply(shrink_width: 10)
+      rect.should == CGRectMake(20, 100, 30, 20)
+    end
+
+    it "should support :shrink_height" do
+      rect = @rect.apply(shrink_height: 10)
+      rect.should == CGRectMake(10, 110, 50, 0)
+    end
+
+    it "should support :offset" do
+      rect = @rect.apply(offset: [10, 10])
+      rect.should == CGRectMake(20, 110, 50, 20)
+    end
+
+  end
+
 end

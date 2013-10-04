@@ -1,4 +1,5 @@
 class CGRect
+
   # CGRect.make  # default rect: {origin: {x: 0, y: 0}, size: {width:0, height:0}}
   #              # aka CGRectZero
   # CGRect.make(x: 10, y: 30)  # default size: [0, 0]
@@ -100,7 +101,7 @@ class CGRect
   # getters/setters
   def x(setter = nil)
     if setter
-      return CGRect.new([setter, self.y], self.size)
+      return CGRect.new([setter, self.origin.y], self.size)
     end
     min_x
   end
@@ -111,7 +112,7 @@ class CGRect
 
   def y(setter = nil)
     if setter
-      return CGRect.new([self.x, setter], self.size)
+      return CGRect.new([self.origin.x, setter], self.size)
     end
     min_y
   end
@@ -122,7 +123,7 @@ class CGRect
 
   def width(setter = nil)
     if setter
-      return CGRect.new(self.origin, [setter, self.height])
+      return CGRect.new(self.origin, [setter, self.size.height])
     end
     CGRectGetWidth(self)
   end
@@ -133,7 +134,7 @@ class CGRect
 
   def height(setter = nil)
     if setter
-      return CGRect.new(self.origin, [self.width, setter])
+      return CGRect.new(self.origin, [self.size.width, setter])
     end
     CGRectGetHeight(self)
   end
@@ -142,70 +143,134 @@ class CGRect
     self.size.height = _height
   end
 
+  # most rect modifiers call this method in one way or another
+  def apply(options)
+    rect = CGRectStandardize(CGRect.new(self.origin, self.size))
+    options.each do |method, value|
+      case method
+      when :left
+        rect.origin.x -= value
+      when :right
+        rect.origin.x += value
+      when :up
+        rect.origin.y -= value
+      when :down
+        rect.origin.y += value
+      when :wider, :grow_right
+        rect.size.width += value
+      when :thinner, :shrink_left
+        rect.size.width -= value
+      when :taller, :grow_down
+        rect.size.height += value
+      when :shorter, :shrink_up
+        rect.size.height -= value
+      when :x
+        rect.origin.x = value
+      when :y
+        rect.origin.y = value
+      when :origin
+        rect.origin = value
+      when :width
+        rect.size.width = value
+      when :height
+        rect.size.height = value
+      when :size
+        rect.size = value
+      when :grow
+        rect = rect.grow(value)
+      when :grow_up
+        rect.size.height += value
+        rect.origin.y -= value
+      when :shrink_down
+        rect.size.height -= value
+        rect.origin.y += value
+      when :grow_left
+        rect.size.width += value
+        rect.origin.x -= value
+      when :shrink_right
+        rect.size.width -= value
+        rect.origin.x += value
+      when :grow_width
+        rect = rect.grow([value, 0])
+      when :grow_height
+        rect = rect.grow([0, value])
+      when :shrink
+        rect = rect.shrink(value)
+      when :shrink_width
+        rect = rect.shrink([value, 0])
+      when :shrink_height
+        rect = rect.shrink([0, value])
+      when :offset
+        rect = rect.offset(value)
+      else
+        raise "Unknow option #{method}"
+      end
+    end
+    return rect
+  end
+
   # modified rects
-  def left(dist = 0)
-    CGRect.new([self.x - dist, self.y], self.size)
+  def left(dist = 0, options={})
+    options[:left] = dist
+    self.apply(options)
   end
 
-  def right(dist = 0)
-    CGRect.new([self.x + dist, self.y], self.size)
+  def right(dist = 0, options={})
+    options[:right] = dist
+    self.apply(options)
   end
 
-  def up(dist = 0)
-    CGRect.new([self.x, self.y - dist], self.size)
+  def up(dist = 0, options={})
+    options[:up] = dist
+    self.apply(options)
   end
 
-  def down(dist = 0)
-    CGRect.new([self.x, self.y + dist], self.size)
+  def down(dist = 0, options={})
+    options[:down] = dist
+    self.apply(options)
   end
 
-  def wider(dist)
-    CGRect.new(self.origin, [self.width + dist, self.height])
+  def wider(dist, options={})
+    options[:wider] = dist
+    self.apply(options)
   end
 
-  def thinner(dist)
-    CGRect.new(self.origin, [self.width - dist, self.height])
+  def thinner(dist, options={})
+    options[:thinner] = dist
+    self.apply(options)
   end
 
-  def taller(dist)
-    CGRect.new(self.origin, [self.width, self.height + dist])
+  def taller(dist, options={})
+    options[:taller] = dist
+    self.apply(options)
   end
 
-  def shorter(dist)
-    CGRect.new(self.origin, [self.width, self.height - dist])
+  def shorter(dist, options={})
+    options[:shorter] = dist
+    self.apply(options)
   end
 
   # adjacent rects
-  def above(margin = 0)
-    self.above(margin, height:self.height)
+  def above(margin = 0, options={})
+    height = options[:height] || self.size.height
+    options[:up] = height + margin
+    self.apply(options)
   end
 
-  def above(margin, height:height)
-    CGRect.new([self.x, self.y - height - margin], [self.width, height])
+  def below(margin = 0, options={})
+    options[:down] = self.size.height + margin
+    self.apply(options)
   end
 
-  def below(margin = 0)
-    self.below(margin, height:self.height)
+  def before(margin = 0, options={})
+    width = options[:width] || self.size.width
+    options[:left] = width + margin
+    self.apply(options)
   end
 
-  def below(margin, height:height)
-    CGRect.new([self.x, self.y + self.height + margin], [self.width, height])
-  end
-
-  def before(margin = 0)
-    self.before(margin, width:self.width)
-  end
-
-  def before(margin, width:width)
-    CGRect.new([self.x - width - margin, self.y], [width, self.height])
-  end
-
-  def beside(margin = 0)
-    self.beside(margin, width: self.width)
-  end
-
-  def beside(margin, width:width)
-    CGRect.new([self.x + self.width + margin, self.y], [width, self.height])
+  def beside(margin = 0, options={})
+    options[:right] = self.size.width + margin
+    self.apply(options)
   end
 
   # positions
@@ -220,7 +285,7 @@ private
 
 public
   def center(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width / 2, self.height / 2)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width / 2, self.size.height / 2)
   end
 
   def top_left(absolute = false)
@@ -228,36 +293,36 @@ public
   end
 
   def top_center(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width / 2, 0)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width / 2, 0)
   end
 
   def top_right(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width, 0)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width, 0)
   end
 
   def center_right(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width, self.height / 2)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width, self.size.height / 2)
   end
 
   def bottom_right(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width, self.height)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width, self.size.height)
   end
 
   def bottom_center(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width / 2, self.height)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width / 2, self.size.height)
   end
 
   def bottom_left(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(0, self.height)
+    cgrect_offset(absolute) + CGPoint.new(0, self.size.height)
   end
 
   def center_left(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(0, self.height / 2)
+    cgrect_offset(absolute) + CGPoint.new(0, self.size.height / 2)
   end
 
   # others
   def round
-    CGRect.new([self.x.round, self.y.round], [self.width.round, self.height.round])
+    CGRect.new([self.origin.x.round, self.origin.y.round], [self.size.width.round, self.size.height.round])
   end
 
   def centered_in(rect, absolute = false)
@@ -269,7 +334,7 @@ public
     when CGRect
       return self.union_with(other)
     when CGSize
-      return CGRect.new([self.x, self.y], [self.width + other.width, self.height + other.height])
+      return CGRect.new([self.origin.x, self.origin.y], [self.size.width + other.width, self.size.height + other.height])
     when CGPoint
       return self.offset(other.x, other.y)
     when UIOffset
@@ -319,18 +384,26 @@ public
     end
   end
 
-  def grow(size)
+  def grow(size, options=nil)
     if size.is_a? Numeric
       size = CGSize.new(size, size)
     end
-    CGRectInset(self, -size[0], -size[1])
+    rect = CGRectInset(self, -size[0], -size[1])
+    if options
+      return rect.apply(options)
+    end
+    return rect
   end
 
-  def shrink(size)
+  def shrink(size, options=nil)
     if size.is_a? Numeric
       size = CGSize.new(size, size)
     end
-    CGRectInset(self, size[0], size[1])
+    rect = CGRectInset(self, size[0], size[1])
+    if options
+      return rect.apply(options)
+    end
+    return rect
   end
 
   def empty?

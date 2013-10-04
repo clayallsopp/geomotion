@@ -189,6 +189,26 @@ frame.top_center(true)  # => [15, 10]
 frame.bottom_right(true)  # => [20, 20]
 ```
 
+#### The great and powerful `apply` method
+
+All of the methods that return a new frame (`left, shrink, below` and friends)
+also accept a hash in which you can apply more changes.  You can accomplish the
+same thing using method chaining; this is an implementation detail that might
+also clean your code up by grouping changes.  And, of course, it can be used on
+its own as well.
+
+```ruby
+frame = CGRect.make(x: 10, y: 10, width:10, height: 10)
+frame.beside.width(20).down(10).height(20)
+# => [[20, 20], [20, 20]]
+# or, using the options hash
+frame.beside(width: 20, down: 10, height: 20)
+
+# there are some changes that don't have a corresponding method:
+frame.below(grow_width: 10, grow_up: 5)
+# => [[0, 15], [40, 25]]
+```
+
 ### CGSize
 
 ```ruby
