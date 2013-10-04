@@ -101,7 +101,7 @@ class CGRect
   # getters/setters
   def x(setter = nil)
     if setter
-      return CGRect.new([setter, self.y], self.size)
+      return CGRect.new([setter, self.origin.y], self.size)
     end
     min_x
   end
@@ -112,7 +112,7 @@ class CGRect
 
   def y(setter = nil)
     if setter
-      return CGRect.new([self.x, setter], self.size)
+      return CGRect.new([self.origin.x, setter], self.size)
     end
     min_y
   end
@@ -123,7 +123,7 @@ class CGRect
 
   def width(setter = nil)
     if setter
-      return CGRect.new(self.origin, [setter, self.height])
+      return CGRect.new(self.origin, [setter, self.size.height])
     end
     CGRectGetWidth(self)
   end
@@ -134,7 +134,7 @@ class CGRect
 
   def height(setter = nil)
     if setter
-      return CGRect.new(self.origin, [self.width, setter])
+      return CGRect.new(self.origin, [self.size.width, setter])
     end
     CGRectGetHeight(self)
   end
@@ -221,7 +221,7 @@ private
 
 public
   def center(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width / 2, self.height / 2)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width / 2, self.size.height / 2)
   end
 
   def top_left(absolute = false)
@@ -229,36 +229,36 @@ public
   end
 
   def top_center(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width / 2, 0)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width / 2, 0)
   end
 
   def top_right(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width, 0)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width, 0)
   end
 
   def center_right(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width, self.height / 2)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width, self.size.height / 2)
   end
 
   def bottom_right(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width, self.height)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width, self.size.height)
   end
 
   def bottom_center(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(self.width / 2, self.height)
+    cgrect_offset(absolute) + CGPoint.new(self.size.width / 2, self.size.height)
   end
 
   def bottom_left(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(0, self.height)
+    cgrect_offset(absolute) + CGPoint.new(0, self.size.height)
   end
 
   def center_left(absolute = false)
-    cgrect_offset(absolute) + CGPoint.new(0, self.height / 2)
+    cgrect_offset(absolute) + CGPoint.new(0, self.size.height / 2)
   end
 
   # others
   def round
-    CGRect.new([self.x.round, self.y.round], [self.width.round, self.height.round])
+    CGRect.new([self.origin.x.round, self.origin.y.round], [self.size.width.round, self.size.height.round])
   end
 
   def centered_in(rect, absolute = false)
@@ -270,7 +270,7 @@ public
     when CGRect
       return self.union_with(other)
     when CGSize
-      return CGRect.new([self.x, self.y], [self.width + other.width, self.height + other.height])
+      return CGRect.new([self.origin.x, self.origin.y], [self.size.width + other.width, self.size.height + other.height])
     when CGPoint
       return self.offset(other.x, other.y)
     when UIOffset
