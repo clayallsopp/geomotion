@@ -835,7 +835,6 @@ describe "CGRect" do
       rect.should == CGRectMake(10, 90, 50, 40)
     end
 
-    # @rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
     it "should support :shrink" do
       rect = @rect.apply(shrink: 10)
       rect.should == CGRectMake(20, 110, 30, 0)
