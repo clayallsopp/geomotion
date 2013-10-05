@@ -191,15 +191,15 @@ class CGRect
         rect.size.width -= value
         rect.origin.x += value
       when :grow_width
-        rect = rect.grow([value, 0])
+        rect = rect.grow_width(value)
       when :grow_height
-        rect = rect.grow([0, value])
+        rect = rect.grow_height(value)
       when :shrink
         rect = rect.shrink(value)
       when :shrink_width
-        rect = rect.shrink([value, 0])
+        rect = rect.shrink_width(value)
       when :shrink_height
-        rect = rect.shrink([0, value])
+        rect = rect.shrink_height(value)
       when :offset
         rect = rect.offset(value)
       else
@@ -395,6 +395,30 @@ public
     return rect
   end
 
+  alias grow_right wider
+  def grow_left(amount, options=nil)
+    raise "You must specify an amount in `CGRect#grow_left`" unless amount.is_a?(Numeric)
+
+    options[:grow_left] = amount
+    self.apply(options)
+  end
+
+  alias grow_down taller
+  def grow_up(amount, options=nil)
+    raise "You must specify an amount in `CGRect#grow_up`" unless amount.is_a?(Numeric)
+
+    options[:grow_up] = amount
+    self.apply(options)
+  end
+
+  def grow_width(amount, options=nil)
+    return self.grow([amount, 0], options)
+  end
+
+  def grow_height(amount, options=nil)
+    return self.grow([0, amount], options)
+  end
+
   def shrink(size, options=nil)
     if size.is_a? Numeric
       size = CGSize.new(size, size)
@@ -404,6 +428,30 @@ public
       return rect.apply(options)
     end
     return rect
+  end
+
+  alias shrink_left thinner
+  def shrink_right(amount, options={})
+    raise "You must specify an amount in `CGRect#shrink_right`" unless amount.is_a?(Numeric)
+
+    options[:shrink_right] = amount
+    self.apply(options)
+  end
+
+  alias shrink_up shorter
+  def shrink_down(amount, options={})
+    raise "You must specify an amount in `CGRect#shrink_down`" unless amount.is_a?(Numeric)
+
+    options[:shrink_down] = amount
+    self.apply(options)
+  end
+
+  def shrink_width(amount, options={})
+    return self.shrink([amount, 0], options)
+  end
+
+  def shrink_height(amount, options={})
+    return self.shrink([0, amount], options)
   end
 
   def empty?

@@ -711,6 +711,50 @@ describe "CGRect" do
     end
   end
 
+  describe "#grow_left" do
+    # @rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
+    it "should work" do
+      rect = @rect.grow_left(10)
+      rect.should == CGRectMake(0, 100, 60, 20)
+    end
+  end
+
+  describe "#grow_right" do
+    it "should work" do
+      rect = @rect.grow_right(10)
+      rect.should == CGRectMake(10, 100, 60, 20)
+    end
+  end
+
+  describe "#grow_up" do
+    it "should work" do
+      rect = @rect.grow_up(10)
+      rect.should == CGRectMake(10, 90, 50, 30)
+    end
+  end
+
+  describe "#grow_down" do
+    it "should work" do
+      rect = @rect.grow_down(10)
+      rect.should == CGRectMake(10, 100, 50, 30)
+    end
+  end
+
+  describe "#grow_width" do
+    # @rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
+    it "should work" do
+      rect = @rect.grow_width(10)
+      rect.should == CGRectMake(0, 100, 70, 20)
+    end
+  end
+
+  describe "#grow_height" do
+    it "should work" do
+      rect = @rect.grow_height(10)
+      rect.should == CGRectMake(10, 90, 50, 40)
+    end
+  end
+
   describe "#shrink" do
     it "should work with Numeric" do
       rect = @rect.shrink(10)
@@ -725,6 +769,49 @@ describe "CGRect" do
     it "should work with Array" do
       rect = @rect.shrink([20, 10])
       rect.should == CGRectMake(30, 110, 10, 0)
+    end
+  end
+
+  describe "#shrink_left" do
+    it "should work" do
+      rect = @rect.shrink_left(10)
+      rect.should == CGRectMake(10, 100, 40, 20)
+    end
+  end
+
+  describe "#shrink_right" do
+    it "should work" do
+      rect = @rect.shrink_right(10)
+      rect.should == CGRectMake(20, 100, 40, 20)
+    end
+  end
+
+  describe "#shrink_up" do
+    it "should work" do
+      rect = @rect.shrink_up(10)
+      rect.should == CGRectMake(10, 100, 50, 10)
+    end
+  end
+
+  describe "#shrink_down" do
+    it "should work" do
+      rect = @rect.shrink_down(10)
+      rect.should == CGRectMake(10, 110, 50, 10)
+    end
+  end
+
+  describe "#shrink_width" do
+    # @rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
+    it "should work" do
+      rect = @rect.shrink_width(10)
+      rect.should == CGRectMake(20, 100, 30, 20)
+    end
+  end
+
+  describe "#shrink_height" do
+    it "should work" do
+      rect = @rect.shrink_height(10)
+      rect.should == CGRectMake(10, 110, 50, 0)
     end
   end
 
