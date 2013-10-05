@@ -191,15 +191,15 @@ class CGRect
         rect.size.width -= value
         rect.origin.x += value
       when :grow_width
-        rect = rect.grow([value, 0])
+        rect = rect.grow_width(value)
       when :grow_height
-        rect = rect.grow([0, value])
+        rect = rect.grow_height(value)
       when :shrink
         rect = rect.shrink(value)
       when :shrink_width
-        rect = rect.shrink([value, 0])
+        rect = rect.shrink_width(value)
       when :shrink_height
-        rect = rect.shrink([0, value])
+        rect = rect.shrink_height(value)
       when :offset
         rect = rect.offset(value)
       else
@@ -210,65 +210,105 @@ class CGRect
   end
 
   # modified rects
-  def left(dist = 0, options={})
+  def left(dist=nil, options={})
+    if dist.nil?
+      NSLog("Using the default value of `0` in `CGRect#left` is deprecated.")
+      dist = 0
+    end
+    raise "You must specify an amount in `CGRect#left`" unless dist.is_a?(Numeric)
+
     options[:left] = dist
     self.apply(options)
   end
 
-  def right(dist = 0, options={})
+  def right(dist=nil, options={})
+    if dist.nil?
+      NSLog("Using the default value of `0` in `CGRect#right` is deprecated.")
+      dist = 0
+    end
+    raise "You must specify an amount in `CGRect#right`" unless dist.is_a?(Numeric)
+
     options[:right] = dist
     self.apply(options)
   end
 
-  def up(dist = 0, options={})
+  def up(dist=nil, options={})
+    if dist.nil?
+      NSLog("Using the default value of `0` in `CGRect#up` is deprecated.")
+      dist = 0
+    end
+    raise "You must specify an amount in `CGRect#up`" unless dist.is_a?(Numeric)
+
     options[:up] = dist
     self.apply(options)
   end
 
-  def down(dist = 0, options={})
+  def down(dist=nil, options={})
+    if dist.nil?
+      NSLog("Using the default value of `0` in `CGRect#down` is deprecated.")
+      dist = 0
+    end
+    raise "You must specify an amount in `CGRect#down`" unless dist.is_a?(Numeric)
+
     options[:down] = dist
     self.apply(options)
   end
 
   def wider(dist, options={})
+    raise "You must specify an amount in `CGRect#wider`" unless dist.is_a?(Numeric)
+
     options[:wider] = dist
     self.apply(options)
   end
 
   def thinner(dist, options={})
+    raise "You must specify an amount in `CGRect#thinner`" unless dist.is_a?(Numeric)
+
     options[:thinner] = dist
     self.apply(options)
   end
 
   def taller(dist, options={})
+    raise "You must specify an amount in `CGRect#taller`" unless dist.is_a?(Numeric)
+
     options[:taller] = dist
     self.apply(options)
   end
 
   def shorter(dist, options={})
+    raise "You must specify an amount in `CGRect#shorter`" unless dist.is_a?(Numeric)
+
     options[:shorter] = dist
     self.apply(options)
   end
 
   # adjacent rects
   def above(margin = 0, options={})
+    margin, options = 0, margin if margin.is_a?(NSDictionary)
+
     height = options[:height] || self.size.height
     options[:up] = height + margin
     self.apply(options)
   end
 
   def below(margin = 0, options={})
+    margin, options = 0, margin if margin.is_a?(NSDictionary)
+
     options[:down] = self.size.height + margin
     self.apply(options)
   end
 
   def before(margin = 0, options={})
+    margin, options = 0, margin if margin.is_a?(NSDictionary)
+
     width = options[:width] || self.size.width
     options[:left] = width + margin
     self.apply(options)
   end
 
   def beside(margin = 0, options={})
+    margin, options = 0, margin if margin.is_a?(NSDictionary)
+
     options[:right] = self.size.width + margin
     self.apply(options)
   end
@@ -395,6 +435,30 @@ public
     return rect
   end
 
+  alias grow_right wider
+  def grow_left(amount, options=nil)
+    raise "You must specify an amount in `CGRect#grow_left`" unless amount.is_a?(Numeric)
+
+    options[:grow_left] = amount
+    self.apply(options)
+  end
+
+  alias grow_down taller
+  def grow_up(amount, options=nil)
+    raise "You must specify an amount in `CGRect#grow_up`" unless amount.is_a?(Numeric)
+
+    options[:grow_up] = amount
+    self.apply(options)
+  end
+
+  def grow_width(amount, options=nil)
+    return self.grow([amount, 0], options)
+  end
+
+  def grow_height(amount, options=nil)
+    return self.grow([0, amount], options)
+  end
+
   def shrink(size, options=nil)
     if size.is_a? Numeric
       size = CGSize.new(size, size)
@@ -404,6 +468,30 @@ public
       return rect.apply(options)
     end
     return rect
+  end
+
+  alias shrink_left thinner
+  def shrink_right(amount, options={})
+    raise "You must specify an amount in `CGRect#shrink_right`" unless amount.is_a?(Numeric)
+
+    options[:shrink_right] = amount
+    self.apply(options)
+  end
+
+  alias shrink_up shorter
+  def shrink_down(amount, options={})
+    raise "You must specify an amount in `CGRect#shrink_down`" unless amount.is_a?(Numeric)
+
+    options[:shrink_down] = amount
+    self.apply(options)
+  end
+
+  def shrink_width(amount, options={})
+    return self.shrink([amount, 0], options)
+  end
+
+  def shrink_height(amount, options={})
+    return self.shrink([0, amount], options)
   end
 
   def empty?
