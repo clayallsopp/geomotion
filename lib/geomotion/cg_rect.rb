@@ -210,65 +210,105 @@ class CGRect
   end
 
   # modified rects
-  def left(dist = 0, options={})
+  def left(dist=nil, options={})
+    if dist.nil?
+      NSLog("Using the default value of `0` in `CGRect#left` is deprecated.")
+      dist = 0
+    end
+    raise "You must specify an amount in `CGRect#left`" unless dist.is_a?(Numeric)
+
     options[:left] = dist
     self.apply(options)
   end
 
-  def right(dist = 0, options={})
+  def right(dist=nil, options={})
+    if dist.nil?
+      NSLog("Using the default value of `0` in `CGRect#right` is deprecated.")
+      dist = 0
+    end
+    raise "You must specify an amount in `CGRect#right`" unless dist.is_a?(Numeric)
+
     options[:right] = dist
     self.apply(options)
   end
 
-  def up(dist = 0, options={})
+  def up(dist=nil, options={})
+    if dist.nil?
+      NSLog("Using the default value of `0` in `CGRect#up` is deprecated.")
+      dist = 0
+    end
+    raise "You must specify an amount in `CGRect#up`" unless dist.is_a?(Numeric)
+
     options[:up] = dist
     self.apply(options)
   end
 
-  def down(dist = 0, options={})
+  def down(dist=nil, options={})
+    if dist.nil?
+      NSLog("Using the default value of `0` in `CGRect#down` is deprecated.")
+      dist = 0
+    end
+    raise "You must specify an amount in `CGRect#down`" unless dist.is_a?(Numeric)
+
     options[:down] = dist
     self.apply(options)
   end
 
   def wider(dist, options={})
+    raise "You must specify an amount in `CGRect#wider`" unless dist.is_a?(Numeric)
+
     options[:wider] = dist
     self.apply(options)
   end
 
   def thinner(dist, options={})
+    raise "You must specify an amount in `CGRect#thinner`" unless dist.is_a?(Numeric)
+
     options[:thinner] = dist
     self.apply(options)
   end
 
   def taller(dist, options={})
+    raise "You must specify an amount in `CGRect#taller`" unless dist.is_a?(Numeric)
+
     options[:taller] = dist
     self.apply(options)
   end
 
   def shorter(dist, options={})
+    raise "You must specify an amount in `CGRect#shorter`" unless dist.is_a?(Numeric)
+
     options[:shorter] = dist
     self.apply(options)
   end
 
   # adjacent rects
   def above(margin = 0, options={})
+    margin, options = 0, margin if margin.is_a?(NSDictionary)
+
     height = options[:height] || self.size.height
     options[:up] = height + margin
     self.apply(options)
   end
 
   def below(margin = 0, options={})
+    margin, options = 0, margin if margin.is_a?(NSDictionary)
+
     options[:down] = self.size.height + margin
     self.apply(options)
   end
 
   def before(margin = 0, options={})
+    margin, options = 0, margin if margin.is_a?(NSDictionary)
+
     width = options[:width] || self.size.width
     options[:left] = width + margin
     self.apply(options)
   end
 
   def beside(margin = 0, options={})
+    margin, options = 0, margin if margin.is_a?(NSDictionary)
+
     options[:right] = self.size.width + margin
     self.apply(options)
   end

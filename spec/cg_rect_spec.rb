@@ -288,9 +288,14 @@ describe "CGRect" do
 
   describe "#left" do
     it "works" do
-      rect = CGRect.empty
-      rect = rect.left(20)
+      rect = CGRect.empty.left(20)
       rect.origin.x.should == -20
+    end
+
+    it "works with options" do
+      rect = CGRect.empty.left(20, width: 20)
+      rect.origin.x.should == -20
+      rect.size.width.should == 20
     end
   end
 
@@ -299,12 +304,24 @@ describe "CGRect" do
       rect = CGRect.empty.right(20)
       rect.origin.x.should == 20
     end
+
+    it "works with options" do
+      rect = CGRect.empty.right(20, width: 20)
+      rect.origin.x.should == 20
+      rect.size.width.should == 20
+    end
   end
 
   describe "#up" do
     it "works" do
       rect = CGRect.empty.up(20)
       rect.origin.y.should == -20
+    end
+
+    it "works with options" do
+      rect = CGRect.empty.up(20, height: 20)
+      rect.origin.y.should == -20
+      rect.size.height.should == 20
     end
   end
 
@@ -313,6 +330,12 @@ describe "CGRect" do
       rect = CGRect.empty.down(20)
       rect.origin.y.should == 20
     end
+
+    it "works with options" do
+      rect = CGRect.empty.down(20, height: 20)
+      rect.origin.y.should == 20
+      rect.size.height.should == 20
+    end
   end
 
   describe "#wider" do
@@ -320,106 +343,154 @@ describe "CGRect" do
       rect = CGRect.empty.wider(20)
       rect.size.width.should == 20
     end
+
+    it "works with options" do
+      rect = CGRect.empty.wider(20, height: 20)
+      rect.size.width.should == 20
+      rect.size.height.should == 20
+    end
   end
 
   describe "#thinner" do
     it "works" do
-      rect = CGRect.empty.thinner(20)
-      rect.size.width.should == -20
+      rect = CGRect.make(width: 20).thinner(10)
+      rect.size.width.should == 10
+    end
+
+    it "works with options" do
+      rect = CGRect.make(width: 20).thinner(10, height: 20)
+      rect.size.width.should == 10
+      rect.size.height.should == 20
     end
   end
 
   describe "#taller" do
     it "works" do
-      rect = CGRect.empty.taller(20)
-      rect.size.height.should == 20
+      rect = CGRect.make(height: 20).taller(20)
+      rect.size.height.should == 40
+    end
+
+    it "works with options" do
+      rect = CGRect.make(height: 20).taller(20, width: 20)
+      rect.size.width.should == 20
+      rect.size.height.should == 40
     end
   end
 
   describe "#shorter" do
     it "works" do
-      rect = CGRect.empty.shorter(20)
-      rect.size.height.should == -20
+      rect = CGRect.make(height: 20).shorter(10)
+      rect.size.height.should == 10
+    end
+
+    it "works with options" do
+      rect = CGRect.make(height: 20).shorter(10, width: 20)
+      rect.size.width.should == 20
+      rect.size.height.should == 10
     end
   end
 
   describe "#above" do
+    it "works without margins" do
+      rect = CGRect.make(height: 50).above
+      rect.origin.y.should == -50
+      rect.size.height.should == 50
+    end
+
     it "works with margins" do
       rect = CGRect.make(height: 50).above(20)
       rect.origin.y.should == -70
       rect.size.height.should == 50
     end
 
-    it "works with height" do
+    it "works with options" do
       rect = CGRect.make(height: 50).above(20, height: 10)
       rect.origin.y.should == -30
       rect.size.height.should == 10
     end
 
-    it "works without margins" do
-      rect = CGRect.make(height: 50).above
-      rect.origin.y.should == -50
-      rect.size.height.should == 50
+    it "works with options and no margin" do
+      rect = CGRect.make(height: 50).above(height: 10)
+      rect.origin.y.should == -10
+      rect.size.height.should == 10
     end
   end
 
   describe "#below" do
+    it "works without margins" do
+      rect = CGRect.make(height: 50).below
+      rect.origin.y.should == 50
+      rect.size.height.should == 50
+    end
+
     it "works with margins" do
       rect = CGRect.make(height: 50).below(20)
       rect.origin.y.should == 70
       rect.size.height.should == 50
     end
 
-    it "works with height" do
+    it "works with options" do
       rect = CGRect.make(height: 50).below(20, height: 10)
       rect.origin.y.should == 70
       rect.size.height.should == 10
     end
 
-    it "works without margins" do
-      rect = CGRect.make(height: 50).below
+    it "works with options and no margin" do
+      rect = CGRect.make(height: 50).below(height: 10)
       rect.origin.y.should == 50
-      rect.size.height.should == 50
+      rect.size.height.should == 10
     end
   end
 
   describe "#before" do
+    it "works without margins" do
+      rect = CGRect.make(width: 50).before
+      rect.origin.x.should == -50
+      rect.size.width.should == 50
+    end
+
     it "works with margins" do
       rect = CGRect.make(width: 50).before(20)
       rect.origin.x.should == -70
       rect.size.width.should == 50
     end
 
-    it "works with width" do
+    it "works with options" do
       rect = CGRect.make(width: 50).before(20, width: 10)
       rect.origin.x.should == -30
       rect.size.width.should == 10
     end
 
-    it "works without margins" do
-      rect = CGRect.make(width: 50).before
-      rect.origin.x.should == -50
-      rect.size.width.should == 50
+    it "works with options and no margin" do
+      rect = CGRect.make(width: 50).before(width: 10)
+      rect.origin.x.should == -10
+      rect.size.width.should == 10
     end
   end
 
   describe "#beside" do
+    it "works without margins" do
+      rect = CGRect.make(width: 50).beside
+      rect.origin.x.should == 50
+      rect.size.width.should == 50
+    end
+
     it "works with margins" do
       rect = CGRect.make(width: 50).beside(20)
       rect.origin.x.should == 70
       rect.size.width.should == 50
     end
 
-    it "works with width" do
+    it "works with options" do
       rect = CGRect.make(width: 50).beside(20, width: 10)
       rect.origin.x.should == 70
       rect.size.width.should == 10
     end
 
-    it "works without margins" do
-      rect = CGRect.make(width: 50).beside
+    it "works with options and no margin" do
+      rect = CGRect.make(width: 50).beside(width: 10)
       rect.origin.x.should == 50
-      rect.size.width.should == 50
+      rect.size.width.should == 10
     end
   end
 
