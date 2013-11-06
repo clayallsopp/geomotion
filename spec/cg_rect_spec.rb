@@ -788,12 +788,20 @@ describe "CGRect" do
       rect = @rect.grow_left(10)
       rect.should == CGRectMake(0, 100, 60, 20)
     end
+    it "should work with options" do
+      rect = @rect.grow_left(10, height: 5)
+      rect.should == CGRectMake(0, 100, 60, 5)
+    end
   end
 
   describe "#grow_right" do
     it "should work" do
       rect = @rect.grow_right(10)
       rect.should == CGRectMake(10, 100, 60, 20)
+    end
+    it "should work with options" do
+      rect = @rect.grow_right(10, height: 5)
+      rect.should == CGRectMake(10, 100, 60, 5)
     end
   end
 
@@ -802,12 +810,20 @@ describe "CGRect" do
       rect = @rect.grow_up(10)
       rect.should == CGRectMake(10, 90, 50, 30)
     end
+    it "should work with options" do
+      rect = @rect.grow_up(10, width: 5)
+      rect.should == CGRectMake(10, 90, 5, 30)
+    end
   end
 
   describe "#grow_down" do
     it "should work" do
       rect = @rect.grow_down(10)
       rect.should == CGRectMake(10, 100, 50, 30)
+    end
+    it "should work with options" do
+      rect = @rect.grow_down(10, width: 5)
+      rect.should == CGRectMake(10, 100, 5, 30)
     end
   end
 
