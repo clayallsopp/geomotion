@@ -343,7 +343,7 @@ class CGRect
     options[:x] = margin
     options[:y] ||= 0
     options[:height] ||= self.size.height
-    self.apply(options)
+    cgrect_offset(options.delete(:absolute)) + self.apply(options)
   end
 
   # Create a rect inside the receiver, on the right side.  If `margin` is
@@ -355,7 +355,7 @@ class CGRect
     options[:x] = self.size.width - width - margin
     options[:y] ||= 0
     options[:height] ||= self.size.height
-    self.apply(options)
+    cgrect_offset(options.delete(:absolute)) + self.apply(options)
   end
 
   # Create a rect inside the receiver, on the top side.  If `margin` is
@@ -367,7 +367,7 @@ class CGRect
     options[:x] ||= 0
     options[:y] = margin
     options[:width] ||= self.size.width
-    self.apply(options)
+    cgrect_offset(options.delete(:absolute)) + self.apply(options)
   end
 
   # Create a rect inside the receiver, on the bottom side.  If `margin` is
@@ -379,7 +379,7 @@ class CGRect
     options[:x] ||= 0
     options[:y] = self.size.height - height - margin
     options[:width] ||= self.size.width
-    self.apply(options)
+    cgrect_offset(options.delete(:absolute)) + self.apply(options)
   end
 
   # positions
