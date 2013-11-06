@@ -505,7 +505,7 @@ public
   end
 
   alias grow_right wider
-  def grow_left(amount, options=nil)
+  def grow_left(amount, options={})
     raise "You must specify an amount in `CGRect#grow_left`" unless amount.is_a?(Numeric)
 
     options[:grow_left] = amount
@@ -513,18 +513,18 @@ public
   end
 
   alias grow_down taller
-  def grow_up(amount, options=nil)
+  def grow_up(amount, options={})
     raise "You must specify an amount in `CGRect#grow_up`" unless amount.is_a?(Numeric)
 
     options[:grow_up] = amount
     self.apply(options)
   end
 
-  def grow_width(amount, options=nil)
+  def grow_width(amount, options={})
     return self.grow([amount, 0], options)
   end
 
-  def grow_height(amount, options=nil)
+  def grow_height(amount, options={})
     return self.grow([0, amount], options)
   end
 
