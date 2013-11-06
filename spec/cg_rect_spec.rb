@@ -1037,6 +1037,10 @@ describe "CGRect" do
       rect = @rect.from_left(width: 10, margin: 5)
       rect.should == CGRectMake(5, 0, 10, 20)
     end
+    it "should work with all options" do
+      rect = @rect.from_left(width: 10, shrink_down: 5)
+      rect.should == CGRectMake(0, 5, 10, 15)
+    end
     it "should work with absolute" do
       rect = @rect.from_left(width: 10, absolute: true)
       rect.should == CGRectMake(10, 100, 10, 20)
@@ -1051,6 +1055,10 @@ describe "CGRect" do
     it "should work with margin" do
       rect = @rect.from_right(width: 10, margin: 5)
       rect.should == CGRectMake(35, 0, 10, 20)
+    end
+    it "should work with all options" do
+      rect = @rect.from_right(width: 10, shrink_down: 5)
+      rect.should == CGRectMake(40, 5, 10, 15)
     end
     it "should work with absolute" do
       rect = @rect.from_right(width: 10, absolute: true)
@@ -1067,6 +1075,10 @@ describe "CGRect" do
       rect = @rect.from_top(height: 10, margin: 5)
       rect.should == CGRectMake(0, 5, 50, 10)
     end
+    it "should work with all options" do
+      rect = @rect.from_top(height: 10, shrink_right: 5)
+      rect.should == CGRectMake(5, 0, 45, 10)
+    end
     it "should work with absolute" do
       rect = @rect.from_top(height: 10, absolute: true)
       rect.should == CGRectMake(10, 100, 50, 10)
@@ -1081,6 +1093,10 @@ describe "CGRect" do
     it "should work with margin" do
       rect = @rect.from_bottom(height: 10, margin: 5)
       rect.should == CGRectMake(0, 5, 50, 10)
+    end
+    it "should work with all options" do
+      rect = @rect.from_bottom(height: 10, shrink_right: 5)
+      rect.should == CGRectMake(5, 10, 45, 10)
     end
     it "should work with absolute" do
       rect = @rect.from_bottom(height: 10, absolute: true)
