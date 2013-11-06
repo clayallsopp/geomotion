@@ -102,44 +102,60 @@ class CGRect
   end
 
   # getters/setters
-  def x(setter = nil)
+  def x(setter=nil, options=nil)
     if setter
-      return CGRect.new([setter, self.origin.y], self.size)
+      rect = CGRect.new([setter, self.origin.y], self.size)
+      if options
+        return rect.apply(options)
+      end
+      return rect
     end
-    min_x
+    return min_x
   end
 
   def x=(_x)
     self.origin.x = _x
   end
 
-  def y(setter = nil)
+  def y(setter=nil, options=nil)
     if setter
-      return CGRect.new([self.origin.x, setter], self.size)
+      rect = CGRect.new([self.origin.x, setter], self.size)
+      if options
+        return rect.apply(options)
+      end
+      return rect
     end
-    min_y
+    return min_y
   end
 
   def y=(_y)
     self.origin.y = _y
   end
 
-  def width(setter = nil)
+  def width(setter=nil, options=nil)
     if setter
-      return CGRect.new(self.origin, [setter, self.size.height])
+      rect = CGRect.new(self.origin, [setter, self.size.height])
+      if options
+        return rect.apply(options)
+      end
+      return rect
     end
-    CGRectGetWidth(self)
+    return CGRectGetWidth(self)
   end
 
   def width=(_width)
     self.size.width = _width
   end
 
-  def height(setter = nil)
+  def height(setter=nil, options=nil)
     if setter
-      return CGRect.new(self.origin, [self.size.width, setter])
+      rect = CGRect.new(self.origin, [self.size.width, setter])
+      if options
+        return rect.apply(options)
+      end
+      return rect
     end
-    CGRectGetHeight(self)
+    return CGRectGetHeight(self)
   end
 
   def height=(_height)
