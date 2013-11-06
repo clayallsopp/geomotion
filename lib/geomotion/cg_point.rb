@@ -57,6 +57,8 @@ class CGPoint
       return self.rect_of_size(other)
     when CGPoint
       return CGPoint.new(self.x + other.x, self.y + other.y)
+    when CGRect
+      return CGPoint.new(self.x + other.origin.x, self.y + other.origin.y).rect_of_size(other.size)
     end
   end
 

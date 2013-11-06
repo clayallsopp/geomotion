@@ -84,6 +84,11 @@ describe "CGPoint" do
       point = CGPoint.make(x: 100, y: 200)
       (@point + point).should == CGPointMake(110, 220)
     end
+
+    it "should work with CGRect" do
+      point = CGRect.make(x: 100, y: 200, width: 50, height: 50)
+      (@point + point).should == CGRectMake(110, 220, 50, 50)
+    end
   end
 
   describe "#*" do
