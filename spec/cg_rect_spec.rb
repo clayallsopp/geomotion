@@ -783,7 +783,6 @@ describe "CGRect" do
   end
 
   describe "#grow_left" do
-    # @rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
     it "should work" do
       rect = @rect.grow_left(10)
       rect.should == CGRectMake(0, 100, 60, 20)
@@ -828,7 +827,6 @@ describe "CGRect" do
   end
 
   describe "#grow_width" do
-    # @rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
     it "should work" do
       rect = @rect.grow_width(10)
       rect.should == CGRectMake(0, 100, 70, 20)
@@ -888,7 +886,6 @@ describe "CGRect" do
   end
 
   describe "#shrink_width" do
-    # @rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
     it "should work" do
       rect = @rect.shrink_width(10)
       rect.should == CGRectMake(20, 100, 30, 20)
