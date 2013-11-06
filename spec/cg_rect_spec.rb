@@ -1015,4 +1015,48 @@ describe "CGRect" do
 
   end
 
+  describe "#from_left" do
+    it "should work" do
+      rect = @rect.from_left(width: 10)
+      rect.should == CGRectMake(0, 0, 10, 20)
+    end
+    it "should work with margin" do
+      rect = @rect.from_left(width: 10, margin: 5)
+      rect.should == CGRectMake(5, 0, 10, 20)
+    end
+  end
+
+  describe "#from_right" do
+    it "should work" do
+      rect = @rect.from_right(width: 10)
+      rect.should == CGRectMake(40, 0, 10, 20)
+    end
+    it "should work with margin" do
+      rect = @rect.from_right(width: 10, margin: 5)
+      rect.should == CGRectMake(35, 0, 10, 20)
+    end
+  end
+
+  describe "#from_top" do
+    it "should work" do
+      rect = @rect.from_top(height: 10)
+      rect.should == CGRectMake(0, 0, 50, 10)
+    end
+    it "should work with margin" do
+      rect = @rect.from_top(height: 10, margin: 5)
+      rect.should == CGRectMake(0, 5, 50, 10)
+    end
+  end
+
+  describe "#from_bottom" do
+    it "should work" do
+      rect = @rect.from_bottom(height: 10)
+      rect.should == CGRectMake(0, 10, 50, 10)
+    end
+    it "should work with margin" do
+      rect = @rect.from_bottom(height: 10, margin: 5)
+      rect.should == CGRectMake(0, 5, 50, 10)
+    end
+  end
+
 end

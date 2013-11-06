@@ -332,6 +332,56 @@ class CGRect
     self.apply(options)
   end
 
+  # these methods create a rect INSIDE the receiver
+
+  # Create a rect inside the receiver, on the left side.  If `margin` is
+  # supplied, the rect will be moved that number of points to the right.
+  def from_left(options={})
+    width = options[:width]
+    margin = options.delete(:margin) || 0
+    raise "You must specify a width in `CGRect#from_left`" unless width
+    options[:x] = margin
+    options[:y] ||= 0
+    options[:height] ||= self.size.height
+    self.apply(options)
+  end
+
+  # Create a rect inside the receiver, on the right side.  If `margin` is
+  # supplied, the rect will be moved that number of points to the left.
+  def from_right(options={})
+    width = options[:width]
+    margin = options.delete(:margin) || 0
+    raise "You must specify a width in `CGRect#from_right`" unless width
+    options[:x] = self.size.width - width - margin
+    options[:y] ||= 0
+    options[:height] ||= self.size.height
+    self.apply(options)
+  end
+
+  # Create a rect inside the receiver, on the top side.  If `margin` is
+  # supplied, the rect will be moved that number of points down.
+  def from_top(options={})
+    height = options[:height]
+    margin = options.delete(:margin) || 0
+    raise "You must specify a height in `CGRect#from_top`" unless height
+    options[:x] ||= 0
+    options[:y] = margin
+    options[:width] ||= self.size.width
+    self.apply(options)
+  end
+
+  # Create a rect inside the receiver, on the bottom side.  If `margin` is
+  # supplied, the rect will be moved that number of points up.
+  def from_bottom(options={})
+    height = options[:height]
+    margin = options.delete(:margin) || 0
+    raise "You must specify a height in `CGRect#from_bottom`" unless height
+    options[:x] ||= 0
+    options[:y] = self.size.height - height - margin
+    options[:width] ||= self.size.width
+    self.apply(options)
+  end
+
   # positions
 private
   def cgrect_offset(absolute)
