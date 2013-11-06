@@ -1,76 +1,79 @@
 class CGRect
 
-  # CGRect.make  # default rect: {origin: {x: 0, y: 0}, size: {width:0, height:0}}
-  #              # aka CGRectZero
-  # CGRect.make(x: 10, y: 30)  # default size: [0, 0]
-  # CGRect.make(x: 10, y: 30, width:100, height: 20)
-  #
-  # point = CGPoint.make(x: 10, y: 30)
-  # size = CGSize.make(width: 100, height: 20)
-  # CGRect.make(origin: point, size: size)
-  def self.make(options = {})
-    if options[:origin]
-      x = options[:origin][0]
-      y = options[:origin][1]
-    else
-      x = options[:x] || 0
-      y = options[:y] || 0
-    end
-    if options[:size]
-      w = options[:size][0]
-      h = options[:size][1]
-    else
-      w = options[:width] || 0
-      h = options[:height] || 0
-    end
-    self.new([x, y], [w, h])
-  end
-
-  def self.empty
-    # Don't just return CGRectZero; can be mutated
-    CGRectZero.dup
-  end
-
-  def self.null
-    # Don't just return CGRectNull; can be mutated
-    CGRectNull.dup
-  end
-
-  def self.infinite
-    # This actually returns the not-very-infinite value of:
-    # [[-1.7014114289565e+38, -1.7014114289565e+38], [3.402822857913e+38, 3.402822857913e+38]]
-    # originally this method returned [[-Infinity, -Infinity], [Infinity, Infinity]],
-    # but that rect ended up returning `false` for any point in the method
-    # CGRect.infinite.contains?(point).  CGRectInfinite returns `true` for any
-    # (sensible) point, so we'll go with that instead
-    CGRectInfinite.dup
-  end
-
-  # OPTIONS: [:above, :below, :left_of, :right_of, :margins]
-  #   :margins is array of [top, right, bottom, left]
-  # EX CGRect.layout(rect1, above: rect2, left_of: rect3, margins: [0, 10, 20, 0])
-  def self.layout(rect1, options)
-    if options.empty?
-      p "No options provided in #{self.class}.layout"
-      return rect1
+  class << self
+    # CGRect.make  # default rect: {origin: {x: 0, y: 0}, size: {width:0, height:0}}
+    #              # aka CGRectZero
+    # CGRect.make(x: 10, y: 30)  # default size: [0, 0]
+    # CGRect.make(x: 10, y: 30, width:100, height: 20)
+    #
+    # point = CGPoint.make(x: 10, y: 30)
+    # size = CGSize.make(width: 100, height: 20)
+    # CGRect.make(origin: point, size: size)
+    def make(options = {})
+      if options[:origin]
+        x = options[:origin][0]
+        y = options[:origin][1]
+      else
+        x = options[:x] || 0
+        y = options[:y] || 0
+      end
+      if options[:size]
+        w = options[:size][0]
+        h = options[:size][1]
+      else
+        w = options[:width] || 0
+        h = options[:height] || 0
+      end
+      self.new([x, y], [w, h])
     end
 
-    rect = self.new
-    rect.size = rect1.size
+    def zero
+      CGRect.new([0, 0], [0, 0])
+    end
+    alias empty zero
 
-    options[:margins] ||= []
-    margins = {}
-    [:top, :right, :bottom, :left].each_with_index do |margin, index|
-      margins[margin] = options[:margins][index] || 0
+    def null
+      # Don't just return CGRectNull; can be mutated
+      CGRect.new([Float::INFINITY, Float::INFINITY], [0, 0])
     end
 
-    rect.y = options[:above].up(rect.height + margins[:bottom]).y if options[:above]
-    rect.y = options[:below].below(margins[:top]).y if options[:below]
+    def infinite
+      # This actually returns the not-very-infinite value of:
+      # [[-1.7014114289565e+38, -1.7014114289565e+38], [3.402822857913e+38, 3.402822857913e+38]]
+      # originally this method returned [[-Infinity, -Infinity], [Infinity, Infinity]],
+      # but that rect ended up returning `false` for any point in the method
+      # CGRect.infinite.contains?(point).  CGRectInfinite returns `true` for any
+      # (sensible) point, so we'll go with that instead
+      CGRectInfinite.dup
+    end
 
-    rect.x = options[:left_of].left(rect.width + margins[:right]).x if options[:left_of]
-    rect.x = options[:right_of].beside(margins[:left]).x if options[:right_of]
+    # OPTIONS: [:above, :below, :left_of, :right_of, :margins]
+    #   :margins is array of [top, right, bottom, left]
+    # EX CGRect.layout(rect1, above: rect2, left_of: rect3, margins: [0, 10, 20, 0])
+    def layout(rect1, options)
+      if options.empty?
+        p "No options provided in #{self.class}.layout"
+        return rect1
+      end
 
-    rect
+      rect = self.new
+      rect.size = rect1.size
+
+      options[:margins] ||= []
+      margins = {}
+      [:top, :right, :bottom, :left].each_with_index do |margin, index|
+        margins[margin] = options[:margins][index] || 0
+      end
+
+      rect.y = options[:above].up(rect.height + margins[:bottom]).y if options[:above]
+      rect.y = options[:below].below(margins[:top]).y if options[:below]
+
+      rect.x = options[:left_of].left(rect.width + margins[:right]).x if options[:left_of]
+      rect.x = options[:right_of].beside(margins[:left]).x if options[:right_of]
+
+      rect
+    end
+
   end
 
   # bounds
