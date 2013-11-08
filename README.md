@@ -15,6 +15,7 @@ another_way = CGRect.make(origin: CGPoint, size: CGSize)
 [rect.x, rect.y, rect.width, rect.height]
 => [10, 100, 50, 20]
 
+rect_zero = CGRect.zero
 rect_zero = CGRect.empty
 => CGRect(0, 0, 0, 0)
 rect_zero.empty?
