@@ -347,6 +347,7 @@ class CGRect
       right: self.size.width + margin
       }.merge(options))
   end
+  alias after beside
 
   # these methods create a rect INSIDE the receiver
 
@@ -533,6 +534,7 @@ public
   end
 
   alias grow_right wider
+
   def grow_left(amount, options={})
     raise "You must specify an amount in `CGRect#grow_left`" unless amount.is_a?(Numeric)
 
@@ -542,6 +544,7 @@ public
   end
 
   alias grow_down taller
+
   def grow_up(amount, options={})
     raise "You must specify an amount in `CGRect#grow_up`" unless amount.is_a?(Numeric)
 
@@ -570,6 +573,7 @@ public
   end
 
   alias shrink_left thinner
+
   def shrink_right(amount, options={})
     raise "You must specify an amount in `CGRect#shrink_right`" unless amount.is_a?(Numeric)
 
@@ -579,6 +583,7 @@ public
   end
 
   alias shrink_up shorter
+
   def shrink_down(amount, options={})
     raise "You must specify an amount in `CGRect#shrink_down`" unless amount.is_a?(Numeric)
 
