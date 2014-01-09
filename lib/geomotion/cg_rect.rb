@@ -312,6 +312,7 @@ class CGRect
   # adjacent rects
   def above(margin = 0, options={})
     margin, options = 0, margin if margin.is_a?(NSDictionary)
+    margin = options.delete(:margin) if options.key?(:margin)
 
     height = options[:height] || self.size.height
     self.apply({
@@ -321,6 +322,7 @@ class CGRect
 
   def below(margin = 0, options={})
     margin, options = 0, margin if margin.is_a?(NSDictionary)
+    margin = options.delete(:margin) if options.key?(:margin)
 
     self.apply({
       down: self.size.height + margin
@@ -329,6 +331,7 @@ class CGRect
 
   def before(margin = 0, options={})
     margin, options = 0, margin if margin.is_a?(NSDictionary)
+    margin = options.delete(:margin) if options.key?(:margin)
 
     width = options[:width] || self.size.width
     self.apply({
@@ -338,6 +341,7 @@ class CGRect
 
   def beside(margin = 0, options={})
     margin, options = 0, margin if margin.is_a?(NSDictionary)
+    margin = options.delete(:margin) if options.key?(:margin)
 
     self.apply({
       right: self.size.width + margin
