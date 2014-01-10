@@ -312,6 +312,7 @@ class CGRect
   # adjacent rects
   def above(margin = 0, options={})
     margin, options = 0, margin if margin.is_a?(NSDictionary)
+    margin = options.delete(:margin) if options.key?(:margin)
 
     height = options[:height] || self.size.height
     self.apply({
@@ -321,6 +322,7 @@ class CGRect
 
   def below(margin = 0, options={})
     margin, options = 0, margin if margin.is_a?(NSDictionary)
+    margin = options.delete(:margin) if options.key?(:margin)
 
     self.apply({
       down: self.size.height + margin
@@ -329,6 +331,7 @@ class CGRect
 
   def before(margin = 0, options={})
     margin, options = 0, margin if margin.is_a?(NSDictionary)
+    margin = options.delete(:margin) if options.key?(:margin)
 
     width = options[:width] || self.size.width
     self.apply({
@@ -338,11 +341,13 @@ class CGRect
 
   def beside(margin = 0, options={})
     margin, options = 0, margin if margin.is_a?(NSDictionary)
+    margin = options.delete(:margin) if options.key?(:margin)
 
     self.apply({
       right: self.size.width + margin
       }.merge(options))
   end
+  alias after beside
 
   # these methods create a rect INSIDE the receiver
 
@@ -529,6 +534,7 @@ public
   end
 
   alias grow_right wider
+
   def grow_left(amount, options={})
     raise "You must specify an amount in `CGRect#grow_left`" unless amount.is_a?(Numeric)
 
@@ -538,6 +544,7 @@ public
   end
 
   alias grow_down taller
+
   def grow_up(amount, options={})
     raise "You must specify an amount in `CGRect#grow_up`" unless amount.is_a?(Numeric)
 
@@ -566,6 +573,7 @@ public
   end
 
   alias shrink_left thinner
+
   def shrink_right(amount, options={})
     raise "You must specify an amount in `CGRect#shrink_right`" unless amount.is_a?(Numeric)
 
@@ -575,6 +583,7 @@ public
   end
 
   alias shrink_up shorter
+
   def shrink_down(amount, options={})
     raise "You must specify an amount in `CGRect#shrink_down`" unless amount.is_a?(Numeric)
 

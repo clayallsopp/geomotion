@@ -414,6 +414,12 @@ describe "CGRect" do
       rect.origin.y.should == -10
       rect.size.height.should == 10
     end
+
+    it "works with options and margin as option" do
+      rect = CGRect.make(height: 50).above(margin: 20, height: 10)
+      rect.origin.y.should == -30
+      rect.size.height.should == 10
+    end
   end
 
   describe "#below" do
@@ -438,6 +444,12 @@ describe "CGRect" do
     it "works with options and no margin" do
       rect = CGRect.make(height: 50).below(height: 10)
       rect.origin.y.should == 50
+      rect.size.height.should == 10
+    end
+
+    it "works with options and margin as option" do
+      rect = CGRect.make(height: 50).below(margin: 20, height: 10)
+      rect.origin.y.should == 70
       rect.size.height.should == 10
     end
   end
@@ -466,6 +478,12 @@ describe "CGRect" do
       rect.origin.x.should == -10
       rect.size.width.should == 10
     end
+
+    it "works with options and margin as option" do
+      rect = CGRect.make(width: 50).before(margin: 20, width: 10)
+      rect.origin.x.should == -30
+      rect.size.width.should == 10
+    end
   end
 
   describe "#beside" do
@@ -490,6 +508,12 @@ describe "CGRect" do
     it "works with options and no margin" do
       rect = CGRect.make(width: 50).beside(width: 10)
       rect.origin.x.should == 50
+      rect.size.width.should == 10
+    end
+
+    it "works with options and margin as option" do
+      rect = CGRect.make(width: 50).beside(margin: 20, width: 10)
+      rect.origin.x.should == 70
       rect.size.width.should == 10
     end
   end
