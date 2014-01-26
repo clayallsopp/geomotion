@@ -98,4 +98,9 @@ class CGSize
     "#{self.class.name}(#{self.width}, #{self.height})"
   end
 
+private
+  def to_ary
+    [self.width, self.height]
+  end
+
 end

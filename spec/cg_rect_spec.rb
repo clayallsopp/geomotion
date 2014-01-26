@@ -1128,4 +1128,12 @@ describe "CGRect" do
     end
   end
 
+  describe "#to_ary" do
+    it "should allow parallel assigment" do
+      position, size = @rect
+      position.should == CGPointMake(10.0, 100.0)
+      size.should == CGSizeMake(50, 20)
+    end
+  end
+
 end

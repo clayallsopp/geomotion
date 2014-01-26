@@ -98,4 +98,10 @@ class CGPoint
     "#{self.class.name}(#{self.x}, #{self.y})"
   end
 
+private
+  # this method allows us to do parallel assignment of #x and #y
+  def to_ary
+    [self.x, self.y]
+  end
+
 end

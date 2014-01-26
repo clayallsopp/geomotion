@@ -421,6 +421,10 @@ private
     end
   end
 
+  def to_ary
+    [self.origin, self.size]
+  end
+
 public
   def center(absolute = false)
     cgrect_offset(absolute) + CGPoint.new(self.size.width / 2, self.size.height / 2)
