@@ -153,4 +153,12 @@ describe "CGPoint" do
       @point.should != point
     end
   end
+
+  describe "#to_ary" do
+    it "should allow parallel assigment" do
+      x, y = @point
+      x.should == 10.0
+      y.should == 20.0
+    end
+  end
 end
