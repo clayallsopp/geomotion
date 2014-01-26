@@ -149,4 +149,12 @@ describe "CGSize" do
     end
   end
 
+  describe "#to_ary" do
+    it "should allow parallel assigment" do
+      width, height = @size
+      width.should  == 100.0
+      height.should == 200.0
+    end
+  end
+
 end
