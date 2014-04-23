@@ -149,6 +149,13 @@ describe "CGSize" do
     end
   end
 
+  describe '#to_ns_value' do
+    it 'should convert to NSValue' do
+      val = CGSize.new(0, 0).to_ns_value
+      val.should.be.kind_of(NSValue)
+    end
+  end
+
   describe "#to_ary" do
     it "should allow parallel assigment" do
       width, height = @size

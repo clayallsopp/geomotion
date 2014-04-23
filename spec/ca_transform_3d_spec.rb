@@ -337,9 +337,16 @@ describe "CATransform3D" do
 
     it 'should support to_a' do
       t1 = CATransform3D.identity
-      t1.to_a.should == [1,0,0,0 ,0,1,0,0 ,0,0,1,0 ,0,0,0,1]
+      t1.to_a.should == [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]
     end
 
+  end
+
+  describe '#to_ns_value' do
+    it 'should convert to NSValue' do
+      val = CATransform3D.new(0.5,0,0,0, 0,0.5,0,0, 0,0,1,0, 0,0,0,1).to_ns_value
+      val.should.be.kind_of(NSValue)
+    end
   end
 
 end

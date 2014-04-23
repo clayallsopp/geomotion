@@ -215,6 +215,13 @@ frame.beside(width: 20, down: 10, height: 20)
 
 frame.below(grow_width: 10, grow_up: 5)
 # => [[0, 15], [40, 25]]
+
+# convert to NSValue, for use in NSCoding or where an Objective-C object is
+# needed.  CGRect is a "boxed" object in RubyMotion, and in Objective-C it is a
+# C-struct and so can't be stored in an NSArray, for example.
+NSValue.valueWithCGRect(CGRect.new([0, 10], [10, 20]))
+# =>
+CGRect.new([0, 10], [10, 20]).to_ns_value
 ```
 
 ### CGSize
@@ -242,6 +249,12 @@ size + CGPoint.make(x: 10, y: 30)
 # Combine with CGPoint
 size.rect_at_point CGPoint.make(x: 10, y: 30)
 => CGRect(10, 30, 50, 20)
+
+# convert to NSValue, for use in NSCoding or where an Objective-C object is
+# needed.
+NSValue.valueWithCGSize(CGSize.new(0, 10))
+# =>
+CGSize.new(0, 10).to_ns_value
 ```
 
 ### CGPoint
@@ -283,6 +296,12 @@ point.distance_to(CGPoint.make(x: 13, y:104))
 # (up 10, over 10)
 point.angle_to(CGPoint.make(x: 20, y:110))
 => 0.785398163397  (pi/4)
+
+# convert to NSValue, for use in NSCoding or where an Objective-C object is
+# needed.
+NSValue.valueWithCGPoint(CGPoint.new(0, 10))
+# =>
+CGPoint.new(0, 10).to_ns_value
 ```
 
 ### CGAffineTransform
@@ -330,6 +349,12 @@ CGAffineTransform.shear(0, 0.5)  # in y direction
 
 # or you can chain these methods
 CGAffineTransform.identity.translate(10, 10).scale(2).rotate(Math::PI / 4)
+
+# convert to NSValue, for use in NSCoding or where an Objective-C object is
+# needed.
+NSValue.valueWithCGAffineTransform(CGAffineTransform.translate(0, 10))
+# =>
+CGAffineTransform.translate(0, 10).to_ns_value
 ```
 
 ###### Shearing
@@ -383,6 +408,11 @@ CATransform3D.perspective(0, 0.002)  # "rotates" around the y-axis
 
 # or you can chain these methods
 CATransform3D.identity.translate(10, 10, 10).scale(2).rotate(Math::PI / 4)
+
+# convert to NSValue, for use in NSCoding or CAKeyframeAnimation#values
+NSValue.valueWithCATransform3D(CATransform3D.translate(0, 10, 0))
+# =>
+CATransform3D.translate(0, 10, 0).to_ns_value
 ```
 
 ###### Perspective

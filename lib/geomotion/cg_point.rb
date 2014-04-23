@@ -10,7 +10,7 @@ class CGPoint
   # point.rect_of_size(size)  # => CGRect([0, 10], [100, 100])
   # point.rect_of_size([10, 20])  # => CGRect([10, 20], [100, 100])
   def rect_of_size(size)
-    CGRect.new([self.x, self.y], size)
+    CGRect.new(self, size)
   end
 
   # modified points
@@ -96,6 +96,10 @@ class CGPoint
 
   def inspect
     "#{self.class.name}(#{self.x}, #{self.y})"
+  end
+
+  def to_ns_value
+    NSValue.valueWithCGPoint(self)
   end
 
 private

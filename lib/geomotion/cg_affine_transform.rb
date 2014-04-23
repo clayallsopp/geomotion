@@ -178,4 +178,13 @@ class CGAffineTransform
     [self.a, self.b, self.c, self.d, self.tx, self.ty]
   end
 
+  def to_ns_value
+    NSValue.valueWithCGAffineTransform(self)
+  end
+
+private
+  def to_ary
+    to_a
+  end
+
 end

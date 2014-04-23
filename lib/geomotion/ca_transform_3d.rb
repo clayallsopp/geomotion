@@ -216,8 +216,17 @@ class CATransform3D
     self.concat CATransform3D.perspective(x, y)
   end
 
+  def to_ns_value
+    NSValue.valueWithCATransform3D(self)
+  end
+
   def to_a
     [self.m11, self.m12, self.m13, self.m14, self.m21, self.m22, self.m23, self.m24, self.m31, self.m32, self.m33, self.m34, self.m41, self.m42, self.m43, self.m44]
+  end
+
+private
+  def to_ary
+    to_a
   end
 
 end
