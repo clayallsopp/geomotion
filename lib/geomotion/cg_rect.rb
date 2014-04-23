@@ -471,6 +471,10 @@ public
     CGRect.new([self.origin.x.round, self.origin.y.round], [self.size.width.round, self.size.height.round])
   end
 
+  def integral
+    CGRectIntegral(self)
+  end
+
   def centered_in(rect, absolute = false)
     self.size.centered_in(rect, absolute)
   end
