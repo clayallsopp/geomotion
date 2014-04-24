@@ -244,4 +244,11 @@ describe "CGAffineTransform" do
 
   end
 
+  describe '#to_ns_value' do
+    it 'should convert to NSValue' do
+      val = CGAffineTransform.new(1, 0, 0, 1, 0, 0).to_ns_value
+      val.should.be.kind_of(NSValue)
+    end
+  end
+
 end

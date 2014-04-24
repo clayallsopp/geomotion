@@ -234,11 +234,12 @@ class CGRect
       NSLog("Using the default value of `0` in `CGRect#left` is deprecated.")
       dist = 0
     end
+    raise "You cannot specify `:left` in `CGRect#left`" if options.key?(:left)
     raise "You must specify an amount in `CGRect#left`" unless dist.is_a?(Numeric)
 
     self.apply({
       left: dist
-      }.merge(options))
+      }).apply(options)
   end
 
   def right(dist=nil, options={})
@@ -246,11 +247,12 @@ class CGRect
       NSLog("Using the default value of `0` in `CGRect#right` is deprecated.")
       dist = 0
     end
+    raise "You cannot specify `:right` in `CGRect#right`" if options.key?(:right)
     raise "You must specify an amount in `CGRect#right`" unless dist.is_a?(Numeric)
 
     self.apply({
       right: dist
-      }.merge(options))
+      }).apply(options)
   end
 
   def up(dist=nil, options={})
@@ -258,11 +260,12 @@ class CGRect
       NSLog("Using the default value of `0` in `CGRect#up` is deprecated.")
       dist = 0
     end
+    raise "You cannot specify `:up` in `CGRect#up`" if options.key?(:up)
     raise "You must specify an amount in `CGRect#up`" unless dist.is_a?(Numeric)
 
     self.apply({
       up: dist
-      }.merge(options))
+      }).apply(options)
   end
 
   def down(dist=nil, options={})
@@ -270,43 +273,48 @@ class CGRect
       NSLog("Using the default value of `0` in `CGRect#down` is deprecated.")
       dist = 0
     end
+    raise "You cannot specify `:down` in `CGRect#down`" if options.key?(:down)
     raise "You must specify an amount in `CGRect#down`" unless dist.is_a?(Numeric)
 
     self.apply({
       down: dist
-      }.merge(options))
+      }).apply(options)
   end
 
   def wider(dist, options={})
+    raise "You cannot specify `:width` in `CGRect#width`" if options.key?(:width)
     raise "You must specify an amount in `CGRect#wider`" unless dist.is_a?(Numeric)
 
     self.apply({
       wider: dist
-      }.merge(options))
+      }).apply(options)
   end
 
   def thinner(dist, options={})
+    raise "You cannot specify `:thinner` in `CGRect#thinner`" if options.key?(:thinner)
     raise "You must specify an amount in `CGRect#thinner`" unless dist.is_a?(Numeric)
 
     self.apply({
       thinner: dist
-      }.merge(options))
+      }).apply(options)
   end
 
   def taller(dist, options={})
+    raise "You cannot specify `:taller` in `CGRect#taller`" if options.key?(:taller)
     raise "You must specify an amount in `CGRect#taller`" unless dist.is_a?(Numeric)
 
     self.apply({
       taller: dist
-      }.merge(options))
+      }).apply(options)
   end
 
   def shorter(dist, options={})
+    raise "You cannot specify `:shorter` in `CGRect#shorter`" if options.key?(:shorter)
     raise "You must specify an amount in `CGRect#shorter`" unless dist.is_a?(Numeric)
 
     self.apply({
       shorter: dist
-      }.merge(options))
+      }).apply(options)
   end
 
   # adjacent rects
@@ -317,7 +325,7 @@ class CGRect
     height = options[:height] || self.size.height
     self.apply({
       up: height + margin
-      }.merge(options))
+      }).apply(options)
   end
 
   def below(margin = 0, options={})
@@ -326,7 +334,7 @@ class CGRect
 
     self.apply({
       down: self.size.height + margin
-      }.merge(options))
+      }).apply(options)
   end
 
   def before(margin = 0, options={})
@@ -336,7 +344,7 @@ class CGRect
     width = options[:width] || self.size.width
     self.apply({
       left: width + margin
-      }.merge(options))
+      }).apply(options)
   end
 
   def beside(margin = 0, options={})
@@ -345,7 +353,7 @@ class CGRect
 
     self.apply({
       right: self.size.width + margin
-      }.merge(options))
+      }).apply(options)
   end
   alias after beside
 
@@ -361,9 +369,9 @@ class CGRect
     self.apply({
       x: offset.x + margin,
       y: offset.y,
+      width: width,
       height: self.size.height,
-      width: width
-      }.merge(options))
+      }).apply(options)
   end
 
   # Create a rect inside the receiver, on the right side.  If `margin` is
@@ -376,9 +384,9 @@ class CGRect
     self.apply({
       x: offset.x + self.size.width - width - margin,
       y: offset.y,
+      width: width,
       height: self.size.height,
-      width: width
-      }.merge(options))
+      }).apply(options)
   end
 
   # Create a rect inside the receiver, on the top side.  If `margin` is
@@ -392,8 +400,8 @@ class CGRect
       x: offset.x,
       y: offset.y + margin,
       width: self.size.width,
-      height: height
-      }.merge(options))
+      height: height,
+      }).apply(options)
   end
 
   # Create a rect inside the receiver, on the bottom side.  If `margin` is
@@ -407,8 +415,8 @@ class CGRect
       x: offset.x,
       y: offset.y + self.size.height - height - margin,
       width: self.size.width,
-      height: height
-      }.merge(options))
+      height: height,
+      }).apply(options)
   end
 
   # positions
@@ -419,10 +427,6 @@ private
     else
       CGPoint.new(0, 0)
     end
-  end
-
-  def to_ary
-    [self.origin, self.size]
   end
 
 public
@@ -465,6 +469,10 @@ public
   # others
   def round
     CGRect.new([self.origin.x.round, self.origin.y.round], [self.size.width.round, self.size.height.round])
+  end
+
+  def integral
+    CGRectIntegral(self)
   end
 
   def centered_in(rect, absolute = false)
@@ -540,21 +548,23 @@ public
   alias grow_right wider
 
   def grow_left(amount, options={})
+    raise "You cannot specify `:grow_left` in `CGRect#grow_left`" if options.key?(:grow_left)
     raise "You must specify an amount in `CGRect#grow_left`" unless amount.is_a?(Numeric)
 
     self.apply({
       grow_left: amount
-      }.merge(options))
+      }).apply(options)
   end
 
   alias grow_down taller
 
   def grow_up(amount, options={})
+    raise "You cannot specify `:grow_up` in `CGRect#grow_up`" if options.key?(:grow_up)
     raise "You must specify an amount in `CGRect#grow_up`" unless amount.is_a?(Numeric)
 
     self.apply({
       grow_up: amount
-      }.merge(options))
+      }).apply(options)
   end
 
   def grow_width(amount, options={})
@@ -579,21 +589,23 @@ public
   alias shrink_left thinner
 
   def shrink_right(amount, options={})
+    raise "You cannot specify `:shrink_right` in `CGRect#shrink_right`" if options.key?(:shrink_right)
     raise "You must specify an amount in `CGRect#shrink_right`" unless amount.is_a?(Numeric)
 
     self.apply({
       shrink_right: amount
-      }.merge(options))
+      }).apply(options)
   end
 
   alias shrink_up shorter
 
   def shrink_down(amount, options={})
+    raise "You cannot specify `:shrink_down` in `CGRect#shrink_down`" if options.key?(:shrink_down)
     raise "You must specify an amount in `CGRect#shrink_down`" unless amount.is_a?(Numeric)
 
     self.apply({
       shrink_down: amount
-      }.merge(options))
+      }).apply(options)
   end
 
   def shrink_width(amount, options={})
@@ -650,6 +662,16 @@ public
 
   def inspect
     "#{self.class.name}([#{self.origin.x}, #{self.origin.y}], [#{self.size.width}, #{self.size.height}])"
+  end
+
+  def to_ns_value
+    NSValue.valueWithCGRect(self)
+  end
+
+private
+
+  def to_ary
+    [self.origin, self.size]
   end
 
 end

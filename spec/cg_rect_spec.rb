@@ -667,6 +667,16 @@ describe "CGRect" do
     end
   end
 
+  describe "#integral" do
+    it "works" do
+      rect = CGRect.make(x: 10.4, y: 20.5, width: 300.4, height: 400.5).integral
+      rect.origin.x.should == 10
+      rect.origin.y.should == 20
+      rect.size.width.should == 301
+      rect.size.height.should == 401
+    end
+  end
+
   describe "#centered_in" do
     it "works" do
       outer_rect = CGRect.make(width: 100, height: 100)
@@ -1125,6 +1135,13 @@ describe "CGRect" do
     it "should work with absolute" do
       rect = @rect.from_bottom(height: 10, absolute: true)
       rect.should == CGRectMake(10, 110, 50, 10)
+    end
+  end
+
+  describe '#to_ns_value' do
+    it 'should convert to NSValue' do
+      val = CGRect.new([0, 0], [0, 0]).to_ns_value
+      val.should.be.kind_of(NSValue)
     end
   end
 
