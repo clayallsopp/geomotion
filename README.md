@@ -18,8 +18,15 @@ iOS Geometry in idiomatic Ruby. Exhaustively tested. What's not to love?
 
 ```ruby
 # Initializers
+rect = CGRect.new([10, 100], [50, 20])
 rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
-another_way = CGRect.make(origin: CGPoint, size: CGSize)
+rect = CGRect.make(origin: CGPoint(0, 0), size: CGSize(0, 0))
+# there are, for convenience, function versions of these:
+rect = CGRect(10, 100, 50, 20)
+rect = CGRect([10, 100], [50, 20])
+rect = CGRect([[10, 100], [50, 20]])
+rect = CGRect(x: 10, y: 100, w: 50, h: 20)
+rect = CGRect(origin: [10, 100], size: [50, 20])
 
 # Getters
 [rect.x, rect.y, rect.width, rect.height]
@@ -255,7 +262,12 @@ rect = CGRect.from_ns_value(value)
 
 ```ruby
 # Initializers
+size = CGSize.new(50, 20)
 size = CGSize.make(width: 50, height: 20)
+# there are, for convenience, function versions of these:
+size = CGSize(50, 20)
+size = CGSize([50, 20])
+size = CGSize(width: 50, height: 20)
 
 # Getters
 size_zero = CGSize.empty
@@ -305,7 +317,12 @@ size = CGSize.from_ns_value(value)
 
 ```ruby
 # Initializers
+point = CGPoint.new(10, 100)
 point = CGPoint.make(x: 10, y: 100)
+# there are, for convenience, function versions of these:
+point = CGPoint(10, 100)
+point = CGPoint([10, 100])
+point = CGPoint(x: 10, y: 100)
 
 # Return a modified copy
 point.up(50).left(5)
@@ -376,6 +393,7 @@ the transforms that are designed for `CALayer` object.
 ```ruby
 # you *can* create it manually
 transform = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+transform = CGAffineTransform(1, 0, 0, 1, 0, 0)
 
 # but don't!  the `make` method accepts `translate`, `scale`, and `rotate` args
 transform = CGAffineTransform.make(scale: 2, translate: [10, 10], rotate: Math::PI)
@@ -437,6 +455,7 @@ transform = CATransform3D.make(
   m21: 0, m22: 1, m23: 0, m24: 0,
   m31: 0, m32: 0, m33: 1, m34: 0,
   m41: 0, m42: 0, m43: 0, m44: 1,)
+transform = CATransform3D(same thing works here)
 
 # accepts transforms like CGAffineTransform, but many take 3 instead of 2 args
 transform = CATransform3D.make(scale: [2, 2, 1], translate: [10, 10, 10], rotate: Math::PI)
