@@ -4,6 +4,16 @@ iOS Geometry in idiomatic Ruby. Exhaustively tested. What's not to love?
 
 ## Features
 
+- Adds methods to return useful information, like whether a
+  `rect.contains?(a_point)`, or `point.distance_to(another_point)`
+- Easily modify CGRects with methods like `shrink_left`, `grow_down`, `below`,
+  and many many more.
+- Easy conversion to and from `NSValue` (`#to_ns_value` and `##from_ns_value`)
+- Adds nice `inspect` methods
+- Many operators (`+, -, *`)
+- `CATransform3D` and `CGAffineTransform` methods to create and concatenate transforms
+- Read on for in-depth examples!
+
 ### CGRect
 
 ```ruby
@@ -15,9 +25,14 @@ another_way = CGRect.make(origin: CGPoint, size: CGSize)
 [rect.x, rect.y, rect.width, rect.height]
 => [10, 100, 50, 20]
 
+goofy_rect = CGRect.make(x: 10.1, y: 100.9, width: 50.2, height: 20.8)
+goofy_rect.integral
+=> CGRect([10.0, 100.0], [51.0, 22.0])
+
 rect_zero = CGRect.zero
-rect_zero = CGRect.empty
+rect_zero = CGRect.empty  # alias for CGRect.zero
 => CGRect(0, 0, 0, 0)
+
 rect_zero.empty?
 => true
 
@@ -54,18 +69,19 @@ rect + CGSize.make(width: 11, height: 1)
 => CGRect(10, 100, 61, 21)
 # not the same as `grow`, which grows the rect in all directions
 
-# moves the rect
+# move the rect via a point
 rect + CGPoint.make(x: 10, y: 10)
 => rect.offset(CGPoint.make(x: 10, y: 10))
 => CGRect(20, 110, 50, 20)
 
-# moves the rect
+# move the rect via an offset
 rect + UIOffsetMake(10, 10)
-=> rect.offset(UIOffsetMake(10, 10))
+rect.offset(UIOffsetMake(10, 10))
+rect.offset(10, 10)
 => CGRect(20, 110, 50, 20)
 
 a_point + a_size
-=> CGRect # a point and a size make a rectangle. makes sense, right?
+=> CGRect(a_point, a_size) # a point and a size make a rectangle. makes sense, right?
 
 # Union and Intersection
 rect.union_with CGRect.make(x: 9, y: 99, width: 10, height: 10)
@@ -73,6 +89,12 @@ rect.union_with CGRect.make(x: 9, y: 99, width: 10, height: 10)
 
 rect.intersection_with CGRect.make(x: 9, y: 99, width: 10, height: 10)
 => CGRect(10, 100, 10, 10)
+
+rect.intersects?(another_rect)
+=> true/false, whether they overlap at all or not
+
+rect.contains?(a_point or a_rect)
+=> true/false, whether the point or rect is *completely contained* in the receiving rect
 
 # Growing and shrinking
 # The center stays the same. Think margins!
@@ -302,12 +324,31 @@ point.rect_of_size CGSize.make(width: 50, height: 20)
 point.inside? CGRect.make(x: 0, y: 0, width: 20, height: 110)
 => true
 
+# Compare with origin
+# length
+CGPoint.new(3, 4).length
+=> 5
+# angle
+CGPoint.new(1, 1).angle * 180 / Math::PI
+=> 45.0
+
+# if you only need to *compare* lengths, use rough_length.  It is faster, since
+# it doesn't perform the sqrt part of pythagorean's theorem.
+CGPoint.new(3, 4).rough_length
+=> 25
+
 # Distance to point
+point = CGPoint.new(10, 100)
 point.distance_to(CGPoint.make(x: 13, y:104))
 => 5
+# If you just need to know whether the points are within a certain distance, it
+# is faster to use distance_within? (it uses rough_length to compare the distances)
+point.distance_within?(5, to: CGPoint.make(x: 13, y: 104))
+=> true
 
 # Angle between target and receiver
-# (up 10, over 10)
+# (hint: our answer should be 45°)
+point = CGPoint.new(10, 100)
 point.angle_to(CGPoint.make(x: 20, y:110))
 => 0.785398163397  (pi/4)
 
