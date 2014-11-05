@@ -13,6 +13,22 @@ describe "CGSize" do
     end
   end
 
+  describe "#grow" do
+    it "works" do
+      size = CGSize.new(0, 0).grow(20)
+      size.width.should == 20
+      size.height.should == 20
+    end
+  end
+
+  describe "#shrink" do
+    it "works" do
+      size = CGSize.new(20, 20).shrink(20)
+      size.width.should == 0
+      size.height.should == 0
+    end
+  end
+
   describe "#wider" do
     it "works" do
       size = CGSize.new(0, 0).wider(20)
@@ -22,8 +38,8 @@ describe "CGSize" do
 
   describe "#thinner" do
     it "works" do
-      size = CGSize.new(0, 0).thinner(20)
-      size.width.should == -20
+      size = CGSize.new(20, 20).thinner(20)
+      size.width.should == 0
     end
   end
 
@@ -36,8 +52,8 @@ describe "CGSize" do
 
   describe "#shorter" do
     it "works" do
-      size = CGSize.new(0, 0).shorter(20)
-      size.height.should == -20
+      size = CGSize.new(20, 20).shorter(20)
+      size.height.should == 0
     end
   end
 

@@ -237,6 +237,18 @@ size_zero = CGSize.empty
 size_zero.empty?
 => true
 
+# modify width, height, or both
+# bigger
+size_zero = CGSize.empty
+size_zero.grow(5)     # => CGSize(5, 5)
+size_zero.wider(10)   # => CGSize(10, 0)
+size_zero.taller(10)  # => CGSize(0, 10)
+# smaller
+size_ten = CGSize.new(10, 10)
+size_ten.shrink(5)    # => CGSize(5, 5)
+size_ten.shorter(10)  # => CGSize(10, 0)
+size_ten.thinner(10)  # => CGSize(0, 10)
+
 # Operator Overloading
 -size
 => CGSize(-50, -20)

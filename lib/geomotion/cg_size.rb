@@ -13,6 +13,14 @@ class CGSize
     CGSizeZero.dup
   end
 
+  def grow(dist)
+    CGSize.new(self.width + dist, self.height + dist)
+  end
+
+  def shrink(dist)
+    CGSize.new(self.width - dist, self.height - dist)
+  end
+
   def wider(dist)
     CGSize.new(self.width + dist, self.height)
   end
@@ -46,6 +54,8 @@ class CGSize
 
   def +(other)
     case other
+    when Numeric
+      return grow(other)
     when CGSize
       return CGSize.new(self.width + other.width, self.height + other.height)
     when CGPoint
