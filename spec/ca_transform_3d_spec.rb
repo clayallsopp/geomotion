@@ -293,12 +293,20 @@ describe "CATransform3D" do
       CATransform3D.translate([10, 20, 30]).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,30,1)
     end
 
+    it "should work as a factory with a CGPoint" do
+      CATransform3D.translate(CGPoint.new(10, 20)).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,0,1)
+    end
+
     it "should work as an instance method with three arguments" do
       CATransform3D.identity.translate(10, 20, 30).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,30,1)
     end
 
     it "should work as an instance method with one array" do
       CATransform3D.identity.translate([10, 20, 30]).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,30,1)
+    end
+
+    it "should work as an instance method with a CGPoint" do
+      CATransform3D.identity.translate(CGPoint.new(10, 20)).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,0,1)
     end
 
   end

@@ -44,11 +44,16 @@ class CATransform3D
   def self.translate(point, ty=nil, tz=nil)
     if ty
       tx = point
+    elsif point.is_a?(CGPoint)
+      tx = point[0]
+      ty = point[1]
     else
       tx = point[0]
       ty = point[1]
       tz = point[2]
     end
+
+    tz ||= 0
     CATransform3DMakeTranslation(tx, ty, tz)
   end
 
@@ -164,11 +169,16 @@ class CATransform3D
   def translate(point, ty=nil, tz=nil)
     if ty
       tx = point
+    elsif point.is_a?(CGPoint)
+      tx = point[0]
+      ty = point[1]
     else
       tx = point[0]
       ty = point[1]
       tz = point[2]
     end
+
+    tz ||= 0
     CATransform3DTranslate(self, tx, ty, tz)
   end
 
