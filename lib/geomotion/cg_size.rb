@@ -102,6 +102,10 @@ class CGSize
     NSValue.valueWithCGSize(self)
   end
 
+  def self.from_ns_value(value)
+    value.CGSizeValue
+  end
+
 private
   def to_ary
     [self.width, self.height]

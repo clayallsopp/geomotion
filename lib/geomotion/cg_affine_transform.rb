@@ -182,6 +182,10 @@ class CGAffineTransform
     NSValue.valueWithCGAffineTransform(self)
   end
 
+  def self.from_ns_value(value)
+    value.CGAffineTransformValue
+  end
+
 private
   def to_ary
     to_a

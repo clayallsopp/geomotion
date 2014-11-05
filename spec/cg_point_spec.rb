@@ -154,10 +154,15 @@ describe "CGPoint" do
     end
   end
 
-  describe '#to_ns_value' do
+  describe '#to/from_ns_value' do
     it 'should convert to NSValue' do
       val = CGPoint.new(0, 0).to_ns_value
       val.should.be.kind_of(NSValue)
+    end
+    it 'should convert from NSValue' do
+      val = NSValue.valueWithCGPoint(CGPoint.new(0, 0))
+      point = CGPoint.from_ns_value(val)
+      point.should.be.kind_of(CGPoint)
     end
   end
 

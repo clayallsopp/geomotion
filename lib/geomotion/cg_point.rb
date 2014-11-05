@@ -102,6 +102,10 @@ class CGPoint
     NSValue.valueWithCGPoint(self)
   end
 
+  def self.from_ns_value(value)
+    value.CGPointValue
+  end
+
 private
   # this method allows us to do parallel assignment of #x and #y
   def to_ary

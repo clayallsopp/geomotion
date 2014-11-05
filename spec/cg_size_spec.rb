@@ -149,10 +149,15 @@ describe "CGSize" do
     end
   end
 
-  describe '#to_ns_value' do
+  describe '#to/from_ns_value' do
     it 'should convert to NSValue' do
       val = CGSize.new(0, 0).to_ns_value
       val.should.be.kind_of(NSValue)
+    end
+    it 'should convert from NSValue' do
+      val = NSValue.valueWithCGSize(CGSize.new(0, 0))
+      size = CGSize.from_ns_value(val)
+      size.should.be.kind_of(CGSize)
     end
   end
 

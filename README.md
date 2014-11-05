@@ -221,7 +221,8 @@ frame.below(grow_width: 10, grow_up: 5)
 # C-struct and so can't be stored in an NSArray, for example.
 NSValue.valueWithCGRect(CGRect.new([0, 10], [10, 20]))
 # =>
-CGRect.new([0, 10], [10, 20]).to_ns_value
+value = CGRect.new([0, 10], [10, 20]).to_ns_value
+rect = CGRect.from_ns_value(value)
 ```
 
 ### CGSize
@@ -254,7 +255,8 @@ size.rect_at_point CGPoint.make(x: 10, y: 30)
 # needed.
 NSValue.valueWithCGSize(CGSize.new(0, 10))
 # =>
-CGSize.new(0, 10).to_ns_value
+value = CGSize.new(0, 10).to_ns_value
+size = CGSize.from_ns_value(value)
 ```
 
 ### CGPoint
@@ -301,7 +303,8 @@ point.angle_to(CGPoint.make(x: 20, y:110))
 # needed.
 NSValue.valueWithCGPoint(CGPoint.new(0, 10))
 # =>
-CGPoint.new(0, 10).to_ns_value
+value = CGPoint.new(0, 10).to_ns_value
+point = CGPoint.from_ns_value(value)
 ```
 
 ### CGAffineTransform
@@ -354,7 +357,8 @@ CGAffineTransform.identity.translate(10, 10).scale(2).rotate(Math::PI / 4)
 # needed.
 NSValue.valueWithCGAffineTransform(CGAffineTransform.translate(0, 10))
 # =>
-CGAffineTransform.translate(0, 10).to_ns_value
+value = CGAffineTransform.translate(0, 10).to_ns_value
+transform = CGAffineTransform.from_ns_value(value)
 ```
 
 ###### Shearing
@@ -412,7 +416,8 @@ CATransform3D.identity.translate(10, 10, 10).scale(2).rotate(Math::PI / 4)
 # convert to NSValue, for use in NSCoding or CAKeyframeAnimation#values
 NSValue.valueWithCATransform3D(CATransform3D.translate(0, 10, 0))
 # =>
-CATransform3D.translate(0, 10, 0).to_ns_value
+value = CATransform3D.translate(0, 10, 0).to_ns_value
+transform = CATransform3D.from_ns_value(value)
 ```
 
 ###### Perspective

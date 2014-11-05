@@ -230,6 +230,10 @@ class CATransform3D
     NSValue.valueWithCATransform3D(self)
   end
 
+  def self.from_ns_value(value)
+    value.CATransform3DValue
+  end
+
   def to_a
     [self.m11, self.m12, self.m13, self.m14, self.m21, self.m22, self.m23, self.m24, self.m31, self.m32, self.m33, self.m34, self.m41, self.m42, self.m43, self.m44]
   end

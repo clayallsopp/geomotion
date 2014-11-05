@@ -668,6 +668,10 @@ public
     NSValue.valueWithCGRect(self)
   end
 
+  def self.from_ns_value(value)
+    value.CGRectValue
+  end
+
 private
 
   def to_ary
