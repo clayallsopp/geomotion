@@ -76,7 +76,6 @@ class CGRect
 
   end
 
-  # bounds
   def min_x
     CGRectGetMinX(self)
   end
