@@ -42,6 +42,10 @@ rect.center
 rect.center(true)
 => CGPoint(35, 110) # center relative to frame
 
+# length of the diagonals
+rect = CGRect.new([0, 0], [30, 40])
+rect.diagonal  # => 50
+
 # Other points in the rect can be returned as well, and the same
 # relative/absolute return values are supported (defaults to relative)
 
@@ -258,6 +262,10 @@ size_zero = CGSize.empty
 => CGSize(0, 0)
 size_zero.empty?
 => true
+
+# length of the diagonals
+size = CGSize.new([30, 40])
+size.diagonal  # => 50
 
 # modify width, height, or both
 # bigger

@@ -64,6 +64,13 @@ describe "CGSize" do
     end
   end
 
+  describe "#diagonal" do
+    it "should work" do
+      size = CGSizeMake(30, 40)
+      size.diagonal.should == 50.0
+    end
+  end
+
   describe "#- (unary)" do
     it "should work" do
       size = CGSize.make(width: 100, height: 200)

@@ -478,6 +478,14 @@ public
     self.size.centered_in(rect, absolute)
   end
 
+  def rough_diagonal
+    return self.size.rough_diagonal
+  end
+
+  def diagonal
+    return self.size.diagonal
+  end
+
   def +(other)
     case other
     when CGRect

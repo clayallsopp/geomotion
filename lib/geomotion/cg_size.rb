@@ -37,6 +37,14 @@ class CGSize
     CGSize.new(self.width, self.height - dist)
   end
 
+  def rough_diagonal
+    return self.width**2 + self.height**2
+  end
+
+  def diagonal
+    return Math.sqrt(rough_diagonal)
+  end
+
   # size = CGSize.make width: 100, height: 100
   # point = CPPoint.make x:0, y:10
   # size.rect_at_point(point)  # => CGRect([0, 10], [100, 100])

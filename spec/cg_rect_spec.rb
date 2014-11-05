@@ -115,6 +115,13 @@ describe "CGRect" do
     end
   end
 
+  describe "#diagonal" do
+    it "should work" do
+      rect = CGRectMake(5, 5, 30, 40)
+      rect.diagonal.should == 50.0
+    end
+  end
+
   describe "#==" do
     it "should return true" do
       @rect.should == CGRectMake(10, 100, 50, 20)
