@@ -38,10 +38,35 @@ class CGPoint
     CGRectContainsPoint(rect, self)
   end
 
-  def distance_to(point)
+  def rough_length
+    return self.x**2 + self.y**2
+  end
+
+  def length
+    return Math.sqrt(rough_length)
+  end
+
+  def rough_distance_to(point)
     dx = self.x - point.x
     dy = self.y - point.y
-    return Math.sqrt(dx**2 + dy**2)
+    return dx**2 + dy**2
+  end
+
+  def distance_to(point)
+    return Math.sqrt(rough_distance_to(point))
+  end
+
+  def distance_within?(radius, to: point)
+    dx = self.x - point.x
+    dy = self.y - point.y
+    if dx.abs <= radius && dy.abs <= radius
+      return rough_distance_to(point) <= radius**2
+    end
+    return false
+  end
+
+  def angle
+    return Math.atan2(self.y, self.x)
   end
 
   def angle_to(point)
