@@ -115,6 +115,13 @@ describe "CGRect" do
     end
   end
 
+  describe "#diagonal" do
+    it "should work" do
+      rect = CGRectMake(5, 5, 30, 40)
+      rect.diagonal.should == 50.0
+    end
+  end
+
   describe "#==" do
     it "should return true" do
       @rect.should == CGRectMake(10, 100, 50, 20)
@@ -1138,10 +1145,15 @@ describe "CGRect" do
     end
   end
 
-  describe '#to_ns_value' do
+  describe '#to/from_ns_value' do
     it 'should convert to NSValue' do
       val = CGRect.new([0, 0], [0, 0]).to_ns_value
       val.should.be.kind_of(NSValue)
+    end
+    it 'should convert from NSValue' do
+      val = NSValue.valueWithCGRect(CGRect.new([0, 0], [0, 0]))
+      rect = CGRect.from_ns_value(val)
+      rect.should.be.kind_of(CGRect)
     end
   end
 

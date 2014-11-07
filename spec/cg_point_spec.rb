@@ -63,6 +63,40 @@ describe "CGPoint" do
     end
   end
 
+  describe "#rough_distance_to" do
+    it "should work" do
+      point = CGPoint.make(x: 10, y: 100)
+      point.rough_distance_to(CGPoint.make(x: 13, y:104)).should == 25
+      point.rough_distance_to(CGPoint.make(x: 14, y:103)).should == 25
+    end
+  end
+
+  describe "#distance_within?" do
+    it "should work" do
+      point = CGPoint.make(x: 10, y: 100)
+      point.distance_within?(5, to: CGPoint.make(x: 12, y:104)).should == true
+      point.distance_within?(5, to: CGPoint.make(x: 13, y:104)).should == true
+      point.distance_within?(5, to: CGPoint.make(x: 14, y:104)).should == false
+      point.distance_within?(5, to: CGPoint.make(x: 14, y:102)).should == true
+      point.distance_within?(5, to: CGPoint.make(x: 14, y:103)).should == true
+      point.distance_within?(5, to: CGPoint.make(x: 14, y:104)).should == false
+    end
+  end
+
+  describe "#length" do
+    it "should work" do
+      point = CGPoint.make(x: 3, y: 4)
+      point.length.should == 5
+    end
+  end
+
+  describe "#rough_length" do
+    it "should work" do
+      point = CGPoint.make(x: 3, y: 4)
+      point.rough_length.should == 25
+    end
+  end
+
   describe "#angle_to" do
     it "should work" do
       point = CGPoint.make(x: 0, y: 0)
@@ -71,6 +105,17 @@ describe "CGPoint" do
       (1.57 - point.angle_to(CGPoint.make(x: 0, y:10))).abs.should < 0.01  # ~= Math::PI/2
       (3.14 - point.angle_to(CGPoint.make(x: -10, y:0))).abs.should < 0.01  # ~= Math::PI
       (-1.57 - point.angle_to(CGPoint.make(x: 0, y:-10))).abs.should < 0.01  # ~= -Math::PI/2
+    end
+  end
+
+  describe "#angle" do
+    it "should work with 0 degrees" do
+      point = CGPoint.make(x: 3, y: 0)
+      point.angle.should == 0
+    end
+    it "should work with 90 degrees" do
+      point = CGPoint.make(x: 0, y: 4)
+      point.angle.round(4).should == (Math::PI / 2).round(4)
     end
   end
 
@@ -154,10 +199,15 @@ describe "CGPoint" do
     end
   end
 
-  describe '#to_ns_value' do
+  describe '#to/from_ns_value' do
     it 'should convert to NSValue' do
       val = CGPoint.new(0, 0).to_ns_value
       val.should.be.kind_of(NSValue)
+    end
+    it 'should convert from NSValue' do
+      val = NSValue.valueWithCGPoint(CGPoint.new(0, 0))
+      point = CGPoint.from_ns_value(val)
+      point.should.be.kind_of(CGPoint)
     end
   end
 

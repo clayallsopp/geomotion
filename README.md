@@ -4,20 +4,42 @@ iOS Geometry in idiomatic Ruby. Exhaustively tested. What's not to love?
 
 ## Features
 
+- Adds methods to return useful information, like whether a
+  `rect.contains?(a_point)`, or `point.distance_to(another_point)`
+- Easily modify CGRects with methods like `shrink_left`, `grow_down`, `below`,
+  and many many more.
+- Easy conversion to and from `NSValue` (`#to_ns_value` and `##from_ns_value`)
+- Adds nice `inspect` methods
+- Many operators (`+, -, *`)
+- `CATransform3D` and `CGAffineTransform` methods to create and concatenate transforms
+- Read on for in-depth examples!
+
 ### CGRect
 
 ```ruby
 # Initializers
+rect = CGRect.new([10, 100], [50, 20])
 rect = CGRect.make(x: 10, y: 100, width: 50, height: 20)
-another_way = CGRect.make(origin: CGPoint, size: CGSize)
+rect = CGRect.make(origin: CGPoint(0, 0), size: CGSize(0, 0))
+# there are, for convenience, function versions of these:
+rect = CGRect(10, 100, 50, 20)
+rect = CGRect([10, 100], [50, 20])
+rect = CGRect([[10, 100], [50, 20]])
+rect = CGRect(x: 10, y: 100, w: 50, h: 20)
+rect = CGRect(origin: [10, 100], size: [50, 20])
 
 # Getters
 [rect.x, rect.y, rect.width, rect.height]
 => [10, 100, 50, 20]
 
+goofy_rect = CGRect.make(x: 10.1, y: 100.9, width: 50.2, height: 20.8)
+goofy_rect.integral
+=> CGRect([10.0, 100.0], [51.0, 22.0])
+
 rect_zero = CGRect.zero
-rect_zero = CGRect.empty
+rect_zero = CGRect.empty  # alias for CGRect.zero
 => CGRect(0, 0, 0, 0)
+
 rect_zero.empty?
 => true
 
@@ -26,6 +48,10 @@ rect.center
 => CGPoint(25, 10) # center relative to bounds
 rect.center(true)
 => CGPoint(35, 110) # center relative to frame
+
+# length of the diagonals
+rect = CGRect.new([0, 0], [30, 40])
+rect.diagonal  # => 50
 
 # Other points in the rect can be returned as well, and the same
 # relative/absolute return values are supported (defaults to relative)
@@ -54,18 +80,19 @@ rect + CGSize.make(width: 11, height: 1)
 => CGRect(10, 100, 61, 21)
 # not the same as `grow`, which grows the rect in all directions
 
-# moves the rect
+# move the rect via a point
 rect + CGPoint.make(x: 10, y: 10)
 => rect.offset(CGPoint.make(x: 10, y: 10))
 => CGRect(20, 110, 50, 20)
 
-# moves the rect
+# move the rect via an offset
 rect + UIOffsetMake(10, 10)
-=> rect.offset(UIOffsetMake(10, 10))
+rect.offset(UIOffsetMake(10, 10))
+rect.offset(10, 10)
 => CGRect(20, 110, 50, 20)
 
 a_point + a_size
-=> CGRect # a point and a size make a rectangle. makes sense, right?
+=> CGRect(a_point, a_size) # a point and a size make a rectangle. makes sense, right?
 
 # Union and Intersection
 rect.union_with CGRect.make(x: 9, y: 99, width: 10, height: 10)
@@ -73,6 +100,12 @@ rect.union_with CGRect.make(x: 9, y: 99, width: 10, height: 10)
 
 rect.intersection_with CGRect.make(x: 9, y: 99, width: 10, height: 10)
 => CGRect(10, 100, 10, 10)
+
+rect.intersects?(another_rect)
+=> true/false, whether they overlap at all or not
+
+rect.contains?(a_point or a_rect)
+=> true/false, whether the point or rect is *completely contained* in the receiving rect
 
 # Growing and shrinking
 # The center stays the same. Think margins!
@@ -221,20 +254,42 @@ frame.below(grow_width: 10, grow_up: 5)
 # C-struct and so can't be stored in an NSArray, for example.
 NSValue.valueWithCGRect(CGRect.new([0, 10], [10, 20]))
 # =>
-CGRect.new([0, 10], [10, 20]).to_ns_value
+value = CGRect.new([0, 10], [10, 20]).to_ns_value
+rect = CGRect.from_ns_value(value)
 ```
 
 ### CGSize
 
 ```ruby
 # Initializers
+size = CGSize.new(50, 20)
 size = CGSize.make(width: 50, height: 20)
+# there are, for convenience, function versions of these:
+size = CGSize(50, 20)
+size = CGSize([50, 20])
+size = CGSize(width: 50, height: 20)
 
 # Getters
 size_zero = CGSize.empty
 => CGSize(0, 0)
 size_zero.empty?
 => true
+
+# length of the diagonals
+size = CGSize.new([30, 40])
+size.diagonal  # => 50
+
+# modify width, height, or both
+# bigger
+size_zero = CGSize.empty
+size_zero.grow(5)     # => CGSize(5, 5)
+size_zero.wider(10)   # => CGSize(10, 0)
+size_zero.taller(10)  # => CGSize(0, 10)
+# smaller
+size_ten = CGSize.new(10, 10)
+size_ten.shrink(5)    # => CGSize(5, 5)
+size_ten.shorter(10)  # => CGSize(10, 0)
+size_ten.thinner(10)  # => CGSize(0, 10)
 
 # Operator Overloading
 -size
@@ -254,14 +309,20 @@ size.rect_at_point CGPoint.make(x: 10, y: 30)
 # needed.
 NSValue.valueWithCGSize(CGSize.new(0, 10))
 # =>
-CGSize.new(0, 10).to_ns_value
+value = CGSize.new(0, 10).to_ns_value
+size = CGSize.from_ns_value(value)
 ```
 
 ### CGPoint
 
 ```ruby
 # Initializers
+point = CGPoint.new(10, 100)
 point = CGPoint.make(x: 10, y: 100)
+# there are, for convenience, function versions of these:
+point = CGPoint(10, 100)
+point = CGPoint([10, 100])
+point = CGPoint(x: 10, y: 100)
 
 # Return a modified copy
 point.up(50).left(5)
@@ -288,12 +349,31 @@ point.rect_of_size CGSize.make(width: 50, height: 20)
 point.inside? CGRect.make(x: 0, y: 0, width: 20, height: 110)
 => true
 
+# Compare with origin
+# length
+CGPoint.new(3, 4).length
+=> 5
+# angle
+CGPoint.new(1, 1).angle * 180 / Math::PI
+=> 45.0
+
+# if you only need to *compare* lengths, use rough_length.  It is faster, since
+# it doesn't perform the sqrt part of pythagorean's theorem.
+CGPoint.new(3, 4).rough_length
+=> 25
+
 # Distance to point
+point = CGPoint.new(10, 100)
 point.distance_to(CGPoint.make(x: 13, y:104))
 => 5
+# If you just need to know whether the points are within a certain distance, it
+# is faster to use distance_within? (it uses rough_length to compare the distances)
+point.distance_within?(5, to: CGPoint.make(x: 13, y: 104))
+=> true
 
 # Angle between target and receiver
-# (up 10, over 10)
+# (hint: our answer should be 45°)
+point = CGPoint.new(10, 100)
 point.angle_to(CGPoint.make(x: 20, y:110))
 => 0.785398163397  (pi/4)
 
@@ -301,7 +381,8 @@ point.angle_to(CGPoint.make(x: 20, y:110))
 # needed.
 NSValue.valueWithCGPoint(CGPoint.new(0, 10))
 # =>
-CGPoint.new(0, 10).to_ns_value
+value = CGPoint.new(0, 10).to_ns_value
+point = CGPoint.from_ns_value(value)
 ```
 
 ### CGAffineTransform
@@ -312,6 +393,7 @@ the transforms that are designed for `CALayer` object.
 ```ruby
 # you *can* create it manually
 transform = CGAffineTransform.make(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+transform = CGAffineTransform(1, 0, 0, 1, 0, 0)
 
 # but don't!  the `make` method accepts `translate`, `scale`, and `rotate` args
 transform = CGAffineTransform.make(scale: 2, translate: [10, 10], rotate: Math::PI)
@@ -354,7 +436,8 @@ CGAffineTransform.identity.translate(10, 10).scale(2).rotate(Math::PI / 4)
 # needed.
 NSValue.valueWithCGAffineTransform(CGAffineTransform.translate(0, 10))
 # =>
-CGAffineTransform.translate(0, 10).to_ns_value
+value = CGAffineTransform.translate(0, 10).to_ns_value
+transform = CGAffineTransform.from_ns_value(value)
 ```
 
 ###### Shearing
@@ -372,6 +455,7 @@ transform = CATransform3D.make(
   m21: 0, m22: 1, m23: 0, m24: 0,
   m31: 0, m32: 0, m33: 1, m34: 0,
   m41: 0, m42: 0, m43: 0, m44: 1,)
+transform = CATransform3D(same thing works here)
 
 # accepts transforms like CGAffineTransform, but many take 3 instead of 2 args
 transform = CATransform3D.make(scale: [2, 2, 1], translate: [10, 10, 10], rotate: Math::PI)
@@ -412,7 +496,8 @@ CATransform3D.identity.translate(10, 10, 10).scale(2).rotate(Math::PI / 4)
 # convert to NSValue, for use in NSCoding or CAKeyframeAnimation#values
 NSValue.valueWithCATransform3D(CATransform3D.translate(0, 10, 0))
 # =>
-CATransform3D.translate(0, 10, 0).to_ns_value
+value = CATransform3D.translate(0, 10, 0).to_ns_value
+transform = CATransform3D.from_ns_value(value)
 ```
 
 ###### Perspective

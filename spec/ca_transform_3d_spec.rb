@@ -293,12 +293,20 @@ describe "CATransform3D" do
       CATransform3D.translate([10, 20, 30]).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,30,1)
     end
 
+    it "should work as a factory with a CGPoint" do
+      CATransform3D.translate(CGPoint.new(10, 20)).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,0,1)
+    end
+
     it "should work as an instance method with three arguments" do
       CATransform3D.identity.translate(10, 20, 30).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,30,1)
     end
 
     it "should work as an instance method with one array" do
       CATransform3D.identity.translate([10, 20, 30]).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,30,1)
+    end
+
+    it "should work as an instance method with a CGPoint" do
+      CATransform3D.identity.translate(CGPoint.new(10, 20)).should == CATransform3D.new(1,0,0,0, 0,1,0,0, 0,0,1,0, 10,20,0,1)
     end
 
   end
@@ -342,10 +350,15 @@ describe "CATransform3D" do
 
   end
 
-  describe '#to_ns_value' do
+  describe '#to/from_ns_value' do
     it 'should convert to NSValue' do
       val = CATransform3D.new(0.5,0,0,0, 0,0.5,0,0, 0,0,1,0, 0,0,0,1).to_ns_value
       val.should.be.kind_of(NSValue)
+    end
+    it 'should convert from NSValue' do
+      val = NSValue.valueWithCATransform3D(CATransform3D.identity)
+      transform = CATransform3D.from_ns_value(val)
+      transform.should.be.kind_of(CATransform3D)
     end
   end
 

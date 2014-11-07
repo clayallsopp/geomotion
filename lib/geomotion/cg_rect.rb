@@ -76,7 +76,6 @@ class CGRect
 
   end
 
-  # bounds
   def min_x
     CGRectGetMinX(self)
   end
@@ -479,6 +478,14 @@ public
     self.size.centered_in(rect, absolute)
   end
 
+  def rough_diagonal
+    return self.size.rough_diagonal
+  end
+
+  def diagonal
+    return self.size.diagonal
+  end
+
   def +(other)
     case other
     when CGRect
@@ -666,6 +673,10 @@ public
 
   def to_ns_value
     NSValue.valueWithCGRect(self)
+  end
+
+  def self.from_ns_value(value)
+    value.CGRectValue
   end
 
 private

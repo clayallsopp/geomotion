@@ -13,6 +13,14 @@ class CGSize
     CGSizeZero.dup
   end
 
+  def grow(dist)
+    CGSize.new(self.width + dist, self.height + dist)
+  end
+
+  def shrink(dist)
+    CGSize.new(self.width - dist, self.height - dist)
+  end
+
   def wider(dist)
     CGSize.new(self.width + dist, self.height)
   end
@@ -27,6 +35,14 @@ class CGSize
 
   def shorter(dist)
     CGSize.new(self.width, self.height - dist)
+  end
+
+  def rough_diagonal
+    return self.width**2 + self.height**2
+  end
+
+  def diagonal
+    return Math.sqrt(rough_diagonal)
   end
 
   # size = CGSize.make width: 100, height: 100
@@ -46,6 +62,8 @@ class CGSize
 
   def +(other)
     case other
+    when Numeric
+      return grow(other)
     when CGSize
       return CGSize.new(self.width + other.width, self.height + other.height)
     when CGPoint
@@ -100,6 +118,10 @@ class CGSize
 
   def to_ns_value
     NSValue.valueWithCGSize(self)
+  end
+
+  def self.from_ns_value(value)
+    value.CGSizeValue
   end
 
 private

@@ -13,6 +13,22 @@ describe "CGSize" do
     end
   end
 
+  describe "#grow" do
+    it "works" do
+      size = CGSize.new(0, 0).grow(20)
+      size.width.should == 20
+      size.height.should == 20
+    end
+  end
+
+  describe "#shrink" do
+    it "works" do
+      size = CGSize.new(20, 20).shrink(20)
+      size.width.should == 0
+      size.height.should == 0
+    end
+  end
+
   describe "#wider" do
     it "works" do
       size = CGSize.new(0, 0).wider(20)
@@ -22,8 +38,8 @@ describe "CGSize" do
 
   describe "#thinner" do
     it "works" do
-      size = CGSize.new(0, 0).thinner(20)
-      size.width.should == -20
+      size = CGSize.new(20, 20).thinner(20)
+      size.width.should == 0
     end
   end
 
@@ -36,8 +52,8 @@ describe "CGSize" do
 
   describe "#shorter" do
     it "works" do
-      size = CGSize.new(0, 0).shorter(20)
-      size.height.should == -20
+      size = CGSize.new(20, 20).shorter(20)
+      size.height.should == 0
     end
   end
 
@@ -45,6 +61,13 @@ describe "CGSize" do
     it "should work" do
       point = CGPointMake(20, 30)
       @size.rect_at_point(point).should == CGRectMake(20, 30, 100, 200)
+    end
+  end
+
+  describe "#diagonal" do
+    it "should work" do
+      size = CGSizeMake(30, 40)
+      size.diagonal.should == 50.0
     end
   end
 
@@ -149,10 +172,15 @@ describe "CGSize" do
     end
   end
 
-  describe '#to_ns_value' do
+  describe '#to/from_ns_value' do
     it 'should convert to NSValue' do
       val = CGSize.new(0, 0).to_ns_value
       val.should.be.kind_of(NSValue)
+    end
+    it 'should convert from NSValue' do
+      val = NSValue.valueWithCGSize(CGSize.new(0, 0))
+      size = CGSize.from_ns_value(val)
+      size.should.be.kind_of(CGSize)
     end
   end
 
